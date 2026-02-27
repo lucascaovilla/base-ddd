@@ -39,6 +39,7 @@
 
   <ItemGroup>
     <AdditionalFiles Include="stylecop.json" />
+    <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
