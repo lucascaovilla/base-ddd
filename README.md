@@ -1,3 +1,10 @@
+How to start developing:
+
+Must run:
+git config core.hooksPath .githooks
+chmod +x .githooks/pre-commit
+
+
 dotnet build
 dotnet pack
 dotnet tool uninstall --global baseddd.cli

@@ -1,0 +1,8 @@
+{
+  "settings": {
+    "documentationRules": {
+      "companyName": "BaseDDD",
+      "copyrightText": "Copyright (c) BaseDDD.\r\nLicensed under the MIT License. See LICENSE file in the project root for full license information."
+    }
+  }
+}
