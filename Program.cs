@@ -63,6 +63,9 @@ internal static class Program
         }
 
         string name = args[1];
+        string owner = GetOption(args, "--owner") ?? Environment.UserName;
+        string license = GetOption(args, "--license") ?? "MIT";
+
         string rootPath = Path.Combine(Directory.GetCurrentDirectory(), name);
 
         if (Directory.Exists(rootPath))
@@ -71,85 +74,14 @@ internal static class Program
             return;
         }
 
-        string editorConfig = """
-        root = true
+        WriteFile(Path.Combine(rootPath, ".editorconfig"), GetEditorConfigContent());
+        WriteFile(Path.Combine(rootPath, "stylecop.json"), GetStyleCopJsonContent(owner, license));
+        WriteFile(Path.Combine(rootPath, "LICENSE"), GetLicenseContent(owner, license));
+        WriteFile(Path.Combine(rootPath, "Directory.Build.props"), GetDirectoryBuildPropsContent());
+        WriteFile(Path.Combine(rootPath, "Directory.Packages.props"), GetDirectoryPackagePropsContent());
+        WriteFile(Path.Combine(rootPath, "global.json"), GetGlobalJsonContent());
 
-        [*.cs]
-        dotnet_style_require_accessibility_modifiers = always:error
-        dotnet_style_qualification_for_field = true:error
-        csharp_style_var_for_built_in_types = false:error
-        csharp_style_var_when_type_is_apparent = false:error
-        csharp_style_var_elsewhere = false:error
-        csharp_style_expression_bodied_methods = false:error
-        csharp_style_namespace_declarations = file_scoped:error
-        dotnet_diagnostic.IDE0051.severity = error
-        dotnet_diagnostic.CA1822.severity = error
-        """;
-        WriteFile(Path.Combine(rootPath, ".editorconfig"), editorConfig);
-
-        string directoryBuildProps = """
-        <Project>
-            <PropertyGroup>
-            <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-            <Nullable>enable</Nullable>
-            <ImplicitUsings>enable</ImplicitUsings>
-            <AnalysisLevel>latest</AnalysisLevel>
-            <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-            </PropertyGroup>
-        </Project>
-        """;
-        WriteFile(Path.Combine(rootPath, "Directory.Build.props"), directoryBuildProps);
-
-        string directoryPackagesProps = """
-        <Project>
-            <ItemGroup>
-            <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.507" />
-            <PackageVersion Include="coverlet.collector" Version="6.0.0" />
-            </ItemGroup>
-        </Project>
-        """;
-        WriteFile(Path.Combine(rootPath, "Directory.Packages.props"), directoryPackagesProps);
-
-        string globalJson = """
-        {
-            "sdk": {
-            "version": "10.0.100",
-            "rollForward": "latestFeature"
-            }
-        }
-        """;
-        WriteFile(
-            Path.Combine(rootPath, "global.json"), globalJson);
-
-        string ciYml = """
-        name: CI
-
-        on:
-            push:
-            branches: [ main ]
-            pull_request:
-
-        jobs:
-            build:
-            runs-on: ubuntu-latest
-
-            steps:
-                - uses: actions/checkout@v4
-
-                - uses: actions/setup-dotnet@v4
-                with:
-                    dotnet-version: '10.0.x'
-
-                - name: Restore
-                run: dotnet restore
-
-                - name: Build
-                run: dotnet build --no-restore
-
-                - name: Test
-                run: dotnet test --no-build
-        """;
-        WriteFile(Path.Combine(rootPath, ".github/workflows/ci.yml"), ciYml);
+        WriteFile(Path.Combine(rootPath, ".github/workflows/ci.yml"), GetCiYmlContent());
 
         Console.WriteLine($"Creating BaseDDD project: {name}");
 
@@ -179,7 +111,14 @@ internal static class Program
         RunDotnet($"add src/{name}.Domain/{name}.Domain.csproj package StyleCop.Analyzers", rootPath);
         RunDotnet($"add src/{name}.Application/{name}.Application.csproj package StyleCop.Analyzers", rootPath);
         RunDotnet($"add src/{name}.Infrastructure/{name}.Infrastructure.csproj package StyleCop.Analyzers", rootPath);
+
         RunDotnet($"add src/{name}.Web/{name}.Web.csproj package StyleCop.Analyzers", rootPath);
+        RunDotnet($"add src/{name}.Web/{name}.Web.csproj package Serilog.AspNetCore", rootPath);
+        RunDotnet($"add src/{name}.Web/{name}.Web.csproj package Serilog.Sinks.Console", rootPath);
+        RunDotnet($"add src/{name}.Web/{name}.Web.csproj package OpenTelemetry.Extensions.Hosting", rootPath);
+        RunDotnet($"add src/{name}.Web/{name}.Web.csproj package OpenTelemetry.Instrumentation.AspNetCore", rootPath);
+        RunDotnet($"add src/{name}.Web/{name}.Web.csproj package OpenTelemetry.Exporter.Console", rootPath);
+
         RunDotnet($"add tests/{name}.ArchitectureTests/{name}.ArchitectureTests.csproj package StyleCop.Analyzers", rootPath);
         RunDotnet($"add tests/{name}.IntegrationTests/{name}.IntegrationTests.csproj package StyleCop.Analyzers", rootPath);
 
@@ -231,21 +170,7 @@ internal static class Program
         AddCoverageEnforcement(archTestProj);
         AddCoverageEnforcement(integrationTestProj);
 
-        string initialTest = $$"""
-        using Xunit;
-
-        namespace {{name}}.ArchitectureTests;
-
-        public class InitialTests
-        {
-            [Fact]
-            public void Should_Pass()
-            {
-                Assert.True(true);
-            }
-        }
-        """;
-        WriteFile(Path.Combine(rootPath, $"tests/{name}.ArchitectureTests/InitialTests.cs"), initialTest);
+        WriteFile(Path.Combine(rootPath, $"tests/{name}.ArchitectureTests/InitialTests.cs"), GetInitialTestContent(name, owner, license));
 
         DeleteIfExists(Path.Combine(srcPath, $"{name}.Domain/Class1.cs"));
         DeleteIfExists(Path.Combine(srcPath, $"{name}.Application/Class1.cs"));
@@ -257,12 +182,411 @@ internal static class Program
         DeleteIfExists(Path.Combine(srcPath, $"{name}.Web/Controllers/WeatherForecastController.cs"));
         DeleteIfExists(Path.Combine(srcPath, $"{name}.Web/WeatherForecast.cs"));
 
+        string webPath = Path.Combine(srcPath, $"{name}.Web");
+        string observabilityPath = Path.Combine(webPath, "Observability");
+
+        Directory.CreateDirectory(observabilityPath);
+
+        WriteFile(Path.Combine(observabilityPath, "CorrelationMiddleware.cs"), GetCorrelationMiddlewareContent(name, owner, license));
+        WriteFile(Path.Combine(observabilityPath, "ObservabilityExtensions.cs"), GetObservabilityExtensionsContent(name, owner, license));
+
+        WriteFile(Path.Combine(webPath, "Program.cs"), GetProgramFileContent(name, owner, license));
+
         RunGit("init", rootPath);
         RunGit("config core.hooksPath .githooks", rootPath);
         RunGit("add .", rootPath);
         RunGit("commit -m \"Initial BaseDDD structure\"", rootPath);
 
         Console.WriteLine("BaseDDD solution created successfully.");
+    }
+
+    /// <summary>
+    /// Returns the value of the option passed in args.
+    /// </summary>
+    private static string? GetOption(string[] args, string option)
+    {
+        for (int i = 0; i < args.Length - 1; i++)
+        {
+            if (args[i].Equals(option, StringComparison.OrdinalIgnoreCase))
+            {
+                return args[i + 1];
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Returns content of generated .editorconfig.
+    /// </summary>
+    private static string GetEditorConfigContent()
+    {
+        return """
+        root = true
+
+        [*.cs]
+        dotnet_style_require_accessibility_modifiers = always:error
+        dotnet_style_qualification_for_field = true:error
+        csharp_style_var_for_built_in_types = false:error
+        csharp_style_var_when_type_is_apparent = false:error
+        csharp_style_var_elsewhere = false:error
+        csharp_style_expression_bodied_methods = false:error
+        csharp_style_namespace_declarations = file_scoped:error
+        dotnet_diagnostic.IDE0051.severity = error
+        dotnet_diagnostic.CA1822.severity = error
+        """;
+    }
+
+    /// <summary>
+    /// Returns content of generated stylecop.json.
+    /// </summary>
+    private static string GetStyleCopJsonContent(string owner, string license)
+    {
+        int year = DateTime.UtcNow.Year;
+
+        return $$"""
+        {
+            "settings": {
+                "documentationRules": {
+                    "companyName": "{{owner}}",
+                    "copyrightText": "Copyright (c) {{year}} {{owner}}. Licensed under the {{license}} License."
+                }
+            }
+        }
+        """;
+    }
+
+    /// <summary>
+    /// Generates the LICENSE file content.
+    /// </summary>
+    private static string GetLicenseContent(string owner, string license)
+    {
+        int year = DateTime.UtcNow.Year;
+
+        if (license.Equals("MIT", StringComparison.OrdinalIgnoreCase))
+        {
+            return $$"""
+            MIT License
+
+            Copyright (c) {{year}} {{owner}}
+
+            Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+            The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+            THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+            """;
+        }
+
+        return $"License '{license}' not yet supported.";
+    }
+
+    /// <summary>
+    /// Returns content of generated Directory.Build.props.
+    /// </summary>
+    private static string GetDirectoryBuildPropsContent()
+    {
+        return """
+        <Project>
+            <PropertyGroup>
+                <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+                <Nullable>enable</Nullable>
+                <ImplicitUsings>enable</ImplicitUsings>
+                <AnalysisLevel>latest</AnalysisLevel>
+                <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+                <GenerateDocumentationFile>true</GenerateDocumentationFile>
+                <NoWarn>$(NoWarn);1591</NoWarn>
+            </PropertyGroup>
+
+            <ItemGroup>
+                <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" />
+            </ItemGroup>
+        </Project>
+        """;
+    }
+
+    /// <summary>
+    /// Returns content of generated Directory.Package.props.
+    /// </summary>
+    private static string GetDirectoryPackagePropsContent()
+    {
+        return """
+        <Project>
+            <ItemGroup>
+            <PackageVersion Include="StyleCop.Analyzers" Version="1.2.0-beta.507" />
+            <PackageVersion Include="coverlet.collector" Version="6.0.0" />
+            </ItemGroup>
+        </Project>
+        """;
+    }
+
+    /// <summary>
+    /// Returns content of generated global.json.
+    /// </summary>
+    private static string GetGlobalJsonContent()
+    {
+        return """
+        {
+            "sdk": {
+            "version": "10.0.100",
+            "rollForward": "latestFeature"
+            }
+        }
+        """;
+    }
+
+    /// <summary>
+    /// Returns content of generated ci.yml.
+    /// </summary>
+    private static string GetCiYmlContent()
+    {
+        return """
+        name: CI
+
+        on:
+            push:
+            branches: [ main ]
+            pull_request:
+
+        jobs:
+            build:
+            runs-on: ubuntu-latest
+
+            steps:
+                - uses: actions/checkout@v4
+
+                - uses: actions/setup-dotnet@v4
+                with:
+                    dotnet-version: '10.0.x'
+
+                - name: Restore
+                run: dotnet restore
+
+                - name: Build
+                run: dotnet build --no-restore
+
+                - name: Test
+                run: dotnet test --no-build
+        """;
+    }
+
+    /// <summary>
+    /// Returns content of generated initial test.
+    /// </summary>
+    private static string GetInitialTestContent(string name, string owner, string license)
+    {
+        return GetFileHeader("InitialTests.cs", owner, license) + $$"""
+        namespace {{name}}.ArchitectureTests;
+
+        using Xunit;
+
+        /// <summary>
+        /// Basic architecture smoke tests.
+        /// </summary>
+        public sealed class InitialTests
+        {
+            /// <summary>
+            /// Ensures test infrastructure is working.
+            /// </summary>
+            [Fact]
+            public void Should_Pass()
+            {
+                Assert.True(true);
+            }
+        }
+        """;
+    }
+
+    /// <summary>
+    /// Returns content of generated correlation middleware.
+    /// </summary>
+    private static string GetCorrelationMiddlewareContent(string name, string owner, string license)
+    {
+        return GetFileHeader("CorrelationMiddleware.cs", owner, license) + $$"""
+        namespace {{name}}.Web.Observability;
+
+        using System;
+        using System.Diagnostics;
+        using System.Threading.Tasks;
+        using Microsoft.AspNetCore.Http;
+
+        /// <summary>
+        /// Middleware responsible for injecting correlation id into requests.
+        /// </summary>
+        public sealed class CorrelationMiddleware
+        {
+            private const string HeaderName = "X-Correlation-Id";
+
+            private readonly RequestDelegate next;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="CorrelationMiddleware"/> class.
+            /// </summary>
+            /// <param name="next">Next delegate.</param>
+            public CorrelationMiddleware(RequestDelegate next)
+            {
+                this.next = next;
+            }
+
+            /// <summary>
+            /// Executes middleware logic.
+            /// </summary>
+            /// <param name="context">HTTP context.</param>
+            /// <returns>Task.</returns>
+            public async Task InvokeAsync(HttpContext context)
+            {
+                string correlationId;
+
+                if (!context.Request.Headers.TryGetValue(HeaderName, out Microsoft.Extensions.Primitives.StringValues headerValue))
+                {
+                    correlationId = Guid.NewGuid().ToString();
+                    context.Request.Headers[HeaderName] = correlationId;
+                }
+                else
+                {
+                    correlationId = headerValue.ToString();
+                }
+
+                context.Response.Headers[HeaderName] = correlationId;
+
+                using Activity activity = new Activity("BaseDDD.Request");
+                activity.SetIdFormat(ActivityIdFormat.W3C);
+                activity.Start();
+                activity.SetTag("correlation.id", correlationId);
+
+                await this.next(context);
+            }
+        }
+        """;
+    }
+
+    /// <summary>
+    /// Returns content of generated observability extensions.
+    /// </summary>
+    private static string GetObservabilityExtensionsContent(string name, string owner, string license)
+    {
+        return GetFileHeader("ObservabilityExtensions.cs", owner, license) + $$"""
+        namespace {{name}}.Web.Observability;
+
+        using System;
+        using Microsoft.AspNetCore.Builder;
+        using Microsoft.Extensions.DependencyInjection;
+        using OpenTelemetry.Trace;
+        using Serilog;
+
+        /// <summary>
+        /// Provides observability configuration extensions.
+        /// </summary>
+        public static class ObservabilityExtensions
+        {
+            private static bool configured;
+
+            /// <summary>
+            /// Adds mandatory BaseDDD observability configuration.
+            /// </summary>
+            /// <param name="services">Service collection.</param>
+            /// <returns>Updated service collection.</returns>
+            public static IServiceCollection AddBaseDDDObservability(this IServiceCollection services)
+            {
+                Log.Logger = new LoggerConfiguration()
+                    .Enrich.FromLogContext()
+                    .WriteTo.Console()
+                    .CreateLogger();
+
+                services.AddLogging(builder =>
+                {
+                    builder.ClearProviders();
+                    builder.AddSerilog();
+                });
+
+                services.AddOpenTelemetry()
+                    .WithTracing(builder =>
+                    {
+                        builder
+                            .AddAspNetCoreInstrumentation()
+                            .AddConsoleExporter();
+                    });
+
+                configured = true;
+
+                return services;
+            }
+
+            /// <summary>
+            /// Enables mandatory middleware pipeline.
+            /// </summary>
+            /// <param name="app">Application builder.</param>
+            /// <returns>Updated application builder.</returns>
+            public static IApplicationBuilder UseBaseDDDObservability(this IApplicationBuilder app)
+            {
+                if (!configured)
+                {
+                    throw new InvalidOperationException(
+                        "BaseDDD Observability not configured. Call AddBaseDDDObservability().");
+                }
+
+                app.UseMiddleware<CorrelationMiddleware>();
+
+                return app;
+            }
+        }
+        """;
+    }
+
+    /// <summary>
+    /// Returns content of generated Program.cs.
+    /// </summary>
+    private static string GetProgramFileContent(string name, string owner, string license)
+    {
+        return GetFileHeader("Program.cs", owner, license) + $$"""
+        namespace {{name}}.Web;
+
+        using Microsoft.AspNetCore.Builder;
+        using Microsoft.Extensions.DependencyInjection;
+        using Microsoft.Extensions.Hosting;
+        using {{name}}.Web.Observability;
+
+        /// <summary>
+        /// Entry point.
+        /// </summary>
+        public static class Program
+        {
+            /// <summary>
+            /// Main method.
+            /// </summary>
+            /// <param name="args">Arguments.</param>
+            public static void Main(string[] args)
+            {
+                WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+                builder.Services.AddControllers();
+                builder.Services.AddBaseDDDObservability();
+
+                WebApplication app = builder.Build();
+
+                app.UseBaseDDDObservability();
+                app.UseAuthorization();
+                app.MapControllers();
+
+                app.Run();
+            }
+        }
+        """;
+    }
+
+    /// <summary>
+    /// Returns the generated Header for a file.
+    /// </summary>
+    private static string GetFileHeader(string fileName, string owner, string license)
+    {
+        int year = DateTime.UtcNow.Year;
+
+        return $$"""
+        // <copyright file="{{fileName}}" company="{{owner}}">
+        // Copyright (c) {{year}} {{owner}}. Licensed under the {{license}} License.
+        // </copyright>
+
+        """;
     }
 
     /// <summary>

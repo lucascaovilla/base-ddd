@@ -25,3 +25,8 @@ baseddd doctor
 | lint    | Validate folder + layer rules            |
 | verify  | Validate architecture + required tests   |
 | doctor  | Diagnose missing observability or config |
+
+Usage:
+baseddd new MyApi --owner "<OwnerName>" --license "<License>"
+Owner is defaulted to OS base dir name
+License is defaulted to MIT
