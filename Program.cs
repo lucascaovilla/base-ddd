@@ -499,6 +499,7 @@ internal static class Program
 
                 Assert.Contains("AddBaseDDDObservability", content);
                 Assert.Contains("UseBaseDDDObservability", content);
+                Assert.Contains("EnsureBaseDDDCompliance", content);
             }
         }
         """;
@@ -614,6 +615,7 @@ internal static class Program
         public static class ObservabilityExtensions
         {
             private static bool configured;
+            private static bool middlewareApplied;
 
             /// <summary>
             /// Adds mandatory BaseDDD observability configuration.
@@ -661,7 +663,22 @@ internal static class Program
 
                 app.UseMiddleware<CorrelationMiddleware>();
 
+                middlewareApplied = true;
+
                 return app;
+            }
+
+            /// <summary>
+            /// Verifies that BaseDDD observability was fully configured.
+            /// </summary>
+            public static void EnsureBaseDDDCompliance()
+            {
+                if (!configured || !middlewareApplied)
+                {
+                    throw new InvalidOperationException(
+                        "BaseDDD observability not fully configured. " +
+                        "Ensure AddBaseDDDObservability() and UseBaseDDDObservability() are called.");
+                }
             }
         }
         """;
@@ -701,6 +718,7 @@ internal static class Program
                 app.UseBaseDDDObservability();
                 app.UseAuthorization();
                 app.MapControllers();
+                ObservabilityExtensions.EnsureBaseDDDCompliance();
 
                 app.Run();
             }
