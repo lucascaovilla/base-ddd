@@ -125,44 +125,21 @@ internal static class Program
         RunDotnet($"sln add tests/{name}.ArchitectureTests/{name}.ArchitectureTests.csproj", rootPath);
         RunDotnet($"sln add tests/{name}.IntegrationTests/{name}.IntegrationTests.csproj", rootPath);
 
-        RunDotnet(
-            $"add src/{name}.Application/{name}.Application.csproj reference src/{name}.Domain/{name}.Domain.csproj",
-            rootPath);
-
-        RunDotnet(
-            $"add src/{name}.Infrastructure/{name}.Infrastructure.csproj reference src/{name}.Application/{name}.Application.csproj",
-            rootPath);
-
-        RunDotnet(
-            $"add src/{name}.Infrastructure/{name}.Infrastructure.csproj reference src/{name}.Domain/{name}.Domain.csproj",
-            rootPath);
-
-        RunDotnet(
-            $"add src/{name}.Web/{name}.Web.csproj reference src/{name}.Application/{name}.Application.csproj",
-            rootPath);
-
-        RunDotnet(
-            $"add tests/{name}.ArchitectureTests/{name}.ArchitectureTests.csproj reference src/{name}.Domain/{name}.Domain.csproj",
-            rootPath);
-
-        RunDotnet(
-            $"add tests/{name}.ArchitectureTests/{name}.ArchitectureTests.csproj reference src/{name}.Application/{name}.Application.csproj",
-            rootPath);
-
-        RunDotnet(
-            $"add tests/{name}.ArchitectureTests/{name}.ArchitectureTests.csproj reference src/{name}.Infrastructure/{name}.Infrastructure.csproj",
-            rootPath);
-
-        RunDotnet(
-            $"add tests/{name}.ArchitectureTests/{name}.ArchitectureTests.csproj reference src/{name}.Web/{name}.Web.csproj",
-            rootPath);
-
-        RunDotnet(
-            $"add tests/{name}.IntegrationTests/{name}.IntegrationTests.csproj reference src/{name}.Web/{name}.Web.csproj",
-            rootPath);
+        RunDotnet($"add src/{name}.Application/{name}.Application.csproj reference src/{name}.Domain/{name}.Domain.csproj", rootPath);
+        RunDotnet($"add src/{name}.Infrastructure/{name}.Infrastructure.csproj reference src/{name}.Application/{name}.Application.csproj", rootPath);
+        RunDotnet($"add src/{name}.Infrastructure/{name}.Infrastructure.csproj reference src/{name}.Domain/{name}.Domain.csproj", rootPath);
+        RunDotnet($"add src/{name}.Web/{name}.Web.csproj reference src/{name}.Application/{name}.Application.csproj", rootPath);
+        RunDotnet($"add tests/{name}.ArchitectureTests/{name}.ArchitectureTests.csproj reference src/{name}.Domain/{name}.Domain.csproj", rootPath);
+        RunDotnet($"add tests/{name}.ArchitectureTests/{name}.ArchitectureTests.csproj reference src/{name}.Application/{name}.Application.csproj", rootPath);
+        RunDotnet($"add tests/{name}.ArchitectureTests/{name}.ArchitectureTests.csproj reference src/{name}.Infrastructure/{name}.Infrastructure.csproj", rootPath);
+        RunDotnet($"add tests/{name}.ArchitectureTests/{name}.ArchitectureTests.csproj reference src/{name}.Web/{name}.Web.csproj", rootPath);
+        RunDotnet($"add tests/{name}.IntegrationTests/{name}.IntegrationTests.csproj reference src/{name}.Web/{name}.Web.csproj", rootPath);
 
         RunDotnet($"add tests/{name}.ArchitectureTests/{name}.ArchitectureTests.csproj package coverlet.collector", rootPath);
         RunDotnet($"add tests/{name}.IntegrationTests/{name}.IntegrationTests.csproj package coverlet.collector", rootPath);
+
+        RunDotnet($"add tests/{name}.ArchitectureTests/{name}.ArchitectureTests.csproj package NetArchTest.Rules", rootPath);
+        RunDotnet($"add tests/{name}.ArchitectureTests/{name}.ArchitectureTests.csproj package FluentAssertions", rootPath);
 
         string archTestProj = Path.Combine(rootPath, $"tests/{name}.ArchitectureTests/{name}.ArchitectureTests.csproj");
         string integrationTestProj = Path.Combine(rootPath, $"tests/{name}.IntegrationTests/{name}.IntegrationTests.csproj");
@@ -170,7 +147,14 @@ internal static class Program
         AddCoverageEnforcement(archTestProj);
         AddCoverageEnforcement(integrationTestProj);
 
-        WriteFile(Path.Combine(rootPath, $"tests/{name}.ArchitectureTests/InitialTests.cs"), GetInitialTestContent(name, owner, license));
+        string archTestsPath = Path.Combine(rootPath, $"tests/{name}.ArchitectureTests");
+
+        WriteFile(Path.Combine(archTestsPath, "DependencyRulesTests.cs"), GetDependencyRulesTestsContent(name, owner, license));
+        WriteFile(Path.Combine(archTestsPath, "ObservabilityRulesTests.cs"), GetObservabilityRulesTestsContent(name, owner, license));
+
+        string integrationTestsPath = Path.Combine(rootPath, $"tests/{name}.IntegrationTests");
+
+        WriteFile(Path.Combine(integrationTestsPath, "InitialIntegrationTests.cs"), GetInitialIntegrationTestContent(name, owner, license));
 
         DeleteIfExists(Path.Combine(srcPath, $"{name}.Domain/Class1.cs"));
         DeleteIfExists(Path.Combine(srcPath, $"{name}.Application/Class1.cs"));
@@ -371,22 +355,172 @@ internal static class Program
     }
 
     /// <summary>
-    /// Returns content of generated initial test.
+    /// Returns content of generated dependency rules test.
     /// </summary>
-    private static string GetInitialTestContent(string name, string owner, string license)
+    private static string GetDependencyRulesTestsContent(string name, string owner, string license)
     {
-        return GetFileHeader("InitialTests.cs", owner, license) + $$"""
+        return GetFileHeader("DependencyRulesTests.cs", owner, license) + $$"""
         namespace {{name}}.ArchitectureTests;
+
+        using System.Reflection;
+        using NetArchTest.Rules;
+        using Xunit;
+
+        /// <summary>
+        /// Enforces Clean Architecture dependency rules.
+        /// </summary>
+        public sealed class DependencyRulesTests
+        {
+            private static readonly Assembly DomainAssembly =
+                Assembly.Load("{{name}}.Domain");
+
+            private static readonly Assembly ApplicationAssembly =
+                Assembly.Load("{{name}}.Application");
+
+            private static readonly Assembly InfrastructureAssembly =
+                Assembly.Load("{{name}}.Infrastructure");
+
+            /// <summary>
+            /// Domain must not depend on outer layers.
+            /// </summary>
+            [Fact]
+            public void Domain_Should_Not_Depend_On_Other_Layers()
+            {
+                bool result = Types.InAssembly(DomainAssembly)
+                    .Should()
+                    .NotHaveDependencyOn("{{name}}.Application")
+                    .And()
+                    .NotHaveDependencyOn("{{name}}.Infrastructure")
+                    .And()
+                    .NotHaveDependencyOn("{{name}}.Web")
+                    .GetResult()
+                    .IsSuccessful;
+
+                Assert.True(result);
+            }
+
+            /// <summary>
+            /// Application must not depend on Web.
+            /// </summary>
+            [Fact]
+            public void Application_Should_Not_Depend_On_Web()
+            {
+                bool result = Types.InAssembly(ApplicationAssembly)
+                    .Should()
+                    .NotHaveDependencyOn("{{name}}.Web")
+                    .GetResult()
+                    .IsSuccessful;
+
+                Assert.True(result);
+            }
+
+            /// <summary>
+            /// Infrastructure must not depend on Web.
+            /// </summary>
+            [Fact]
+            public void Infrastructure_Should_Not_Depend_On_Web()
+            {
+                bool result = Types.InAssembly(InfrastructureAssembly)
+                    .Should()
+                    .NotHaveDependencyOn("{{name}}.Web")
+                    .GetResult()
+                    .IsSuccessful;
+
+                Assert.True(result);
+            }
+        }
+        """;
+    }
+
+    /// <summary>
+    /// Returns content of generated observability rules test.
+    /// </summary>
+    private static string GetObservabilityRulesTestsContent(string name, string owner, string license)
+    {
+        return GetFileHeader("ObservabilityRulesTests.cs", owner, license) + $$"""
+        namespace {{name}}.ArchitectureTests;
+
+        using System;
+        using System.IO;
+        using System.Linq;
+        using System.Reflection;
+        using Xunit;
+
+        /// <summary>
+        /// Enforces mandatory BaseDDD observability rules.
+        /// </summary>
+        public sealed class ObservabilityRulesTests
+        {
+            /// <summary>
+            /// Ensures Observability namespace exists.
+            /// </summary>
+            [Fact]
+            public void Observability_Namespace_Must_Exist()
+            {
+                Assembly webAssembly = Assembly.Load("{{name}}.Web");
+
+                bool exists = webAssembly
+                    .GetTypes()
+                    .Any(t => t.Namespace != null &&
+                            t.Namespace.Contains(".Web.Observability"));
+
+                Assert.True(exists);
+            }
+
+            /// <summary>
+            /// Ensures Program.cs configures observability.
+            /// </summary>
+            [Fact]
+            public void Program_Must_Configure_Observability()
+            {
+                string baseDirectory = AppContext.BaseDirectory;
+
+                DirectoryInfo? directory = new DirectoryInfo(baseDirectory);
+
+                while (directory != null && !Directory.Exists(Path.Combine(directory.FullName, "src")))
+                {
+                    directory = directory.Parent;
+                }
+
+                if (directory is null)
+                {
+                    throw new InvalidOperationException("Could not locate solution root.");
+                }
+
+                string programPath = Path.Combine(
+                    directory.FullName,
+                    "src",
+                    "{{name}}.Web",
+                    "Program.cs");
+
+                Assert.True(File.Exists(programPath));
+
+                string content = File.ReadAllText(programPath);
+
+                Assert.Contains("AddBaseDDDObservability", content);
+                Assert.Contains("UseBaseDDDObservability", content);
+            }
+        }
+        """;
+    }
+
+    /// <summary>
+    /// Returns content of initial integration test.
+    /// </summary>
+    private static string GetInitialIntegrationTestContent(string name, string owner, string license)
+    {
+        return GetFileHeader("InitialIntegrationTests.cs", owner, license) + $$"""
+        namespace {{name}}.IntegrationTests;
 
         using Xunit;
 
         /// <summary>
-        /// Basic architecture smoke tests.
+        /// Basic integration test placeholder.
         /// </summary>
-        public sealed class InitialTests
+        public sealed class InitialIntegrationTests
         {
             /// <summary>
-            /// Ensures test infrastructure is working.
+            /// Ensures test project is working.
             /// </summary>
             [Fact]
             public void Should_Pass()
