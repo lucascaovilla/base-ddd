@@ -783,7 +783,9 @@ internal static class Program
     /// </summary>
     private static void HandleVerify()
     {
-        Console.WriteLine("Verifying architecture...");
+        HandleLint();
+        RunDotnet("build", Directory.GetCurrentDirectory());
+        RunDotnet("test", Directory.GetCurrentDirectory());
     }
 
     /// <summary>
