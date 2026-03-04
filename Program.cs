@@ -746,7 +746,36 @@ internal static class Program
     /// </summary>
     private static void HandleLint()
     {
-        Console.WriteLine("Running structure lint...");
+        string root = Directory.GetCurrentDirectory();
+
+        ValidateDirectory(root, "src");
+        ValidateDirectory(root, "tests");
+        ValidateDirectory(root, "docker");
+
+        ValidateFile(root, "Directory.Build.props");
+        ValidateFile(root, "stylecop.json");
+    }
+
+    /// <summary>
+    /// Checks if "name" directory exists inside "root".
+    /// </summary>
+    private static void ValidateDirectory(string root, string name)
+    {
+        if (!Directory.Exists(Path.Combine(root, name)))
+        {
+            throw new InvalidOperationException($"{name} folder missing.");
+        }
+    }
+
+    /// <summary>
+    /// Checks if "name" file exists inside "root".
+    /// </summary>
+    private static void ValidateFile(string root, string name)
+    {
+        if (!File.Exists(Path.Combine(root, name)))
+        {
+            throw new InvalidOperationException($"{name} file missing.");
+        }
     }
 
     /// <summary>
