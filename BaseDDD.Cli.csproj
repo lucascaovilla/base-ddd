@@ -19,7 +19,7 @@
 
   <PropertyGroup>
     <PackageId>BaseDDD.Cli</PackageId>
-    <Version>1.0.0</Version>
+    <Version>0.0.1</Version>
     <Authors>BaseDDD</Authors>
     <Description>Strict Clean Architecture generator with enforced observability</Description>
     <RepositoryUrl>https://github.com/lucascaovilla/base-ddd</RepositoryUrl>

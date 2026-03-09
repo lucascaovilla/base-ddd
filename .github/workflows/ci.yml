@@ -1,13 +1,14 @@
-name: Release
+name: CI
 
 on:
   push:
     branches:
+      - "**"
+  pull_request:
+    branches:
       - main
-
 jobs:
-  publish:
-    if: github.event_name == 'push'
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,11 +31,5 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Build
-        run: dotnet build -c Release --no-restore
-
-      - name: Pack
-        run: dotnet pack -c Release --no-build -o ./nupkg
-
-      - name: Publish to NuGet
-        run: dotnet nuget push ./nupkg/*.nupkg --skip-duplicate --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+      - name: Build solution
+        run: dotnet build --configuration Release --no-restore
