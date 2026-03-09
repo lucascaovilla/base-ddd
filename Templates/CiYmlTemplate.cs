@@ -16,32 +16,37 @@ public static class CiYmlTemplate
     public static string Generate()
     {
         return """
-        name: CI
+        name: Architecture Verification
 
         on:
-            push:
-            branches: [ main ]
-            pull_request:
+          push:
+            branches:
+              - "**"
+          pull_request:
+            branches:
+              - main
 
         jobs:
-            build:
-            runs-on: ubuntu-latest
+          verify:
+              runs-on: ubuntu-latest
 
-            steps:
-                - uses: actions/checkout@v4
+              steps:
+              - name: Checkout repository
+                uses: actions/checkout@v4
 
-                - uses: actions/setup-dotnet@v4
+              - name: Setup .NET
+                uses: actions/setup-dotnet@v4
                 with:
-                    dotnet-version: '10.0.x'
+                  dotnet-version: "10.0.x"
 
-                - name: Restore
+              - name: Install BaseDDD CLI
+                run: dotnet tool install -g BaseDDD.Cli
+
+              - name: Restore dependencies
                 run: dotnet restore
 
-                - name: Build
-                run: dotnet build --no-restore
-
-                - name: Test
-                run: dotnet test --no-build
+              - name: Run BaseDDD verification
+                run: baseddd verify
         """;
     }
 }
