@@ -41,7 +41,7 @@ jobs:
 
       - name: Read repository version
         run: |
-          VERSION=$(dotnet msbuild -nologo -v:q -getProperty:VersionPrefix)
+          VERSION=$(dotnet msbuild -nologo -v:q -getProperty:Version)
 
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Repository version: $VERSION"
