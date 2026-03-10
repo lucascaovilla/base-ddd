@@ -13,6 +13,7 @@ jobs:
 
     permissions:
       contents: write
+      pull-requests: write
 
     steps:
       - name: Checkout RC tag
@@ -44,12 +45,11 @@ jobs:
           echo "VERSION=$BASE" >> $GITHUB_ENV
           echo "Release version: $BASE"
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "10.0.x"
 
-      - name: Restore dependencies
+      - name: Restore
         run: dotnet restore
 
       - name: Build
@@ -102,3 +102,23 @@ jobs:
           tag_name: v${{ env.VERSION }}
           name: v${{ env.VERSION }}
           body: ${{ steps.notes.outputs.notes }}
+
+      - name: Compute next version
+        run: |
+          VERSION=${{ env.VERSION }}
+
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+          NEXT_PATCH=$((PATCH+1))
+          NEXT="$MAJOR.$MINOR.$NEXT_PATCH"
+
+          sed -i -E "s#<VersionPrefix>.*</VersionPrefix>#<VersionPrefix>$NEXT</VersionPrefix>#g" Directory.Build.props
+
+          echo "NEXT=$NEXT" >> $GITHUB_ENV
+
+      - name: Create version bump PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: chore/bump-version-${{ env.NEXT }}
+          commit-message: "chore: bump version to ${{ env.NEXT }}"
+          title: "chore: bump version to ${{ env.NEXT }}"
+          body: "Automatic version bump after release."
