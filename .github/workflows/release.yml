@@ -24,7 +24,7 @@ jobs:
       - name: Fetch tags
         run: git fetch --tags
 
-      - name: Extract release version
+      - name: Validate RC tag
         run: |
           TAG="${{ github.event.inputs.rc_tag }}"
 
@@ -33,10 +33,28 @@ jobs:
             exit 1
           fi
 
-          VERSION=$(echo $TAG | sed -E 's/v([0-9]+\.[0-9]+\.[0-9]+)-rc\.[0-9]+/\1/')
+          echo "TAG=$TAG" >> $GITHUB_ENV
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Read repository version
+        run: |
+          VERSION=$(dotnet msbuild -nologo -v:q -getProperty:VersionPrefix)
 
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "Release version: $VERSION"
+          echo "Repository version: $VERSION"
+
+      - name: Validate RC matches repo version
+        run: |
+          TAG="${{ env.TAG }}"
+          VERSION="${{ env.VERSION }}"
+
+          if [[ "$TAG" != v"$VERSION"-rc.* ]]; then
+            echo "RC tag ($TAG) does not match repo version ($VERSION)"
+            exit 1
+          fi
 
       - name: Ensure release tag does not exist
         run: |
@@ -44,10 +62,6 @@ jobs:
             echo "Release tag already exists!"
             exit 1
           fi
-
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "10.0.x"
 
       - name: Restore
         run: dotnet restore
@@ -66,7 +80,6 @@ jobs:
       - name: Publish to NuGet
         run: |
           dotnet nuget push ./nupkg/*.nupkg \
-            --skip-duplicate \
             --api-key ${{ secrets.NUGET_API_KEY }} \
             --source https://api.nuget.org/v3/index.json
 
@@ -103,7 +116,7 @@ jobs:
           git fetch origin main
           git checkout -B main origin/main
 
-      - name: Compute next version
+      - name: Compute next patch version
         run: |
           VERSION=${{ env.VERSION }}
 
@@ -112,10 +125,12 @@ jobs:
           NEXT_PATCH=$((PATCH+1))
           NEXT="$MAJOR.$MINOR.$NEXT_PATCH"
 
-          sed -i -E "s#<VersionPrefix>.*</VersionPrefix>#<VersionPrefix>$NEXT</VersionPrefix>#g" Directory.Build.props
-
           echo "NEXT=$NEXT" >> $GITHUB_ENV
           echo "Next version: $NEXT"
+
+      - name: Update version in props
+        run: |
+          sed -i -E "s#<VersionPrefix>.*</VersionPrefix>#<VersionPrefix>${{ env.NEXT }}</VersionPrefix>#g" Directory.Build.props
 
       - name: Commit version bump
         run: |
@@ -123,5 +138,11 @@ jobs:
           git config user.email "actions@github.com"
 
           git add Directory.Build.props
+
+          if git diff --cached --quiet; then
+            echo "No version change detected"
+            exit 1
+          fi
+
           git commit -m "chore: bump version to ${{ env.NEXT }}"
           git push origin main
