@@ -1,0 +1,60 @@
+name: Preview Package
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Extract base version
+        run: |
+          BASE_VERSION=$(dotnet msbuild -nologo -v:q -getProperty:VersionPrefix)
+
+          if [ -z "$BASE_VERSION" ]; then
+            BASE_VERSION=$(dotnet msbuild -nologo -v:q -getProperty:Version)
+          fi
+
+          if [ -z "$BASE_VERSION" ]; then
+            echo "Could not determine version from MSBuild"
+            exit 1
+          fi
+
+          VERSION="$BASE_VERSION-preview.${{ github.run_number }}"
+
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Preview version: $VERSION"
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -c Release --no-restore
+
+      - name: Pack
+        run: |
+          dotnet pack \
+            -c Release \
+            -p:PackageVersion=${{ env.VERSION }} \
+            --no-build \
+            -o ./nupkg
+
+      - name: Publish preview
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg \
+          --skip-duplicate \
+          --api-key ${{ secrets.GITHUB_TOKEN }} \
+          --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json

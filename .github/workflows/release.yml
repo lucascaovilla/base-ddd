@@ -1,31 +1,35 @@
 name: Release
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release Version (ex: 0.2.0)"
+        required: true
 
 jobs:
   publish:
-    if: github.event_name == 'push'
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "10.0.x"
 
-      - name: Cache NuGet packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
+      - name: Set release version
+        run: |
+          VERSION=${{ github.event.inputs.version }}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Releasing version: $VERSION"
 
       - name: Restore dependencies
         run: dotnet restore
@@ -34,7 +38,67 @@ jobs:
         run: dotnet build -c Release --no-restore
 
       - name: Pack
-        run: dotnet pack -c Release --no-build -o ./nupkg
+        run: |
+          dotnet pack \
+            -c Release \
+            -p:PackageVersion=${{ env.VERSION }} \
+            --no-build \
+            -o ./nupkg
 
       - name: Publish to NuGet
-        run: dotnet nuget push ./nupkg/*.nupkg --skip-duplicate --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg \
+            --skip-duplicate \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --source https://api.nuget.org/v3/index.json
+
+      - name: Create git tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+
+          git tag v${{ env.VERSION }}
+          git push origin v${{ env.VERSION }}
+
+      - name: Generate Release Notes
+        id: notes
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const response = await github.rest.repos.generateReleaseNotes({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: "v${{ env.VERSION }}"
+            });
+
+            core.setOutput("notes", response.data.body);
+
+      - name: Update CHANGELOG.md
+        run: |
+          echo "## ${{ env.VERSION }}" > NEW_CHANGELOG.md
+          echo "" >> NEW_CHANGELOG.md
+          echo "${{ steps.notes.outputs.notes }}" >> NEW_CHANGELOG.md
+          echo "" >> NEW_CHANGELOG.md
+
+          if [ -f CHANGELOG.md ]; then
+            cat CHANGELOG.md >> NEW_CHANGELOG.md
+          fi
+
+          mv NEW_CHANGELOG.md CHANGELOG.md
+
+      - name: Commit updated CHANGELOG
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+
+          git add CHANGELOG.md
+          git commit -m "docs: update changelog for v${{ env.VERSION }}" || echo "Nothing to commit"
+
+          git push
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ env.VERSION }}
+          name: v${{ env.VERSION }}
+          body: ${{ steps.notes.outputs.notes }}

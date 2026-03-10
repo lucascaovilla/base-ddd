@@ -1,0 +1,70 @@
+name: Release Candidate
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Base version (ex: 0.2.0)"
+        required: true
+
+jobs:
+  rc:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Determine RC number
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+
+          git fetch --tags
+
+          COUNT=$(git tag -l "v$VERSION-rc.*" | wc -l)
+          RC=$((COUNT+1))
+
+          FINAL="$VERSION-rc.$RC"
+
+          echo "VERSION=$FINAL" >> $GITHUB_ENV
+          echo "RC version: $FINAL"
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -c Release --no-restore
+
+      - name: Pack
+        run: |
+          dotnet pack \
+            -c Release \
+            -p:PackageVersion=${{ env.VERSION }} \
+            --no-build \
+            -o ./nupkg
+
+      - name: Publish RC to GitHub Packages
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg \
+            --skip-duplicate \
+            --api-key ${{ secrets.GITHUB_TOKEN }} \
+            --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+
+      - name: Create RC tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+
+          git tag v${{ env.VERSION }}
+          git push origin v${{ env.VERSION }}
