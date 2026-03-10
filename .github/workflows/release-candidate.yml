@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       preview_tag:
-        description: "Preview tag to promote (ex: v0.0.7-preview.15)"
+        description: "Preview tag to promote"
         required: true
 
 jobs:
@@ -16,60 +16,42 @@ jobs:
       packages: write
 
     steps:
-      - name: Checkout preview tag
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.inputs.preview_tag }}
           fetch-depth: 0
 
-      - name: Fetch tags
-        run: git fetch --tags
+      - run: git fetch --tags
 
-      - name: Validate preview tag
+      - name: Extract version
         run: |
-          TAG="${{ github.event.inputs.preview_tag }}"
-
-          if [[ ! $TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+-preview\.[0-9]+$ ]]; then
-            echo "Invalid preview tag format"
-            exit 1
-          fi
-
-          echo "TAG=$TAG" >> $GITHUB_ENV
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "10.0.x"
-
-      - name: Determine RC version
-        run: |
-          TAG="${{ env.TAG }}"
+          TAG=${{ github.event.inputs.preview_tag }}
 
           BASE=$(echo $TAG | sed -E 's/v([0-9]+\.[0-9]+\.[0-9]+)-preview\.[0-9]+/\1/')
 
           COUNT=$(git tag -l "v$BASE-rc.*" | wc -l)
-          RC=$((COUNT+1))
+          NEXT=$((COUNT+1))
 
-          VERSION="$BASE-rc.$RC"
+          VERSION="$BASE-rc.$NEXT"
 
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "RC version: $VERSION"
 
-      - name: Restore
-        run: dotnet restore
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
 
-      - name: Build
-        run: dotnet build -c Release --no-restore
+      - run: dotnet restore
+      - run: dotnet build -c Release --no-restore
 
       - name: Pack
         run: |
           dotnet pack \
             -c Release \
-            -p:PackageVersion=${{ env.VERSION }} \
+            -p:PackageVersion=${VERSION} \
             --no-build \
             -o ./nupkg
 
-      - name: Publish RC to GitHub Packages
+      - name: Publish RC
         run: |
           dotnet nuget push ./nupkg/*.nupkg \
             --skip-duplicate \
@@ -81,10 +63,5 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
-          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
-            echo "Tag already exists"
-            exit 1
-          fi
-
-          git tag v${{ env.VERSION }}
-          git push origin v${{ env.VERSION }}
+          git tag v${VERSION}
+          git push origin v${VERSION}
