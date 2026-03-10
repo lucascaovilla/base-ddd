@@ -3,8 +3,8 @@ name: Release Candidate
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: "Base version (ex: 0.2.0)"
+      preview_tag:
+        description: "Preview tag to promote"
         required: true
 
 jobs:
@@ -16,45 +16,42 @@ jobs:
       packages: write
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.inputs.preview_tag }}
           fetch-depth: 0
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      - run: git fetch --tags
+
+      - name: Extract version
+        run: |
+          TAG=${{ github.event.inputs.preview_tag }}
+
+          BASE=$(echo $TAG | sed -E 's/v([0-9]+\.[0-9]+\.[0-9]+)-preview\.[0-9]+/\1/')
+
+          COUNT=$(git tag -l "v$BASE-rc.*" | wc -l)
+          NEXT=$((COUNT+1))
+
+          VERSION="$BASE-rc.$NEXT"
+
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "10.0.x"
 
-      - name: Determine RC number
-        run: |
-          VERSION="${{ github.event.inputs.version }}"
-
-          git fetch --tags
-
-          COUNT=$(git tag -l "v$VERSION-rc.*" | wc -l)
-          RC=$((COUNT+1))
-
-          FINAL="$VERSION-rc.$RC"
-
-          echo "VERSION=$FINAL" >> $GITHUB_ENV
-          echo "RC version: $FINAL"
-
-      - name: Restore
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build -c Release --no-restore
+      - run: dotnet restore
+      - run: dotnet build -c Release --no-restore
 
       - name: Pack
         run: |
           dotnet pack \
             -c Release \
-            -p:PackageVersion=${{ env.VERSION }} \
+            -p:PackageVersion=${VERSION} \
             --no-build \
             -o ./nupkg
 
-      - name: Publish RC to GitHub Packages
+      - name: Publish RC
         run: |
           dotnet nuget push ./nupkg/*.nupkg \
             --skip-duplicate \
@@ -66,5 +63,5 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
-          git tag v${{ env.VERSION }}
-          git push origin v${{ env.VERSION }}
+          git tag v${VERSION}
+          git push origin v${VERSION}

@@ -3,39 +3,55 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: "Release Version (ex: 0.2.0)"
+      rc_tag:
+        description: "RC tag to promote (ex: v0.0.9-rc.5)"
         required: true
 
 jobs:
-  publish:
+  release:
     runs-on: ubuntu-latest
 
     permissions:
       contents: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      - run: git fetch --tags
+
+      - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "10.0.x"
 
-      - name: Set release version
+      - name: Store RC tag
         run: |
-          VERSION=${{ github.event.inputs.version }}
+          TAG="${{ github.event.inputs.rc_tag }}"
+
+          if [[ ! $TAG =~ ^v([0-9]+\.[0-9]+\.[0-9]+)-rc\.[0-9]+$ ]]; then
+            echo "Invalid RC tag format"
+            exit 1
+          fi
+
+          VERSION="${BASH_REMATCH[1]}"
+
+          echo "RC_TAG=$TAG" >> $GITHUB_ENV
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "Releasing version: $VERSION"
 
-      - name: Restore dependencies
-        run: dotnet restore
+          echo "RC tag: $TAG"
+          echo "Release version: $VERSION"
 
-      - name: Build
-        run: dotnet build -c Release --no-restore
+      - name: Ensure release tag does not exist
+        run: |
+          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
+            echo "Release tag already exists!"
+            exit 1
+          fi
+
+      - run: dotnet restore
+
+      - run: dotnet build -c Release --no-restore
 
       - name: Pack
         run: |
@@ -45,60 +61,16 @@ jobs:
             --no-build \
             -o ./nupkg
 
-      - name: Publish to NuGet
-        run: |
-          dotnet nuget push ./nupkg/*.nupkg \
-            --skip-duplicate \
-            --api-key ${{ secrets.NUGET_API_KEY }} \
-            --source https://api.nuget.org/v3/index.json
-
-      - name: Create git tag
+      - name: Create release tag
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
           git tag v${{ env.VERSION }}
-          git push origin v${{ env.VERSION }}
+          git push origin v${{ env.VERSION }} --force
 
-      - name: Generate Release Notes
-        id: notes
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const response = await github.rest.repos.generateReleaseNotes({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              tag_name: "v${{ env.VERSION }}"
-            });
-
-            core.setOutput("notes", response.data.body);
-
-      - name: Update CHANGELOG.md
+      - name: Publish to NuGet
         run: |
-          echo "## ${{ env.VERSION }}" > NEW_CHANGELOG.md
-          echo "" >> NEW_CHANGELOG.md
-          echo "${{ steps.notes.outputs.notes }}" >> NEW_CHANGELOG.md
-          echo "" >> NEW_CHANGELOG.md
-
-          if [ -f CHANGELOG.md ]; then
-            cat CHANGELOG.md >> NEW_CHANGELOG.md
-          fi
-
-          mv NEW_CHANGELOG.md CHANGELOG.md
-
-      - name: Commit updated CHANGELOG
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-
-          git add CHANGELOG.md
-          git commit -m "docs: update changelog for v${{ env.VERSION }}" || echo "Nothing to commit"
-
-          git push
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ env.VERSION }}
-          name: v${{ env.VERSION }}
-          body: ${{ steps.notes.outputs.notes }}
+          dotnet nuget push ./nupkg/*.nupkg \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --source https://api.nuget.org/v3/index.json
