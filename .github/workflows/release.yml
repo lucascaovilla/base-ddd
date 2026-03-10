@@ -67,7 +67,7 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
 
-          git add Directory.Build.props
+          git add BaseDDD.Cli.csproj
           git commit -m "chore: bump version to ${{ env.NEXT }}"
           git push origin main
 
