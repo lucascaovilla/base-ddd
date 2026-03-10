@@ -2,6 +2,10 @@ name: Release
 
 on:
   workflow_dispatch:
+    inputs:
+      rc_tag:
+        description: "RC tag to promote (ex: v0.0.9-rc.5)"
+        required: true
 
 jobs:
   release:
@@ -11,30 +15,32 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      - run: git fetch --tags
+
+      - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "10.0.x"
 
-      - name: Fetch tags
-        run: git fetch --tags
+      - name: Store RC tag
+        run: |
+          TAG="${{ github.event.inputs.rc_tag }}"
+
+          if [[ ! $TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+$ ]]; then
+            echo "Invalid RC tag format"
+            exit 1
+          fi
+
+          echo "RC_TAG=$TAG" >> $GITHUB_ENV
+          echo "RC tag: $TAG"
 
       - name: Read current version
         run: |
           CURRENT=$(dotnet msbuild -nologo -v:q -getProperty:Version)
-
-          if [ -z "$CURRENT" ]; then
-            echo "Failed to read version"
-            exit 1
-          fi
-
           echo "CURRENT=$CURRENT" >> $GITHUB_ENV
-          echo "Current version: $CURRENT"
 
       - name: Compute next version
         run: |
@@ -46,11 +52,18 @@ jobs:
           echo "NEXT=$NEXT" >> $GITHUB_ENV
           echo "Next version: $NEXT"
 
-      - name: Update Directory.Build.props
+      - name: Validate RC
+        run: |
+          if [[ "${{ env.RC_TAG }}" != v"${{ env.NEXT }}"-rc.* ]]; then
+            echo "RC tag does not match next version"
+            exit 1
+          fi
+
+      - name: Update version
         run: |
           sed -i -E "s#<Version>.*</Version>#<Version>${{ env.NEXT }}</Version>#g" Directory.Build.props
 
-      - name: Commit version bump
+      - name: Commit bump
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
@@ -59,7 +72,7 @@ jobs:
           git commit -m "chore: bump version to ${{ env.NEXT }}"
           git push origin main
 
-      - name: Create release tag
+      - name: Create tag
         run: |
           if git rev-parse "v${{ env.NEXT }}" >/dev/null 2>&1; then
             echo "Tag already exists!"
@@ -69,11 +82,8 @@ jobs:
           git tag v${{ env.NEXT }}
           git push origin v${{ env.NEXT }}
 
-      - name: Restore
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build -c Release --no-restore
+      - run: dotnet restore
+      - run: dotnet build -c Release --no-restore
 
       - name: Pack
         run: |
@@ -83,7 +93,7 @@ jobs:
             --no-build \
             -o ./nupkg
 
-      - name: Publish to NuGet
+      - name: Publish
         run: |
           dotnet nuget push ./nupkg/*.nupkg \
             --api-key ${{ secrets.NUGET_API_KEY }} \
