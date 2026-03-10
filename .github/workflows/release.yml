@@ -54,11 +54,10 @@ jobs:
 
       - name: Validate RC
         run: |
-          if [[ "${{ env.RC_TAG }}" != v"${{ env.NEXT }}"-rc.* ]]; then
-            echo "RC tag does not match next version"
+          if [[ "${{ env.RC_TAG }}" != v"${{ env.CURRENT }}"-rc.* ]]; then
+            echo "RC tag does not match current version"
             exit 1
           fi
-
       - name: Update version
         run: |
           sed -i -E "s#<Version>.*</Version>#<Version>${{ env.NEXT }}</Version>#g" Directory.Build.props
