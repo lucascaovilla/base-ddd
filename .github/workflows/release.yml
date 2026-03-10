@@ -73,29 +73,6 @@ jobs:
 
             core.setOutput("notes", response.data.body);
 
-      - name: Update CHANGELOG.md
-        run: |
-          echo "## ${{ env.VERSION }}" > NEW_CHANGELOG.md
-          echo "" >> NEW_CHANGELOG.md
-          echo "${{ steps.notes.outputs.notes }}" >> NEW_CHANGELOG.md
-          echo "" >> NEW_CHANGELOG.md
-
-          if [ -f CHANGELOG.md ]; then
-            cat CHANGELOG.md >> NEW_CHANGELOG.md
-          fi
-
-          mv NEW_CHANGELOG.md CHANGELOG.md
-
-      - name: Commit updated CHANGELOG
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-
-          git add CHANGELOG.md
-          git commit -m "docs: update changelog for v${{ env.VERSION }}" || echo "Nothing to commit"
-
-          git push
-
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
