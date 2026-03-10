@@ -60,7 +60,7 @@ jobs:
           fi
       - name: Update version
         run: |
-          sed -i -E "s#<Version>.*</Version>#<Version>${{ env.NEXT }}</Version>#g" Directory.Build.props
+          sed -i -E "s#<Version>.*</Version>#<Version>${{ env.NEXT }}</Version>#g" BaseDDD.CLi.csproj
 
       - name: Commit bump
         run: |
