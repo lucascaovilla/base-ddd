@@ -41,7 +41,12 @@ jobs:
 
       - name: Read repository version
         run: |
-          VERSION=$(dotnet msbuild -nologo -v:q -getProperty:Version)
+          VERSION=$(grep -oPm1 "(?<=<Version>)[^<]+" Directory.Build.props)
+
+          if [ -z "$VERSION" ]; then
+            echo "Failed to read version from Directory.Build.props"
+            exit 1
+          fi
 
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Repository version: $VERSION"
