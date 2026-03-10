@@ -1,53 +1,48 @@
-name: Release
+name: Preview Package
 
 on:
-  workflow_dispatch:
-    inputs:
-      rc_tag:
-        description: "RC tag to release (ex: v0.0.8-rc.1)"
-        required: true
+  push:
+    branches:
+      - main
 
 jobs:
-  publish:
+  preview:
     runs-on: ubuntu-latest
 
     permissions:
       contents: write
+      packages: write
 
     steps:
-      - name: Checkout RC tag
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.rc_tag }}
           fetch-depth: 0
 
-      - name: Fetch tags
-        run: git fetch --tags
-
-      - name: Extract release version
-        run: |
-          TAG="${{ github.event.inputs.rc_tag }}"
-
-          if [[ ! $TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+$ ]]; then
-            echo "Invalid RC tag format"
-            exit 1
-          fi
-
-          VERSION=$(echo $TAG | sed -E 's/v([0-9]+\.[0-9]+\.[0-9]+)-rc\.[0-9]+/\1/')
-
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "Release version: $VERSION"
-
-      - name: Ensure release tag does not exist
-        run: |
-          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
-            echo "Release tag already exists!"
-            exit 1
-          fi
+      - run: git fetch --tags
 
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "10.0.x"
+
+      - name: Extract base version
+        run: |
+          BASE_VERSION=$(dotnet msbuild -nologo -v:q -getProperty:VersionPrefix)
+
+          if [ -z "$BASE_VERSION" ]; then
+            BASE_VERSION=$(dotnet msbuild -nologo -v:q -getProperty:Version)
+          fi
+
+          echo "BASE_VERSION=$BASE_VERSION" >> $GITHUB_ENV
+
+      - name: Compute preview number
+        run: |
+          COUNT=$(git tag -l "v${BASE_VERSION}-preview.*" | wc -l)
+          NEXT=$((COUNT+1))
+
+          VERSION="${BASE_VERSION}-preview.${NEXT}"
+
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Preview version: $VERSION"
 
       - name: Restore
         run: dotnet restore
@@ -63,63 +58,22 @@ jobs:
             --no-build \
             -o ./nupkg
 
-      - name: Publish to NuGet
+      - name: Create preview tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+
+          if git rev-parse "v${VERSION}" >/dev/null 2>&1; then
+            echo "Preview tag already exists"
+            exit 1
+          fi
+
+          git tag v${VERSION}
+          git push origin v${VERSION}
+
+      - name: Publish preview
         run: |
           dotnet nuget push ./nupkg/*.nupkg \
-            --skip-duplicate \
-            --api-key ${{ secrets.NUGET_API_KEY }} \
-            --source https://api.nuget.org/v3/index.json
-
-      - name: Create release tag
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-
-          git tag v${{ env.VERSION }}
-          git push origin v${{ env.VERSION }}
-
-      - name: Generate release notes
-        id: notes
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const response = await github.rest.repos.generateReleaseNotes({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              tag_name: "v${{ env.VERSION }}"
-            });
-            core.setOutput("notes", response.data.body);
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ env.VERSION }}
-          name: v${{ env.VERSION }}
-          body: ${{ steps.notes.outputs.notes }}
-
-      - name: Checkout main
-        run: |
-          git checkout main
-          git pull origin main
-
-      - name: Compute next patch version
-        run: |
-          VERSION=${{ env.VERSION }}
-
-          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
-
-          NEXT_PATCH=$((PATCH+1))
-          NEXT="$MAJOR.$MINOR.$NEXT_PATCH"
-
-          sed -i -E "s#<VersionPrefix>.*</VersionPrefix>#<VersionPrefix>$NEXT</VersionPrefix>#g" Directory.Build.props
-
-          echo "Next version: $NEXT"
-
-      - name: Commit version bump
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-
-          git add Directory.Build.props
-          git commit -m "chore: bump version to $NEXT"
-          git push origin main
+          --skip-duplicate \
+          --api-key ${{ secrets.GITHUB_TOKEN }} \
+          --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
