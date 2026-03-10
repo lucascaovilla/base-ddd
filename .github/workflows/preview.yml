@@ -15,12 +15,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch tags
+        run: git fetch --tags
 
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "10.0.x"
 
-      - name: Extract base version
+      - name: Determine preview version
         run: |
           BASE_VERSION=$(dotnet msbuild -nologo -v:q -getProperty:VersionPrefix)
 
@@ -33,7 +38,10 @@ jobs:
             exit 1
           fi
 
-          VERSION="$BASE_VERSION-preview.${{ github.run_number }}"
+          COUNT=$(git tag -l "v$BASE_VERSION-preview.*" | wc -l)
+          PREVIEW=$((COUNT+1))
+
+          VERSION="$BASE_VERSION-preview.$PREVIEW"
 
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Preview version: $VERSION"
@@ -56,6 +64,11 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
+
+          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
+            echo "Preview tag already exists"
+            exit 1
+          fi
 
           git tag v${{ env.VERSION }}
           git push origin v${{ env.VERSION }}
