@@ -2,71 +2,72 @@ name: Release
 
 on:
   workflow_dispatch:
-    inputs:
-      rc_tag:
-        description: "RC tag to release (ex: v0.0.8-rc.1)"
-        required: true
 
 jobs:
-  publish:
+  release:
     runs-on: ubuntu-latest
 
     permissions:
       contents: write
 
     steps:
-      - name: Checkout RC tag
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.rc_tag }}
           fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
 
       - name: Fetch tags
         run: git fetch --tags
 
-      - name: Validate RC tag
+      - name: Read current version
         run: |
-          TAG="${{ github.event.inputs.rc_tag }}"
+          CURRENT=$(dotnet msbuild -nologo -v:q -getProperty:Version)
 
-          if [[ ! $TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+$ ]]; then
-            echo "Invalid RC tag format"
+          if [ -z "$CURRENT" ]; then
+            echo "Failed to read version"
             exit 1
           fi
 
-          echo "TAG=$TAG" >> $GITHUB_ENV
+          echo "CURRENT=$CURRENT" >> $GITHUB_ENV
+          echo "Current version: $CURRENT"
 
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "10.0.x"
-
-      - name: Read repository version
+      - name: Compute next version
         run: |
-          VERSION=$(grep -oPm1 "(?<=<Version>)[^<]+" Directory.Build.props)
+          IFS='.' read -r MAJOR MINOR PATCH <<< "${{ env.CURRENT }}"
 
-          if [ -z "$VERSION" ]; then
-            echo "Failed to read version from Directory.Build.props"
+          NEXT_PATCH=$((PATCH+1))
+          NEXT="$MAJOR.$MINOR.$NEXT_PATCH"
+
+          echo "NEXT=$NEXT" >> $GITHUB_ENV
+          echo "Next version: $NEXT"
+
+      - name: Update Directory.Build.props
+        run: |
+          sed -i -E "s#<Version>.*</Version>#<Version>${{ env.NEXT }}</Version>#g" Directory.Build.props
+
+      - name: Commit version bump
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+
+          git add Directory.Build.props
+          git commit -m "chore: bump version to ${{ env.NEXT }}"
+          git push origin main
+
+      - name: Create release tag
+        run: |
+          if git rev-parse "v${{ env.NEXT }}" >/dev/null 2>&1; then
+            echo "Tag already exists!"
             exit 1
           fi
 
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "Repository version: $VERSION"
-
-      - name: Validate RC matches repo version
-        run: |
-          TAG="${{ env.TAG }}"
-          VERSION="${{ env.VERSION }}"
-
-          if [[ "$TAG" != v"$VERSION"-rc.* ]]; then
-            echo "RC tag ($TAG) does not match repo version ($VERSION)"
-            exit 1
-          fi
-
-      - name: Ensure release tag does not exist
-        run: |
-          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
-            echo "Release tag already exists!"
-            exit 1
-          fi
+          git tag v${{ env.NEXT }}
+          git push origin v${{ env.NEXT }}
 
       - name: Restore
         run: dotnet restore
@@ -78,7 +79,7 @@ jobs:
         run: |
           dotnet pack \
             -c Release \
-            -p:PackageVersion=${{ env.VERSION }} \
+            -p:PackageVersion=${{ env.NEXT }} \
             --no-build \
             -o ./nupkg
 
@@ -87,67 +88,3 @@ jobs:
           dotnet nuget push ./nupkg/*.nupkg \
             --api-key ${{ secrets.NUGET_API_KEY }} \
             --source https://api.nuget.org/v3/index.json
-
-      - name: Create release tag
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-
-          git tag v${{ env.VERSION }}
-          git push origin v${{ env.VERSION }}
-
-      - name: Generate Release Notes
-        id: notes
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const response = await github.rest.repos.generateReleaseNotes({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              tag_name: "v${{ env.VERSION }}"
-            });
-
-            core.setOutput("notes", response.data.body);
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ env.VERSION }}
-          name: v${{ env.VERSION }}
-          body: ${{ steps.notes.outputs.notes }}
-
-      - name: Checkout main branch
-        run: |
-          git fetch origin main
-          git checkout -B main origin/main
-
-      - name: Compute next patch version
-        run: |
-          VERSION=${{ env.VERSION }}
-
-          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
-
-          NEXT_PATCH=$((PATCH+1))
-          NEXT="$MAJOR.$MINOR.$NEXT_PATCH"
-
-          echo "NEXT=$NEXT" >> $GITHUB_ENV
-          echo "Next version: $NEXT"
-
-      - name: Update version in props
-        run: |
-          sed -i -E "s#<VersionPrefix>.*</VersionPrefix>#<VersionPrefix>${{ env.NEXT }}</VersionPrefix>#g" Directory.Build.props
-
-      - name: Commit version bump
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-
-          git add Directory.Build.props
-
-          if git diff --cached --quiet; then
-            echo "No version change detected"
-            exit 1
-          fi
-
-          git commit -m "chore: bump version to ${{ env.NEXT }}"
-          git push origin main
