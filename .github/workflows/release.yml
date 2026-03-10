@@ -29,47 +29,70 @@ jobs:
         run: |
           TAG="${{ github.event.inputs.rc_tag }}"
 
-          if [[ ! $TAG =~ ^v([0-9]+\.[0-9]+\.[0-9]+)-rc\.[0-9]+$ ]]; then
+          if [[ ! $TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+$ ]]; then
             echo "Invalid RC tag format"
             exit 1
           fi
 
-          VERSION="${BASH_REMATCH[1]}"
-
           echo "RC_TAG=$TAG" >> $GITHUB_ENV
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-
           echo "RC tag: $TAG"
-          echo "Release version: $VERSION"
 
-      - name: Ensure release tag does not exist
+      - name: Read current version
         run: |
-          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
-            echo "Release tag already exists!"
+          CURRENT=$(dotnet msbuild -nologo -v:q -getProperty:Version)
+          echo "CURRENT=$CURRENT" >> $GITHUB_ENV
+
+      - name: Compute next version
+        run: |
+          IFS='.' read -r MAJOR MINOR PATCH <<< "${{ env.CURRENT }}"
+
+          NEXT_PATCH=$((PATCH+1))
+          NEXT="$MAJOR.$MINOR.$NEXT_PATCH"
+
+          echo "NEXT=$NEXT" >> $GITHUB_ENV
+          echo "Next version: $NEXT"
+
+      - name: Validate RC
+        run: |
+          if [[ "${{ env.RC_TAG }}" != v"${{ env.CURRENT }}"-rc.* ]]; then
+            echo "RC tag does not match current version"
+            exit 1
+          fi
+      - name: Update version
+        run: |
+          sed -i -E "s#<Version>.*</Version>#<Version>${{ env.NEXT }}</Version>#g" BaseDDD.Cli.csproj
+
+      - name: Commit bump
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+
+          git add BaseDDD.Cli.csproj
+          git commit -m "chore: bump version to ${{ env.NEXT }}"
+          git push origin main --force
+
+      - name: Create tag
+        run: |
+          if git rev-parse "v${{ env.NEXT }}" >/dev/null 2>&1; then
+            echo "Tag already exists!"
             exit 1
           fi
 
-      - run: dotnet restore
+          git tag v${{ env.NEXT }}
+          git push origin v${{ env.NEXT }}
 
+      - run: dotnet restore
       - run: dotnet build -c Release --no-restore
 
       - name: Pack
         run: |
           dotnet pack \
             -c Release \
-            -p:PackageVersion=${{ env.VERSION }} \
+            -p:PackageVersion=${{ env.NEXT }} \
             --no-build \
             -o ./nupkg
 
-      - name: Create release tag
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-
-          git tag v${{ env.VERSION }}
-          git push origin v${{ env.VERSION }} --force
-
-      - name: Publish to NuGet
+      - name: Publish
         run: |
           dotnet nuget push ./nupkg/*.nupkg \
             --api-key ${{ secrets.NUGET_API_KEY }} \
