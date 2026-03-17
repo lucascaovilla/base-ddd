@@ -58,6 +58,9 @@ public static class NewCommand
         FileSystem.CreateDirectory(Path.Combine(root, "src"));
         FileSystem.CreateDirectory(Path.Combine(root, "tests"));
         FileSystem.CreateDirectory(Path.Combine(root, "docker"));
+        FileSystem.CreateDirectory(Path.Combine(root, ".githooks"));
+        FileSystem.CreateDirectory(Path.Combine(root, ".github"));
+        FileSystem.CreateDirectory(Path.Combine(root, ".github/workflows"));
     }
 
     private static void InitializeGit(string root)

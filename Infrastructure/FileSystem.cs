@@ -16,15 +16,25 @@ public static class FileSystem
     /// <param name="content">Content to be written.</param>
     public static void WriteFile(string path, string content)
     {
-        string? dir = Path.GetDirectoryName(path);
-
-        if (dir == null)
+        try
         {
-            throw new InvalidOperationException();
-        }
+            string? directory = Path.GetDirectoryName(path);
 
-        Directory.CreateDirectory(dir);
-        File.WriteAllText(path, content);
+            if (!string.IsNullOrWhiteSpace(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            File.WriteAllText(path, content);
+
+            Console.WriteLine($"[OK] {path}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[ERROR] Failed to write {path}");
+            Console.WriteLine(ex.ToString());
+            throw;
+        }
     }
 
     /// <summary>

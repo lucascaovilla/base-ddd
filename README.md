@@ -3,6 +3,7 @@ How to start developing:
 Must run:
 git config core.hooksPath .githooks
 chmod +x .githooks/pre-commit
+chmod +x .githooks/pre-push
 
 Install locally for testing:
 chmod +x scripts/install-local.sh
