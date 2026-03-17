@@ -40,6 +40,7 @@ public sealed class FileTemplateGenerator
     {
         this.GenerateRootFiles();
         this.GenerateGithub();
+        this.GenerateGit();
         this.GenerateWebFiles();
         this.GenerateArchitectureTests();
         this.GenerateIntegrationTests();
@@ -78,6 +79,17 @@ public sealed class FileTemplateGenerator
         FileSystem.WriteFile(
             Path.Combine(this.root, ".github/workflows/ci.yml"),
             CiYmlTemplate.Generate());
+    }
+
+    private void GenerateGit()
+    {
+        FileSystem.WriteFile(
+            Path.Combine(this.root, ".githooks/pre-commit"),
+            PreCommitTemplate.Generate());
+
+        FileSystem.WriteFile(
+            Path.Combine(this.root, ".githooks/pre-push"),
+            PrePushTemplate.Generate());
     }
 
     private void GenerateWebFiles()
