@@ -41,6 +41,7 @@ public sealed class FileTemplateGenerator
         this.GenerateRootFiles();
         this.GenerateGithub();
         this.GenerateGit();
+        this.GenerateDocker();
         this.GenerateWebFiles();
         this.GenerateArchitectureTests();
         this.GenerateIntegrationTests();
@@ -90,6 +91,33 @@ public sealed class FileTemplateGenerator
         FileSystem.WriteFile(
             Path.Combine(this.root, ".githooks/pre-push"),
             PrePushTemplate.Generate());
+    }
+
+    private void GenerateDocker()
+    {
+        FileSystem.WriteFile(
+            Path.Combine(this.root, "docker/Dockerfile"),
+            DockerfileTemplate.Generate(this.name));
+
+        FileSystem.WriteFile(
+            Path.Combine(this.root, "docker/.dockerignore"),
+            DockerignoreTemplate.Generate());
+
+        FileSystem.WriteFile(
+            Path.Combine(this.root, "docker/docker-compose.yml"),
+            DockerComposeTemplate.GeneratePrd(this.name));
+
+        FileSystem.WriteFile(
+            Path.Combine(this.root, "docker/docker-compose.staging.yml"),
+            DockerComposeTemplate.GenerateStaging(this.name));
+
+        FileSystem.WriteFile(
+            Path.Combine(this.root, "docker/docker-compose.dev.yml"),
+            DockerComposeTemplate.GenerateDev(this.name));
+
+        FileSystem.WriteFile(
+            Path.Combine(this.root, "docker/docker-compose.local.yml"),
+            DockerComposeTemplate.GenerateLocal(this.name));
     }
 
     private void GenerateWebFiles()

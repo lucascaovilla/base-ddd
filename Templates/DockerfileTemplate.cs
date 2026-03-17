@@ -1,0 +1,38 @@
+// <copyright file="DockerfileTemplate.cs" company="BaseDDD">
+// Copyright (c) BaseDDD.
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+// </copyright>
+namespace BaseDDD.Templates;
+
+/// <summary>
+/// Provides Dockerfile file template.
+/// </summary>
+public static class DockerfileTemplate
+{
+    /// <summary>
+    /// Returns content of generated correlation middleware.
+    /// </summary>
+    /// <param name="name">Repository name.</param>
+    /// <returns>Dockerfile file content.</returns>
+    public static string Generate(string name)
+    {
+        return $"""
+        FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+        WORKDIR /src
+
+        COPY . .
+        RUN dotnet restore
+        RUN dotnet publish -c Release -o /app/publish
+
+        FROM mcr.microsoft.com/dotnet/aspnet:10.0
+        WORKDIR /app
+
+        COPY --from=build /app/publish .
+
+        ENV ASPNETCORE_URLS=http://+:8080
+        EXPOSE 8080
+
+        ENTRYPOINT ["dotnet", "{name}.Api.dll"]
+        """;
+    }
+}
