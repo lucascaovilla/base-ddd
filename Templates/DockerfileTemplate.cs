@@ -10,7 +10,7 @@ namespace BaseDDD.Templates;
 public static class DockerfileTemplate
 {
     /// <summary>
-    /// Returns content of generated correlation middleware.
+    /// Returns content of generated Dockerfile.
     /// </summary>
     /// <param name="name">Repository name.</param>
     /// <returns>Dockerfile file content.</returns>
