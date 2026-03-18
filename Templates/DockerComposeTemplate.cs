@@ -10,10 +10,10 @@ namespace BaseDDD.Templates;
 public static class DockerComposeTemplate
 {
     /// <summary>
-    /// Returns content of generated correlation middleware.
+    /// Returns content of generated production docker compose.
     /// </summary>
     /// <param name="name">Repository name.</param>
-    /// <returns>Dockerfile file content.</returns>
+    /// <returns>Content of production docker compose.</returns>
     public static string GeneratePrd(string name)
     {
         return $"""
@@ -31,10 +31,10 @@ public static class DockerComposeTemplate
     }
 
     /// <summary>
-    /// Returns content of generated correlation middleware.
+    /// Returns content of generated staging docker compose.
     /// </summary>
     /// <param name="name">Repository name.</param>
-    /// <returns>Dockerfile file content.</returns>
+    /// <returns>Content of staging docker compose.</returns>
     public static string GenerateStaging(string name)
     {
         return $"""
@@ -52,10 +52,10 @@ public static class DockerComposeTemplate
     }
 
     /// <summary>
-    /// Returns content of generated correlation middleware.
+    /// Returns content of generated development docker compose.
     /// </summary>
     /// <param name="name">Repository name.</param>
-    /// <returns>Dockerfile file content.</returns>
+    /// <returns>Content of development docker compose.</returns>
     public static string GenerateDev(string name)
     {
         return $"""
@@ -76,10 +76,10 @@ public static class DockerComposeTemplate
     }
 
     /// <summary>
-    /// Returns content of generated correlation middleware.
+    /// Returns content of generated local docker compose.
     /// </summary>
     /// <param name="name">Repository name.</param>
-    /// <returns>Dockerfile file content.</returns>
+    /// <returns>Content of local docker compose.</returns>
     public static string GenerateLocal(string name)
     {
         return $"""

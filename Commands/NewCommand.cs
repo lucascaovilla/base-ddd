@@ -68,6 +68,13 @@ public static class NewCommand
         GitRunner.Run("init", root);
         GitRunner.Run("branch -m main", root);
         GitRunner.Run("config core.hooksPath .githooks", root);
+
+        if (!OperatingSystem.IsWindows())
+        {
+            ProcessRunner.Run("chmod", "+x .githooks/pre-commit", root);
+            ProcessRunner.Run("chmod", "+x .githooks/pre-push", root);
+        }
+
         GitRunner.Run("add .", root);
         GitRunner.Run("commit -m \"Initial BaseDDD structure\"", root);
     }

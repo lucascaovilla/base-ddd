@@ -10,7 +10,7 @@ namespace BaseDDD.Templates;
 public static class DockerignoreTemplate
 {
     /// <summary>
-    /// Returns content of generated correlation middleware.
+    /// Returns content of generated .dockerignore.
     /// </summary>
     /// <returns>.dockerignore file content.</returns>
     public static string Generate()
