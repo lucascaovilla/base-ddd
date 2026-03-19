@@ -28,58 +28,53 @@ jobs:
       - name: Store RC tag
         run: |
           TAG="${{ github.event.inputs.rc_tag }}"
-
           if [[ ! $TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+$ ]]; then
             echo "Invalid RC tag format"
             exit 1
           fi
-
           echo "RC_TAG=$TAG" >> $GITHUB_ENV
-          echo "RC tag: $TAG"
 
       - name: Read current version
         run: |
-          CURRENT=$(dotnet msbuild -nologo -v:q -getProperty:Version)
+          CURRENT=$(dotnet msbuild src/BaseDDD.Cli/BaseDDD.Cli.csproj -nologo -v:q -getProperty:Version)
+          BASE=$(echo $CURRENT | sed -E 's/([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
           echo "CURRENT=$CURRENT" >> $GITHUB_ENV
-
-      - name: Compute next version
-        run: |
-          IFS='.' read -r MAJOR MINOR PATCH <<< "${{ env.CURRENT }}"
-
-          NEXT_PATCH=$((PATCH+1))
-          NEXT="$MAJOR.$MINOR.$NEXT_PATCH"
-
-          echo "NEXT=$NEXT" >> $GITHUB_ENV
-          echo "Next version: $NEXT"
+          echo "BASE=$BASE" >> $GITHUB_ENV
 
       - name: Validate RC
         run: |
-          if [[ "${{ env.RC_TAG }}" != v"${{ env.CURRENT }}"-rc.* ]]; then
-            echo "RC tag does not match current version"
+          if [[ "${{ env.RC_TAG }}" != v"${{ env.BASE }}"-rc.* ]]; then
+            echo "RC tag does not match current base version ${{ env.BASE }}"
             exit 1
           fi
-      - name: Update version
-        run: |
-          sed -i -E "s#<Version>.*</Version>#<Version>${{ env.NEXT }}</Version>#g" BaseDDD.Cli.csproj
 
-      - name: Commit bump
+      - name: Compute next version
+        run: |
+          IFS='.' read -r MAJOR MINOR PATCH <<< "${{ env.BASE }}"
+          NEXT="$MAJOR.$MINOR.$((PATCH+1))"
+          echo "VERSION=$NEXT" >> $GITHUB_ENV
+          echo "Next version: $NEXT"
+
+      - name: Update version in csproj
+        run: |
+          sed -i -E "s#<Version>.*</Version>#<Version>${{ env.VERSION }}</Version>#g" src/BaseDDD.Cli/BaseDDD.Cli.csproj
+
+      - name: Commit version bump
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-
-          git add BaseDDD.Cli.csproj
-          git commit -m "chore: bump version to ${{ env.NEXT }}"
+          git add src/BaseDDD.Cli/BaseDDD.Cli.csproj
+          git commit -m "chore: bump version to ${{ env.VERSION }}"
           git push origin main --force
 
       - name: Create tag
         run: |
-          if git rev-parse "v${{ env.NEXT }}" >/dev/null 2>&1; then
+          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
             echo "Tag already exists!"
             exit 1
           fi
-
-          git tag v${{ env.NEXT }}
-          git push origin v${{ env.NEXT }}
+          git tag v${{ env.VERSION }}
+          git push origin v${{ env.VERSION }}
 
       - name: Generate release notes
         id: notes
@@ -89,16 +84,15 @@ jobs:
             const response = await github.rest.repos.generateReleaseNotes({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag_name: "v${{ env.NEXT }}"
+              tag_name: "v${{ env.VERSION }}"
             });
-
             core.setOutput("notes", response.data.body);
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ env.NEXT }}
-          name: v${{ env.NEXT }}
+          tag_name: v${{ env.VERSION }}
+          name: v${{ env.VERSION }}
           body: ${{ steps.notes.outputs.notes }}
 
       - run: dotnet restore
@@ -108,7 +102,7 @@ jobs:
         run: |
           dotnet pack \
             -c Release \
-            -p:PackageVersion=${{ env.NEXT }} \
+            -p:PackageVersion=${{ env.VERSION }} \
             --no-build \
             -o ./nupkg
 

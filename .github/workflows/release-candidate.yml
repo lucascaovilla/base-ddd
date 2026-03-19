@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       preview_tag:
-        description: "Preview tag to promote"
+        description: "Preview tag to promote (ex: v0.0.9-preview.3)"
         required: true
 
 jobs:
@@ -23,33 +23,58 @@ jobs:
 
       - run: git fetch --tags
 
-      - name: Extract version
-        run: |
-          TAG=${{ github.event.inputs.preview_tag }}
-
-          BASE=$(echo $TAG | sed -E 's/v([0-9]+\.[0-9]+\.[0-9]+)-preview\.[0-9]+/\1/')
-
-          COUNT=$(git tag -l "v$BASE-rc.*" | wc -l)
-          NEXT=$((COUNT+1))
-
-          VERSION="$BASE-rc.$NEXT"
-
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "10.0.x"
 
-      - run: dotnet restore
-      - run: dotnet build -c Release --no-restore
+      - name: Read current version
+        run: |
+          CURRENT=$(dotnet msbuild src/BaseDDD.Cli/BaseDDD.Cli.csproj -nologo -v:q -getProperty:Version)
+          BASE=$(echo $CURRENT | sed -E 's/([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
+          echo "BASE=$BASE" >> $GITHUB_ENV
+
+      - name: Compute RC version
+        run: |
+          COUNT=$(git tag -l "v${BASE}-rc.*" | wc -l)
+          NEXT=$((COUNT+1))
+          VERSION="${BASE}-rc.${NEXT}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "RC version: $VERSION"
+
+      - name: Update version in csproj
+        run: |
+          sed -i -E "s#<Version>.*</Version>#<Version>${{ env.VERSION }}</Version>#g" src/BaseDDD.Cli/BaseDDD.Cli.csproj
+
+      - name: Commit version bump
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add src/BaseDDD.Cli/BaseDDD.Cli.csproj
+          git commit -m "chore: bump version to ${{ env.VERSION }}"
+          git push origin main --force
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -c Release --no-restore
 
       - name: Pack
         run: |
           dotnet pack \
             -c Release \
-            -p:PackageVersion=${VERSION} \
+            -p:PackageVersion=${{ env.VERSION }} \
             --no-build \
             -o ./nupkg
+
+      - name: Create RC tag
+        run: |
+          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
+            echo "Tag already exists"
+            exit 1
+          fi
+          git tag v${{ env.VERSION }}
+          git push origin v${{ env.VERSION }}
 
       - name: Publish RC
         run: |
@@ -57,11 +82,3 @@ jobs:
             --skip-duplicate \
             --api-key ${{ secrets.GITHUB_TOKEN }} \
             --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
-
-      - name: Create RC tag
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-
-          git tag v${VERSION}
-          git push origin v${VERSION}
