@@ -33,3 +33,10 @@ jobs:
 
       - name: Build solution
         run: dotnet build --configuration Release --no-restore
+
+      - name: Install BaseDDD CLI
+        run: ./scripts/install-local.sh
+
+      - name: Run tests with coverage
+        timeout-minutes: 5
+        run: dotnet test --configuration Release --no-build --verbosity diagnostic

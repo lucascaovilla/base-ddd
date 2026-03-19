@@ -1,0 +1,25 @@
+<Project>
+
+  <PropertyGroup>
+    <IsTestProject>true</IsTestProject>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit" Version="2.7.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.7" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+
+    <!-- Coverage -->
+    <PackageReference Include="coverlet.collector" Version="6.0.0" />
+
+    <!-- Template validation -->
+    <PackageReference Include="YamlDotNet" Version="13.7.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="../../stylecop.json" />
+    <None Include="../../README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>

@@ -1,9 +1,50 @@
 <Project>
+
+  <!-- GLOBAL METADATA -->
   <PropertyGroup>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <Nullable>enable</Nullable>
+    <Authors>BaseDDD</Authors>
+    <RepositoryUrl>https://github.com/lucascaovilla/base-ddd</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <CollectCoverage>true</CollectCoverage>
+    <CoverletOutputFormat>cobertura</CoverletOutputFormat>
+    <Threshold>80</Threshold>
+    <ThresholdType>line</ThresholdType>
+    <ThresholdStat>Total</ThresholdStat>
+  </PropertyGroup>
+
+  <!-- GLOBAL BUILD RULES -->
+  <PropertyGroup>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <!-- Documentation -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+    <!-- Enforce warnings -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors>CS1591</WarningsAsErrors>
+
+    <!-- Analyzer behavior -->
     <AnalysisLevel>latest</AnalysisLevel>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+
+    <!-- CI -->
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
+
+  <!-- STYLECOP -->
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" />
+  </ItemGroup>
+
 </Project>
