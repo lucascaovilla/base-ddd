@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Xunit;
 using BaseDDD.IntegrationTests.Generation.Fixtures;
@@ -6,29 +7,33 @@ using BaseDDD.Infrastructure;
 namespace BaseDDD.IntegrationTests.Cli;
 
 [Collection("GeneratedProject")]
-public class Docker_Compose_EndToEndTests(GeneratedProjectFixture fixture)
+public class DockerBuild_EndToEndTests(GeneratedProjectFixture fixture)
 {
     private readonly GeneratedProjectFixture _fixture = fixture;
 
     [Fact]
-    public void Docker_Compose_Should_Build_Or_Validate_Successfully()
+    public void Dockerfile_Should_Build_Successfully()
     {
-        string projectPath = this._fixture.ProjectPath;
-        string dockerPath = Path.Combine(projectPath, "docker");
+        string dockerPath = Path.Combine(this._fixture.ProjectPath, "docker");
 
-        string dockerfilePath = Path.Combine(dockerPath, "Dockerfile");
-        Assert.True(File.Exists(dockerfilePath));
+        Assert.True(File.Exists(Path.Combine(dockerPath, "Dockerfile")));
 
-        string[] buildFiles = { "docker-compose.dev.yml", "docker-compose.local.yml" };
-        foreach (string f in buildFiles)
+        Console.WriteLine("[Docker] Starting image build...");
+        ProcessRunner.Run("docker", "compose -f docker-compose.local.yml build --no-cache --progress=plain", dockerPath);
+        Console.WriteLine("[Docker] Image build completed.");
+    }
+
+    [Fact]
+    public void Docker_Compose_Should_Validate_Successfully()
+    {
+        string dockerPath = Path.Combine(this._fixture.ProjectPath, "docker");
+
+        string[] composeFiles = ["docker-compose.yml", "docker-compose.staging.yml", "docker-compose.dev.yml", "docker-compose.local.yml"];
+        foreach (string f in composeFiles)
         {
-            ProcessRunner.Run("docker", $"compose -f {f} build --no-cache", dockerPath);
-        }
-
-        string[] validateOnlyFiles = ["docker-compose.yml", "docker-compose.staging.yml"];
-        foreach (string f in validateOnlyFiles)
-        {
+            Console.WriteLine($"[Docker] Validating {f}...");
             ProcessRunner.Run("docker", $"compose -f {f} config", dockerPath);
+            Console.WriteLine($"[Docker] {f} is valid.");
         }
     }
 }

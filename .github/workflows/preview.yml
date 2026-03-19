@@ -24,25 +24,31 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
-      - name: Extract base version
+      - name: Read current version
         run: |
-          BASE_VERSION=$(dotnet msbuild -nologo -v:q -getProperty:VersionPrefix)
+          CURRENT=$(dotnet msbuild src/BaseDDD.Cli/BaseDDD.Cli.csproj -nologo -v:q -getProperty:Version)
+          BASE=$(echo $CURRENT | sed -E 's/([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
+          echo "BASE=$BASE" >> $GITHUB_ENV
 
-          if [ -z "$BASE_VERSION" ]; then
-            BASE_VERSION=$(dotnet msbuild -nologo -v:q -getProperty:Version)
-          fi
-
-          echo "BASE_VERSION=$BASE_VERSION" >> $GITHUB_ENV
-
-      - name: Compute preview number
+      - name: Compute preview version
         run: |
-          COUNT=$(git tag -l "v${BASE_VERSION}-preview.*" | wc -l)
+          COUNT=$(git tag -l "v${BASE}-preview.*" | wc -l)
           NEXT=$((COUNT+1))
-
-          VERSION="${BASE_VERSION}-preview.${NEXT}"
-
+          VERSION="${BASE}-preview.${NEXT}"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Preview version: $VERSION"
+
+      - name: Update version in csproj
+        run: |
+          sed -i -E "s#<Version>.*</Version>#<Version>${{ env.VERSION }}</Version>#g" src/BaseDDD.Cli/BaseDDD.Cli.csproj
+
+      - name: Commit version bump
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add src/BaseDDD.Cli/BaseDDD.Cli.csproj
+          git commit -m "chore: bump version to ${{ env.VERSION }}"
+          git push origin main --force
 
       - name: Restore
         run: dotnet restore
@@ -60,20 +66,16 @@ jobs:
 
       - name: Create preview tag
         run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-
-          if git rev-parse "v${VERSION}" >/dev/null 2>&1; then
-            echo "Preview tag already exists"
+          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
+            echo "Tag already exists"
             exit 1
           fi
-
-          git tag v${VERSION}
-          git push origin v${VERSION}
+          git tag v${{ env.VERSION }}
+          git push origin v${{ env.VERSION }}
 
       - name: Publish preview
         run: |
           dotnet nuget push ./nupkg/*.nupkg \
-          --skip-duplicate \
-          --api-key ${{ secrets.GITHUB_TOKEN }} \
-          --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+            --skip-duplicate \
+            --api-key ${{ secrets.GITHUB_TOKEN }} \
+            --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json

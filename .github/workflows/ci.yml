@@ -39,4 +39,4 @@ jobs:
 
       - name: Run tests with coverage
         timeout-minutes: 5
-        run: dotnet test --configuration Release --no-build --verbosity diagnostic
+        run: dotnet test --configuration Release --no-build --verbosity diagnostic -- xUnit.MaxParallelThreads=1
