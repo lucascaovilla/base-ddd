@@ -4,4 +4,11 @@ echo "Running BaseDDD pre-push..."
 
 dotnet format --verify-no-changes || exit 1
 dotnet build -c Release || exit 1
-dotnet test || exit 1
+dotnet test \
+  --configuration Release \
+  --collect:"XPlat Code Coverage"
+
+if [ $? -ne 0 ]; then
+  echo "Tests failed"
+  exit 1
+fi

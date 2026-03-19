@@ -33,3 +33,30 @@ jobs:
 
       - name: Build solution
         run: dotnet build --configuration Release --no-restore
+
+      - name: Run tests with coverage
+        run: |
+          dotnet test \
+            --configuration Release \
+            --no-build \
+            --collect:"XPlat Code Coverage" \
+            --results-directory ./coverage
+
+      - name: Install report generator
+        run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+      - name: Generate coverage report
+        run: |
+          reportgenerator \
+            -reports:coverage/**/coverage.cobertura.xml \
+            -targetdir:coverage/report \
+            -reporttypes:TextSummary
+
+      - name: Enforce coverage threshold
+        run: |
+          COVERAGE=$(grep -oP 'Line coverage:\s*\K[0-9.]+' coverage/report/Summary.txt)
+          echo "Coverage: $COVERAGE%"
+
+          THRESHOLD=80
+
+          awk "BEGIN {exit !($COVERAGE >= $THRESHOLD)}"
