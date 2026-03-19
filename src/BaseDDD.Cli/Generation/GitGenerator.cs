@@ -38,6 +38,9 @@ public class GitGenerator
             ProcessRunner.Run("chmod", "+x .githooks/pre-push", this.root);
         }
 
+        GitRunner.Run("config user.email \"baseddd@baseddd.com\"", this.root);
+        GitRunner.Run("config user.name \"BaseDDD\"", this.root);
+
         GitRunner.Run("add .", this.root);
         GitRunner.Run("commit -m \"Initial BaseDDD structure\"", this.root);
     }
