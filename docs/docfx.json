@@ -4,7 +4,7 @@
     {
       "src": [
         {
-          "files": ["src/BaseDDD.Cli/BaseDDD.Cli.csproj"]
+          "files": ["../src/BaseDDD.Cli/BaseDDD.Cli.csproj"]
         }
       ],
       "dest": "api"
