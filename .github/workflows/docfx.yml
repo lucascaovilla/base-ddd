@@ -1,0 +1,125 @@
+name: Documentation
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - run: git fetch --tags
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Install DocFX
+        run: dotnet tool install -g docfx
+
+      - name: Resolve slot and version
+        id: slot
+        run: |
+          REF="${GITHUB_REF}"
+
+          if [[ "$REF" == refs/tags/* ]]; then
+            TAG="${REF#refs/tags/}"
+
+            if [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo "SLOT=$TAG" >> $GITHUB_ENV
+              echo "IS_RELEASE=true" >> $GITHUB_ENV
+
+            elif [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+$ ]]; then
+              echo "SLOT=rc" >> $GITHUB_ENV
+              echo "IS_RELEASE=false" >> $GITHUB_ENV
+
+            elif [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-preview\.[0-9]+$ ]]; then
+              echo "SLOT=preview" >> $GITHUB_ENV
+              echo "IS_RELEASE=false" >> $GITHUB_ENV
+
+            else
+              echo "Unknown tag format, skipping docs"
+              exit 0
+            fi
+
+          else
+            # push to main without a tag — treat as preview docs refresh
+            echo "SLOT=preview" >> $GITHUB_ENV
+            echo "IS_RELEASE=false" >> $GITHUB_ENV
+          fi
+
+      - name: Build XML docs
+        run: dotnet build src/BaseDDD.Cli/BaseDDD.Cli.csproj -c Release /p:GenerateDocumentationFile=true
+
+      - name: Build DocFX site
+        run: docfx docs/docfx.json --output _site
+
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy to slot
+        run: |
+          SLOT="${{ env.SLOT }}"
+          DEST="gh-pages/$SLOT"
+
+          # For floating slots (preview, rc) replace entirely.
+          # For release tags, write once and never overwrite.
+          if [[ "${{ env.IS_RELEASE }}" == "true" && -d "$DEST" ]]; then
+            echo "Release docs for $SLOT already exist — skipping overwrite."
+            exit 0
+          fi
+
+          rm -rf "$DEST"
+          mkdir -p "$DEST"
+          cp -r _site/. "$DEST/"
+
+      - name: Update versions manifest
+        run: |
+          MANIFEST="gh-pages/versions.json"
+
+          # Ensure the file exists
+          if [[ ! -f "$MANIFEST" ]]; then
+            echo "[]" > "$MANIFEST"
+          fi
+
+          SLOT="${{ env.SLOT }}"
+
+          # Only append release slots to the manifest (preview/rc are floating)
+          if [[ "${{ env.IS_RELEASE }}" == "true" ]]; then
+            node -e "
+              const fs = require('fs');
+              const path = '$MANIFEST';
+              const versions = JSON.parse(fs.readFileSync(path, 'utf8'));
+              if (!versions.includes('$SLOT')) {
+                versions.unshift('$SLOT');
+                fs.writeFileSync(path, JSON.stringify(versions, null, 2));
+              }
+            "
+          fi
+
+      - name: Commit and push gh-pages
+        run: |
+          cd gh-pages
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add .
+          git diff --cached --quiet || git commit -m "docs: deploy ${{ env.SLOT }}"
+          git push origin gh-pages
