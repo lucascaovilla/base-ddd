@@ -1,4 +1,224 @@
 {
+  "api/BaseDDD.Commands.LintCommand.html": {
+    "href": "api/BaseDDD.Commands.LintCommand.html",
+    "title": "Class LintCommand | BaseDDD",
+    "summary": "Class LintCommand Namespace BaseDDD.Commands Assembly BaseDDD.Cli.dll BaseDDD lint project cli command. public static class LintCommand Inheritance object LintCommand Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Execute() Executes lint on project via cli tool. public static void Execute()"
+  },
+  "api/BaseDDD.Commands.NewCommand.html": {
+    "href": "api/BaseDDD.Commands.NewCommand.html",
+    "title": "Class NewCommand | BaseDDD",
+    "summary": "Class NewCommand Namespace BaseDDD.Commands Assembly BaseDDD.Cli.dll BaseDDD new project cli command. public static class NewCommand Inheritance object NewCommand Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Execute(string[]) Executes new command to generate a clean new project. public static void Execute(string[] args) Parameters args string[] Arguments to the new project."
+  },
+  "api/BaseDDD.Commands.VerifyCommand.html": {
+    "href": "api/BaseDDD.Commands.VerifyCommand.html",
+    "title": "Class VerifyCommand | BaseDDD",
+    "summary": "Class VerifyCommand Namespace BaseDDD.Commands Assembly BaseDDD.Cli.dll BaseDDD verify project structure command. public static class VerifyCommand Inheritance object VerifyCommand Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Execute() Executes verify on project via cli tool. public static void Execute()"
+  },
+  "api/BaseDDD.Commands.html": {
+    "href": "api/BaseDDD.Commands.html",
+    "title": "Namespace BaseDDD.Commands | BaseDDD",
+    "summary": "Namespace BaseDDD.Commands Classes LintCommand BaseDDD lint project cli command. NewCommand BaseDDD new project cli command. VerifyCommand BaseDDD verify project structure command."
+  },
+  "api/BaseDDD.Generation.BaseStructureGenerator.html": {
+    "href": "api/BaseDDD.Generation.BaseStructureGenerator.html",
+    "title": "Class BaseStructureGenerator | BaseDDD",
+    "summary": "Class BaseStructureGenerator Namespace BaseDDD.Generation Assembly BaseDDD.Cli.dll Generates base folder structure for a BaseDDD project. public class BaseStructureGenerator Inheritance object BaseStructureGenerator Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Constructors BaseStructureGenerator(string) Initializes a new instance of the BaseStructureGenerator class. Class initializer. public BaseStructureGenerator(string root) Parameters root string Repository's root. Methods Generate() Centralized Generate method to properly create all base folders. public void Generate()"
+  },
+  "api/BaseDDD.Generation.FileTemplateGenerator.html": {
+    "href": "api/BaseDDD.Generation.FileTemplateGenerator.html",
+    "title": "Class FileTemplateGenerator | BaseDDD",
+    "summary": "Class FileTemplateGenerator Namespace BaseDDD.Generation Assembly BaseDDD.Cli.dll Generates all template-based files for a BaseDDD project. public class FileTemplateGenerator Inheritance object FileTemplateGenerator Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Constructors FileTemplateGenerator(string, string, string, string) Initializes a new instance of the FileTemplateGenerator class. Class initializer. public FileTemplateGenerator(string name, string root, string owner, string license) Parameters name string Project's name. root string Repository's root. owner string Repository's owner. license string Repository's license. Methods Generate() Centralized Generate method to properly inject configuration files. public void Generate()"
+  },
+  "api/BaseDDD.Generation.GitGenerator.html": {
+    "href": "api/BaseDDD.Generation.GitGenerator.html",
+    "title": "Class GitGenerator | BaseDDD",
+    "summary": "Class GitGenerator Namespace BaseDDD.Generation Assembly BaseDDD.Cli.dll Generates base .git with initial commit. public class GitGenerator Inheritance object GitGenerator Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Constructors GitGenerator(string) Initializes a new instance of the GitGenerator class. Class initializer. public GitGenerator(string root) Parameters root string Repository's root. Methods Generate() Centralized Generate method to properly start .git with initial commit. public void Generate()"
+  },
+  "api/BaseDDD.Generation.ObservabilityGenerator.html": {
+    "href": "api/BaseDDD.Generation.ObservabilityGenerator.html",
+    "title": "Class ObservabilityGenerator | BaseDDD",
+    "summary": "Class ObservabilityGenerator Namespace BaseDDD.Generation Assembly BaseDDD.Cli.dll Generates observability files for a BaseDDD project. public class ObservabilityGenerator Inheritance object ObservabilityGenerator Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Constructors ObservabilityGenerator(string, string, string, string) Initializes a new instance of the ObservabilityGenerator class. Class initializer. public ObservabilityGenerator(string name, string root, string owner, string license) Parameters name string Project's name. root string Repository's root. owner string Repository's owner. license string Repository's license. Methods Generate() Centralized Generate method to properly inject observability files. public void Generate()"
+  },
+  "api/BaseDDD.Generation.ProjectGenerator.html": {
+    "href": "api/BaseDDD.Generation.ProjectGenerator.html",
+    "title": "Class ProjectGenerator | BaseDDD",
+    "summary": "Class ProjectGenerator Namespace BaseDDD.Generation Assembly BaseDDD.Cli.dll Generates BaseDDD project. public class ProjectGenerator Inheritance object ProjectGenerator Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Constructors ProjectGenerator(string, string) Initializes a new instance of the ProjectGenerator class. public ProjectGenerator(string name, string root) Parameters name string Project's name. root string Repository's root. Methods Generate() Centralized Generate method to create project's layers and files. public void Generate()"
+  },
+  "api/BaseDDD.Generation.SolutionGenerator.html": {
+    "href": "api/BaseDDD.Generation.SolutionGenerator.html",
+    "title": "Class SolutionGenerator | BaseDDD",
+    "summary": "Class SolutionGenerator Namespace BaseDDD.Generation Assembly BaseDDD.Cli.dll Generates BaseDDD project solution. public class SolutionGenerator Inheritance object SolutionGenerator Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Constructors SolutionGenerator(string, string) Initializes a new instance of the SolutionGenerator class. public SolutionGenerator(string name, string root) Parameters name string Project's name. root string Repository's root. Methods Generate() Centralized Generate method to create base directories. public void Generate()"
+  },
+  "api/BaseDDD.Generation.TestGenerator.html": {
+    "href": "api/BaseDDD.Generation.TestGenerator.html",
+    "title": "Class TestGenerator | BaseDDD",
+    "summary": "Class TestGenerator Namespace BaseDDD.Generation Assembly BaseDDD.Cli.dll Generates tests files for a BaseDDD project. public class TestGenerator Inheritance object TestGenerator Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Constructors TestGenerator(string, string) Initializes a new instance of the TestGenerator class. Class initializer. public TestGenerator(string name, string root) Parameters name string Project's name. root string Repository's root. Methods Generate() Centralized Generate method to create dotnet tests layers. public void Generate()"
+  },
+  "api/BaseDDD.Generation.html": {
+    "href": "api/BaseDDD.Generation.html",
+    "title": "Namespace BaseDDD.Generation | BaseDDD",
+    "summary": "Namespace BaseDDD.Generation Classes BaseStructureGenerator Generates base folder structure for a BaseDDD project. FileTemplateGenerator Generates all template-based files for a BaseDDD project. GitGenerator Generates base .git with initial commit. ObservabilityGenerator Generates observability files for a BaseDDD project. ProjectGenerator Generates BaseDDD project. SolutionGenerator Generates BaseDDD project solution. TestGenerator Generates tests files for a BaseDDD project."
+  },
+  "api/BaseDDD.Helpers.ProjectRootHelper.html": {
+    "href": "api/BaseDDD.Helpers.ProjectRootHelper.html",
+    "title": "Class ProjectRootHelper | BaseDDD",
+    "summary": "Class ProjectRootHelper Namespace BaseDDD.Helpers Assembly BaseDDD.Cli.dll Helper to find project's root and projects from a solution. public static class ProjectRootHelper Inheritance object ProjectRootHelper Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods FindProjectRoot(string) Finds the project root folder by locating any solution XML file (.slnx) and returns its full path. public static string FindProjectRoot(string startDirectory) Parameters startDirectory string Directory to start search from. Returns string Root directory containing a solution file."
+  },
+  "api/BaseDDD.Helpers.html": {
+    "href": "api/BaseDDD.Helpers.html",
+    "title": "Namespace BaseDDD.Helpers | BaseDDD",
+    "summary": "Namespace BaseDDD.Helpers Classes ProjectRootHelper Helper to find project's root and projects from a solution."
+  },
+  "api/BaseDDD.Infrastructure.DotnetRunner.html": {
+    "href": "api/BaseDDD.Infrastructure.DotnetRunner.html",
+    "title": "Class DotnetRunner | BaseDDD",
+    "summary": "Class DotnetRunner Namespace BaseDDD.Infrastructure Assembly BaseDDD.Cli.dll Dotnet commands runner. public static class DotnetRunner Inheritance object DotnetRunner Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Run(string, string) Runs dotnet commands. public static void Run(string args, string workingDirectory) Parameters args string Arguments to the command. workingDirectory string Reference directory to run."
+  },
+  "api/BaseDDD.Infrastructure.FileSystem.html": {
+    "href": "api/BaseDDD.Infrastructure.FileSystem.html",
+    "title": "Class FileSystem | BaseDDD",
+    "summary": "Class FileSystem Namespace BaseDDD.Infrastructure Assembly BaseDDD.Cli.dll Provides filesystem level interaction. public static class FileSystem Inheritance object FileSystem Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods CreateDirectory(string) Creates a directory. public static void CreateDirectory(string path) Parameters path string Path to the directory. DeleteIfExists(string) Delete a file if it exists. public static void DeleteIfExists(string path) Parameters path string Path to the file including it's name. ValidateDirectory(string, string) Verifies the existence of a directory. public static void ValidateDirectory(string root, string name) Parameters root string Root path to the directory. name string Directory to check if exists. ValidateFile(string, string) Verifies the existence of a file. public static void ValidateFile(string root, string name) Parameters root string Root path to the file. name string File to check if exists. WriteFile(string, string) Writes a file. public static void WriteFile(string path, string content) Parameters path string Path to the file. content string Content to be written."
+  },
+  "api/BaseDDD.Infrastructure.GitRunner.html": {
+    "href": "api/BaseDDD.Infrastructure.GitRunner.html",
+    "title": "Class GitRunner | BaseDDD",
+    "summary": "Class GitRunner Namespace BaseDDD.Infrastructure Assembly BaseDDD.Cli.dll Git commands runner. public static class GitRunner Inheritance object GitRunner Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Run(string, string) Runs git commands. public static void Run(string args, string workingDirectory) Parameters args string Arguments to the command. workingDirectory string Reference directory to run."
+  },
+  "api/BaseDDD.Infrastructure.ProcessRunner.html": {
+    "href": "api/BaseDDD.Infrastructure.ProcessRunner.html",
+    "title": "Class ProcessRunner | BaseDDD",
+    "summary": "Class ProcessRunner Namespace BaseDDD.Infrastructure Assembly BaseDDD.Cli.dll Runner for generic system commands. public static class ProcessRunner Inheritance object ProcessRunner Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Run(string, string, string) Runs generic system commands. public static string Run(string fileName, string arguments, string workingDirectory) Parameters fileName string Name of the command file to be run. arguments string Arguments to the command. workingDirectory string Reference directory to run. Returns string Returns command output."
+  },
+  "api/BaseDDD.Infrastructure.html": {
+    "href": "api/BaseDDD.Infrastructure.html",
+    "title": "Namespace BaseDDD.Infrastructure | BaseDDD",
+    "summary": "Namespace BaseDDD.Infrastructure Classes DotnetRunner Dotnet commands runner. FileSystem Provides filesystem level interaction. GitRunner Git commands runner. ProcessRunner Runner for generic system commands."
+  },
+  "api/BaseDDD.Templates.CheckMissingToolTemplate.html": {
+    "href": "api/BaseDDD.Templates.CheckMissingToolTemplate.html",
+    "title": "Class CheckMissingToolTemplate | BaseDDD",
+    "summary": "Class CheckMissingToolTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides CheckMissingTool script template. public static class CheckMissingToolTemplate Inheritance object CheckMissingToolTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate() Returns content of generated CheckMissingTool script. public static string Generate() Returns string CheckMissingTool script content."
+  },
+  "api/BaseDDD.Templates.CiYmlTemplate.html": {
+    "href": "api/BaseDDD.Templates.CiYmlTemplate.html",
+    "title": "Class CiYmlTemplate | BaseDDD",
+    "summary": "Class CiYmlTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides ci.yml file template. public static class CiYmlTemplate Inheritance object CiYmlTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate() Returns content of generated ci.yml. public static string Generate() Returns string ci.yml file content."
+  },
+  "api/BaseDDD.Templates.CorrelationMiddlewareTemplate.html": {
+    "href": "api/BaseDDD.Templates.CorrelationMiddlewareTemplate.html",
+    "title": "Class CorrelationMiddlewareTemplate | BaseDDD",
+    "summary": "Class CorrelationMiddlewareTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides CorrelationMiddleware.cs file template. public static class CorrelationMiddlewareTemplate Inheritance object CorrelationMiddlewareTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate(string, string, string) Returns content of generated correlation middleware. public static string Generate(string name, string owner, string license) Parameters name string Repository name. owner string Repository owner. license string Repository license. Returns string CorrelationMiddleware.cs file content."
+  },
+  "api/BaseDDD.Templates.DependencyRulesTestsTemplate.html": {
+    "href": "api/BaseDDD.Templates.DependencyRulesTestsTemplate.html",
+    "title": "Class DependencyRulesTestsTemplate | BaseDDD",
+    "summary": "Class DependencyRulesTestsTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides DependencyRulesTests.cs file template. public static class DependencyRulesTestsTemplate Inheritance object DependencyRulesTestsTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate(string, string, string) Returns content of generated dependency rules test. public static string Generate(string name, string owner, string license) Parameters name string Repository name. owner string Repository owner. license string Repository license. Returns string DependencyRulesTests.cs file content."
+  },
+  "api/BaseDDD.Templates.DirectoryBuildPropsTemplate.html": {
+    "href": "api/BaseDDD.Templates.DirectoryBuildPropsTemplate.html",
+    "title": "Class DirectoryBuildPropsTemplate | BaseDDD",
+    "summary": "Class DirectoryBuildPropsTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides Directory.Build.props file template. public static class DirectoryBuildPropsTemplate Inheritance object DirectoryBuildPropsTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate() Returns content of generated Directory.Build.props. public static string Generate() Returns string Directory.Build.props file content."
+  },
+  "api/BaseDDD.Templates.DirectoryPackagePropsTemplate.html": {
+    "href": "api/BaseDDD.Templates.DirectoryPackagePropsTemplate.html",
+    "title": "Class DirectoryPackagePropsTemplate | BaseDDD",
+    "summary": "Class DirectoryPackagePropsTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides Directory.Package.props file template. public static class DirectoryPackagePropsTemplate Inheritance object DirectoryPackagePropsTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate() Returns content of generated Directory.Package.props. public static string Generate() Returns string Directory.Package.props file content."
+  },
+  "api/BaseDDD.Templates.DockerComposeTemplate.html": {
+    "href": "api/BaseDDD.Templates.DockerComposeTemplate.html",
+    "title": "Class DockerComposeTemplate | BaseDDD",
+    "summary": "Class DockerComposeTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides docker-compose files templates. public static class DockerComposeTemplate Inheritance object DockerComposeTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods GenerateDev(string) Returns content of generated development docker compose. public static string GenerateDev(string name) Parameters name string Repository name. Returns string Content of development docker compose. GenerateLocal(string) Returns content of generated local docker compose. public static string GenerateLocal(string name) Parameters name string Repository name. Returns string Content of local docker compose. GeneratePrd(string) Returns content of generated production docker compose. public static string GeneratePrd(string name) Parameters name string Repository name. Returns string Content of production docker compose. GenerateStaging(string) Returns content of generated staging docker compose. public static string GenerateStaging(string name) Parameters name string Repository name. Returns string Content of staging docker compose."
+  },
+  "api/BaseDDD.Templates.DockerfileTemplate.html": {
+    "href": "api/BaseDDD.Templates.DockerfileTemplate.html",
+    "title": "Class DockerfileTemplate | BaseDDD",
+    "summary": "Class DockerfileTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides Dockerfile file template. public static class DockerfileTemplate Inheritance object DockerfileTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate(string) Returns content of generated Dockerfile. public static string Generate(string name) Parameters name string Repository name. Returns string Dockerfile file content."
+  },
+  "api/BaseDDD.Templates.DockerignoreTemplate.html": {
+    "href": "api/BaseDDD.Templates.DockerignoreTemplate.html",
+    "title": "Class DockerignoreTemplate | BaseDDD",
+    "summary": "Class DockerignoreTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides .dockerignore file template. public static class DockerignoreTemplate Inheritance object DockerignoreTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate() Returns content of generated .dockerignore. public static string Generate() Returns string .dockerignore file content."
+  },
+  "api/BaseDDD.Templates.EditorConfigTemplate.html": {
+    "href": "api/BaseDDD.Templates.EditorConfigTemplate.html",
+    "title": "Class EditorConfigTemplate | BaseDDD",
+    "summary": "Class EditorConfigTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides .editorconfig file template. public static class EditorConfigTemplate Inheritance object EditorConfigTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate() Returns content of generated .editorconfig. public static string Generate() Returns string .editorconfig file content."
+  },
+  "api/BaseDDD.Templates.FileHeaderTemplate.html": {
+    "href": "api/BaseDDD.Templates.FileHeaderTemplate.html",
+    "title": "Class FileHeaderTemplate | BaseDDD",
+    "summary": "Class FileHeaderTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides common file header generation. public static class FileHeaderTemplate Inheritance object FileHeaderTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate(string, string, string) Generates the copyright header used by all generated files. public static string Generate(string fileName, string owner, string license) Parameters fileName string Repository fileName. owner string Repository owner. license string Repository license. Returns string Generated file header."
+  },
+  "api/BaseDDD.Templates.GitignoreTemplate.html": {
+    "href": "api/BaseDDD.Templates.GitignoreTemplate.html",
+    "title": "Class GitignoreTemplate | BaseDDD",
+    "summary": "Class GitignoreTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides .gitignore file template. public static class GitignoreTemplate Inheritance object GitignoreTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate() Returns content of generated .gitignore. public static string Generate() Returns string .gitignore file content."
+  },
+  "api/BaseDDD.Templates.GlobalJsonTemplate.html": {
+    "href": "api/BaseDDD.Templates.GlobalJsonTemplate.html",
+    "title": "Class GlobalJsonTemplate | BaseDDD",
+    "summary": "Class GlobalJsonTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides global.json.cs file template. public static class GlobalJsonTemplate Inheritance object GlobalJsonTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate() Returns content of generated global.json. public static string Generate() Returns string global.json file content."
+  },
+  "api/BaseDDD.Templates.InitialIntegrationTestTemplate.html": {
+    "href": "api/BaseDDD.Templates.InitialIntegrationTestTemplate.html",
+    "title": "Class InitialIntegrationTestTemplate | BaseDDD",
+    "summary": "Class InitialIntegrationTestTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides InitialIntegrationTest.cs file template. public static class InitialIntegrationTestTemplate Inheritance object InitialIntegrationTestTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate(string, string, string) Returns content of initial integration test. public static string Generate(string name, string owner, string license) Parameters name string Repository name. owner string Repository owner. license string Repository license. Returns string InitialIntegrationTest.cs file content."
+  },
+  "api/BaseDDD.Templates.LicenseTemplate.html": {
+    "href": "api/BaseDDD.Templates.LicenseTemplate.html",
+    "title": "Class LicenseTemplate | BaseDDD",
+    "summary": "Class LicenseTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides License file template. public static class LicenseTemplate Inheritance object LicenseTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate(string, string) Generates the LICENSE file content. public static string Generate(string owner, string license) Parameters owner string Repository owner. license string Repository license. Returns string License file content."
+  },
+  "api/BaseDDD.Templates.ObservabilityExtensionsTemplate.html": {
+    "href": "api/BaseDDD.Templates.ObservabilityExtensionsTemplate.html",
+    "title": "Class ObservabilityExtensionsTemplate | BaseDDD",
+    "summary": "Class ObservabilityExtensionsTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides ObservabilityExtensions file template. public static class ObservabilityExtensionsTemplate Inheritance object ObservabilityExtensionsTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate(string, string, string) Returns content of generated observability extensions. public static string Generate(string name, string owner, string license) Parameters name string Repository name. owner string Repository owner. license string Repository license. Returns string ObservabilityExtensions file content."
+  },
+  "api/BaseDDD.Templates.ObservabilityRulesTestsTemplate.html": {
+    "href": "api/BaseDDD.Templates.ObservabilityRulesTestsTemplate.html",
+    "title": "Class ObservabilityRulesTestsTemplate | BaseDDD",
+    "summary": "Class ObservabilityRulesTestsTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides ObservabilityRulesTests.cs file template. public static class ObservabilityRulesTestsTemplate Inheritance object ObservabilityRulesTestsTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate(string, string, string) Returns content of generated observability rules test. public static string Generate(string name, string owner, string license) Parameters name string Repository name. owner string Repository owner. license string Repository license. Returns string ObservabilityRulesTests.cs file content."
+  },
+  "api/BaseDDD.Templates.PreCommitTemplate.html": {
+    "href": "api/BaseDDD.Templates.PreCommitTemplate.html",
+    "title": "Class PreCommitTemplate | BaseDDD",
+    "summary": "Class PreCommitTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides pre-commit file template. public static class PreCommitTemplate Inheritance object PreCommitTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate() Returns content of generated pre-commit. public static string Generate() Returns string pre-commit file content."
+  },
+  "api/BaseDDD.Templates.PrePushTemplate.html": {
+    "href": "api/BaseDDD.Templates.PrePushTemplate.html",
+    "title": "Class PrePushTemplate | BaseDDD",
+    "summary": "Class PrePushTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides pre-push file template. public static class PrePushTemplate Inheritance object PrePushTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate() Returns content of generated pre-push. public static string Generate() Returns string pre-push file content."
+  },
+  "api/BaseDDD.Templates.ProgramFileTemplate.html": {
+    "href": "api/BaseDDD.Templates.ProgramFileTemplate.html",
+    "title": "Class ProgramFileTemplate | BaseDDD",
+    "summary": "Class ProgramFileTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides Program.cs file template. public static class ProgramFileTemplate Inheritance object ProgramFileTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate(string, string, string) Returns content of generated Program.cs. public static string Generate(string name, string owner, string license) Parameters name string Repository name. owner string Repository owner. license string Repository license. Returns string Program.cs file content."
+  },
+  "api/BaseDDD.Templates.StyleCopJsonTemplate.html": {
+    "href": "api/BaseDDD.Templates.StyleCopJsonTemplate.html",
+    "title": "Class StyleCopJsonTemplate | BaseDDD",
+    "summary": "Class StyleCopJsonTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides stylecop.json file template. public static class StyleCopJsonTemplate Inheritance object StyleCopJsonTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate(string, string) Returns content of generated stylecop.json. public static string Generate(string owner, string license) Parameters owner string Repository owner. license string Repository license. Returns string stylecop.json file content."
+  },
+  "api/BaseDDD.Templates.html": {
+    "href": "api/BaseDDD.Templates.html",
+    "title": "Namespace BaseDDD.Templates | BaseDDD",
+    "summary": "Namespace BaseDDD.Templates Classes CheckMissingToolTemplate Provides CheckMissingTool script template. CiYmlTemplate Provides ci.yml file template. CorrelationMiddlewareTemplate Provides CorrelationMiddleware.cs file template. DependencyRulesTestsTemplate Provides DependencyRulesTests.cs file template. DirectoryBuildPropsTemplate Provides Directory.Build.props file template. DirectoryPackagePropsTemplate Provides Directory.Package.props file template. DockerComposeTemplate Provides docker-compose files templates. DockerfileTemplate Provides Dockerfile file template. DockerignoreTemplate Provides .dockerignore file template. EditorConfigTemplate Provides .editorconfig file template. FileHeaderTemplate Provides common file header generation. GitignoreTemplate Provides .gitignore file template. GlobalJsonTemplate Provides global.json.cs file template. InitialIntegrationTestTemplate Provides InitialIntegrationTest.cs file template. LicenseTemplate Provides License file template. ObservabilityExtensionsTemplate Provides ObservabilityExtensions file template. ObservabilityRulesTestsTemplate Provides ObservabilityRulesTests.cs file template. PreCommitTemplate Provides pre-commit file template. PrePushTemplate Provides pre-push file template. ProgramFileTemplate Provides Program.cs file template. StyleCopJsonTemplate Provides stylecop.json file template."
+  },
+  "api/BaseDDD.Verifiers.DotnetVerifier.html": {
+    "href": "api/BaseDDD.Verifiers.DotnetVerifier.html",
+    "title": "Class DotnetVerifier | BaseDDD",
+    "summary": "Class DotnetVerifier Namespace BaseDDD.Verifiers Assembly BaseDDD.Cli.dll Generic verifier for dotnet structure. public static class DotnetVerifier Inheritance object DotnetVerifier Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods VerifyCommand(string, string) Runs dotnet commands . public static void VerifyCommand(string root, string command) Parameters root string Root reference folder. command string Dotnet command to be verified."
+  },
+  "api/BaseDDD.Verifiers.ProjectVerifier.html": {
+    "href": "api/BaseDDD.Verifiers.ProjectVerifier.html",
+    "title": "Class ProjectVerifier | BaseDDD",
+    "summary": "Class ProjectVerifier Namespace BaseDDD.Verifiers Assembly BaseDDD.Cli.dll Generic verifier for project structure. public static class ProjectVerifier Inheritance object ProjectVerifier Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods VerifyDirectory(string, string) Verifies existence of given directory on root folder. public static void VerifyDirectory(string root, string relativePath) Parameters root string Root reference folder. relativePath string Relative path of to the directory on root. VerifyFile(string, string) Verifies existence of given file on root folder. public static void VerifyFile(string root, string relativePath) Parameters root string Root reference folder. relativePath string Relative path of to the file on root."
+  },
+  "api/BaseDDD.Verifiers.html": {
+    "href": "api/BaseDDD.Verifiers.html",
+    "title": "Namespace BaseDDD.Verifiers | BaseDDD",
+    "summary": "Namespace BaseDDD.Verifiers Classes DotnetVerifier Generic verifier for dotnet structure. ProjectVerifier Generic verifier for project structure."
+  },
   "docs/getting-started.html": {
     "href": "docs/getting-started.html",
     "title": "Getting Started | BaseDDD",

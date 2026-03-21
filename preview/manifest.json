@@ -11,6 +11,635 @@
       }
     },
     {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Commands.LintCommand.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Commands.LintCommand.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Commands.LintCommand",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Commands.LintCommand.yml\" sourcestartlinenumber=\"1\">BaseDDD lint project cli command.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Commands.NewCommand.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Commands.NewCommand.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Commands.NewCommand",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Commands.NewCommand.yml\" sourcestartlinenumber=\"1\">BaseDDD new project cli command.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Commands.VerifyCommand.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Commands.VerifyCommand.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Commands.VerifyCommand",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Commands.VerifyCommand.yml\" sourcestartlinenumber=\"1\">BaseDDD verify project structure command.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Commands.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Commands.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Commands",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Generation.BaseStructureGenerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Generation.BaseStructureGenerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Generation.BaseStructureGenerator",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Generation.BaseStructureGenerator.yml\" sourcestartlinenumber=\"1\">Generates base folder structure for a BaseDDD project.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Generation.FileTemplateGenerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Generation.FileTemplateGenerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Generation.FileTemplateGenerator",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Generation.FileTemplateGenerator.yml\" sourcestartlinenumber=\"1\">Generates all template-based files for a BaseDDD project.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Generation.GitGenerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Generation.GitGenerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Generation.GitGenerator",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Generation.GitGenerator.yml\" sourcestartlinenumber=\"1\">Generates base .git with initial commit.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Generation.ObservabilityGenerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Generation.ObservabilityGenerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Generation.ObservabilityGenerator",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Generation.ObservabilityGenerator.yml\" sourcestartlinenumber=\"1\">Generates observability files for a BaseDDD project.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Generation.ProjectGenerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Generation.ProjectGenerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Generation.ProjectGenerator",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Generation.ProjectGenerator.yml\" sourcestartlinenumber=\"1\">Generates BaseDDD project.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Generation.SolutionGenerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Generation.SolutionGenerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Generation.SolutionGenerator",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Generation.SolutionGenerator.yml\" sourcestartlinenumber=\"1\">Generates BaseDDD project solution.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Generation.TestGenerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Generation.TestGenerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Generation.TestGenerator",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Generation.TestGenerator.yml\" sourcestartlinenumber=\"1\">Generates tests files for a BaseDDD project.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Generation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Generation.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Generation",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Helpers.ProjectRootHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Helpers.ProjectRootHelper.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Helpers.ProjectRootHelper",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Helpers.ProjectRootHelper.yml\" sourcestartlinenumber=\"1\">Helper to find project's root and projects from a solution.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Helpers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Helpers.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Helpers",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Infrastructure.DotnetRunner.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Infrastructure.DotnetRunner.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Infrastructure.DotnetRunner",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Infrastructure.DotnetRunner.yml\" sourcestartlinenumber=\"1\">Dotnet commands runner.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Infrastructure.FileSystem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Infrastructure.FileSystem.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Infrastructure.FileSystem",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Infrastructure.FileSystem.yml\" sourcestartlinenumber=\"1\">Provides filesystem level interaction.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Infrastructure.GitRunner.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Infrastructure.GitRunner.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Infrastructure.GitRunner",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Infrastructure.GitRunner.yml\" sourcestartlinenumber=\"1\">Git commands runner.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Infrastructure.ProcessRunner.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Infrastructure.ProcessRunner.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Infrastructure.ProcessRunner",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Infrastructure.ProcessRunner.yml\" sourcestartlinenumber=\"1\">Runner for generic system commands.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Infrastructure.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Infrastructure.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Infrastructure",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.CheckMissingToolTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.CheckMissingToolTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.CheckMissingToolTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.CheckMissingToolTemplate.yml\" sourcestartlinenumber=\"1\">Provides CheckMissingTool script template.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.CiYmlTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.CiYmlTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.CiYmlTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.CiYmlTemplate.yml\" sourcestartlinenumber=\"1\">Provides ci.yml file template.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.CorrelationMiddlewareTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.CorrelationMiddlewareTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.CorrelationMiddlewareTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.CorrelationMiddlewareTemplate.yml\" sourcestartlinenumber=\"1\">Provides CorrelationMiddleware.cs file template.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.DependencyRulesTestsTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.DependencyRulesTestsTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.DependencyRulesTestsTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.DependencyRulesTestsTemplate.yml\" sourcestartlinenumber=\"1\">Provides DependencyRulesTests.cs file template.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.DirectoryBuildPropsTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.DirectoryBuildPropsTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.DirectoryBuildPropsTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.DirectoryBuildPropsTemplate.yml\" sourcestartlinenumber=\"1\">Provides Directory.Build.props file template.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.DirectoryPackagePropsTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.DirectoryPackagePropsTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.DirectoryPackagePropsTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.DirectoryPackagePropsTemplate.yml\" sourcestartlinenumber=\"1\">Provides Directory.Package.props file template.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.DockerComposeTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.DockerComposeTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.DockerComposeTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.DockerComposeTemplate.yml\" sourcestartlinenumber=\"1\">Provides docker-compose files templates.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.DockerfileTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.DockerfileTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.DockerfileTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.DockerfileTemplate.yml\" sourcestartlinenumber=\"1\">Provides Dockerfile file template.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.DockerignoreTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.DockerignoreTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.DockerignoreTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.DockerignoreTemplate.yml\" sourcestartlinenumber=\"1\">Provides .dockerignore file template.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.EditorConfigTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.EditorConfigTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.EditorConfigTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.EditorConfigTemplate.yml\" sourcestartlinenumber=\"1\">Provides .editorconfig file template.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.FileHeaderTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.FileHeaderTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.FileHeaderTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.FileHeaderTemplate.yml\" sourcestartlinenumber=\"1\">Provides common file header generation.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.GitignoreTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.GitignoreTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.GitignoreTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.GitignoreTemplate.yml\" sourcestartlinenumber=\"1\">Provides .gitignore file template.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.GlobalJsonTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.GlobalJsonTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.GlobalJsonTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.GlobalJsonTemplate.yml\" sourcestartlinenumber=\"1\">Provides global.json.cs file template.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.InitialIntegrationTestTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.InitialIntegrationTestTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.InitialIntegrationTestTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.InitialIntegrationTestTemplate.yml\" sourcestartlinenumber=\"1\">Provides InitialIntegrationTest.cs file template.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.LicenseTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.LicenseTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.LicenseTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.LicenseTemplate.yml\" sourcestartlinenumber=\"1\">Provides License file template.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.ObservabilityExtensionsTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.ObservabilityExtensionsTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.ObservabilityExtensionsTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.ObservabilityExtensionsTemplate.yml\" sourcestartlinenumber=\"1\">Provides ObservabilityExtensions file template.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.ObservabilityRulesTestsTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.ObservabilityRulesTestsTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.ObservabilityRulesTestsTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.ObservabilityRulesTestsTemplate.yml\" sourcestartlinenumber=\"1\">Provides ObservabilityRulesTests.cs file template.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.PreCommitTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.PreCommitTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.PreCommitTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.PreCommitTemplate.yml\" sourcestartlinenumber=\"1\">Provides pre-commit file template.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.PrePushTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.PrePushTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.PrePushTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.PrePushTemplate.yml\" sourcestartlinenumber=\"1\">Provides pre-push file template.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.ProgramFileTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.ProgramFileTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.ProgramFileTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.ProgramFileTemplate.yml\" sourcestartlinenumber=\"1\">Provides Program.cs file template.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.StyleCopJsonTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.StyleCopJsonTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.StyleCopJsonTemplate",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Templates.StyleCopJsonTemplate.yml\" sourcestartlinenumber=\"1\">Provides stylecop.json file template.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Templates.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Templates.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Verifiers.DotnetVerifier.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Verifiers.DotnetVerifier.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Verifiers.DotnetVerifier",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Verifiers.DotnetVerifier.yml\" sourcestartlinenumber=\"1\">Generic verifier for dotnet structure.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Verifiers.ProjectVerifier.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Verifiers.ProjectVerifier.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Verifiers.ProjectVerifier",
+      "Summary": "<p sourcefile=\"api/BaseDDD.Verifiers.ProjectVerifier.yml\" sourcestartlinenumber=\"1\">Generic verifier for project structure.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/BaseDDD.Verifiers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/BaseDDD.Verifiers.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Verifiers",
+      "Summary": null
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "docs/getting-started.md",
       "output": {

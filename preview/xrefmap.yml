@@ -1,3 +1,1079 @@
 ### YamlMime:XRefMap
 sorted: true
-references: []
+references:
+- uid: BaseDDD.Commands
+  name: BaseDDD.Commands
+  href: api/BaseDDD.Commands.html
+  commentId: N:BaseDDD.Commands
+  fullName: BaseDDD.Commands
+  nameWithType: BaseDDD.Commands
+- uid: BaseDDD.Commands.LintCommand
+  name: LintCommand
+  href: api/BaseDDD.Commands.LintCommand.html
+  commentId: T:BaseDDD.Commands.LintCommand
+  fullName: BaseDDD.Commands.LintCommand
+  nameWithType: LintCommand
+- uid: BaseDDD.Commands.LintCommand.Execute
+  name: Execute()
+  href: api/BaseDDD.Commands.LintCommand.html#BaseDDD_Commands_LintCommand_Execute
+  commentId: M:BaseDDD.Commands.LintCommand.Execute
+  fullName: BaseDDD.Commands.LintCommand.Execute()
+  nameWithType: LintCommand.Execute()
+- uid: BaseDDD.Commands.LintCommand.Execute*
+  name: Execute
+  href: api/BaseDDD.Commands.LintCommand.html#BaseDDD_Commands_LintCommand_Execute_
+  commentId: Overload:BaseDDD.Commands.LintCommand.Execute
+  isSpec: "True"
+  fullName: BaseDDD.Commands.LintCommand.Execute
+  nameWithType: LintCommand.Execute
+- uid: BaseDDD.Commands.NewCommand
+  name: NewCommand
+  href: api/BaseDDD.Commands.NewCommand.html
+  commentId: T:BaseDDD.Commands.NewCommand
+  fullName: BaseDDD.Commands.NewCommand
+  nameWithType: NewCommand
+- uid: BaseDDD.Commands.NewCommand.Execute(System.String[])
+  name: Execute(string[])
+  href: api/BaseDDD.Commands.NewCommand.html#BaseDDD_Commands_NewCommand_Execute_System_String___
+  commentId: M:BaseDDD.Commands.NewCommand.Execute(System.String[])
+  name.vb: Execute(String())
+  fullName: BaseDDD.Commands.NewCommand.Execute(string[])
+  fullName.vb: BaseDDD.Commands.NewCommand.Execute(String())
+  nameWithType: NewCommand.Execute(string[])
+  nameWithType.vb: NewCommand.Execute(String())
+- uid: BaseDDD.Commands.NewCommand.Execute*
+  name: Execute
+  href: api/BaseDDD.Commands.NewCommand.html#BaseDDD_Commands_NewCommand_Execute_
+  commentId: Overload:BaseDDD.Commands.NewCommand.Execute
+  isSpec: "True"
+  fullName: BaseDDD.Commands.NewCommand.Execute
+  nameWithType: NewCommand.Execute
+- uid: BaseDDD.Commands.VerifyCommand
+  name: VerifyCommand
+  href: api/BaseDDD.Commands.VerifyCommand.html
+  commentId: T:BaseDDD.Commands.VerifyCommand
+  fullName: BaseDDD.Commands.VerifyCommand
+  nameWithType: VerifyCommand
+- uid: BaseDDD.Commands.VerifyCommand.Execute
+  name: Execute()
+  href: api/BaseDDD.Commands.VerifyCommand.html#BaseDDD_Commands_VerifyCommand_Execute
+  commentId: M:BaseDDD.Commands.VerifyCommand.Execute
+  fullName: BaseDDD.Commands.VerifyCommand.Execute()
+  nameWithType: VerifyCommand.Execute()
+- uid: BaseDDD.Commands.VerifyCommand.Execute*
+  name: Execute
+  href: api/BaseDDD.Commands.VerifyCommand.html#BaseDDD_Commands_VerifyCommand_Execute_
+  commentId: Overload:BaseDDD.Commands.VerifyCommand.Execute
+  isSpec: "True"
+  fullName: BaseDDD.Commands.VerifyCommand.Execute
+  nameWithType: VerifyCommand.Execute
+- uid: BaseDDD.Generation
+  name: BaseDDD.Generation
+  href: api/BaseDDD.Generation.html
+  commentId: N:BaseDDD.Generation
+  fullName: BaseDDD.Generation
+  nameWithType: BaseDDD.Generation
+- uid: BaseDDD.Generation.BaseStructureGenerator
+  name: BaseStructureGenerator
+  href: api/BaseDDD.Generation.BaseStructureGenerator.html
+  commentId: T:BaseDDD.Generation.BaseStructureGenerator
+  fullName: BaseDDD.Generation.BaseStructureGenerator
+  nameWithType: BaseStructureGenerator
+- uid: BaseDDD.Generation.BaseStructureGenerator.#ctor(System.String)
+  name: BaseStructureGenerator(string)
+  href: api/BaseDDD.Generation.BaseStructureGenerator.html#BaseDDD_Generation_BaseStructureGenerator__ctor_System_String_
+  commentId: M:BaseDDD.Generation.BaseStructureGenerator.#ctor(System.String)
+  name.vb: New(String)
+  fullName: BaseDDD.Generation.BaseStructureGenerator.BaseStructureGenerator(string)
+  fullName.vb: BaseDDD.Generation.BaseStructureGenerator.New(String)
+  nameWithType: BaseStructureGenerator.BaseStructureGenerator(string)
+  nameWithType.vb: BaseStructureGenerator.New(String)
+- uid: BaseDDD.Generation.BaseStructureGenerator.#ctor*
+  name: BaseStructureGenerator
+  href: api/BaseDDD.Generation.BaseStructureGenerator.html#BaseDDD_Generation_BaseStructureGenerator__ctor_
+  commentId: Overload:BaseDDD.Generation.BaseStructureGenerator.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BaseDDD.Generation.BaseStructureGenerator.BaseStructureGenerator
+  fullName.vb: BaseDDD.Generation.BaseStructureGenerator.New
+  nameWithType: BaseStructureGenerator.BaseStructureGenerator
+  nameWithType.vb: BaseStructureGenerator.New
+- uid: BaseDDD.Generation.BaseStructureGenerator.Generate
+  name: Generate()
+  href: api/BaseDDD.Generation.BaseStructureGenerator.html#BaseDDD_Generation_BaseStructureGenerator_Generate
+  commentId: M:BaseDDD.Generation.BaseStructureGenerator.Generate
+  fullName: BaseDDD.Generation.BaseStructureGenerator.Generate()
+  nameWithType: BaseStructureGenerator.Generate()
+- uid: BaseDDD.Generation.BaseStructureGenerator.Generate*
+  name: Generate
+  href: api/BaseDDD.Generation.BaseStructureGenerator.html#BaseDDD_Generation_BaseStructureGenerator_Generate_
+  commentId: Overload:BaseDDD.Generation.BaseStructureGenerator.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Generation.BaseStructureGenerator.Generate
+  nameWithType: BaseStructureGenerator.Generate
+- uid: BaseDDD.Generation.FileTemplateGenerator
+  name: FileTemplateGenerator
+  href: api/BaseDDD.Generation.FileTemplateGenerator.html
+  commentId: T:BaseDDD.Generation.FileTemplateGenerator
+  fullName: BaseDDD.Generation.FileTemplateGenerator
+  nameWithType: FileTemplateGenerator
+- uid: BaseDDD.Generation.FileTemplateGenerator.#ctor(System.String,System.String,System.String,System.String)
+  name: FileTemplateGenerator(string, string, string, string)
+  href: api/BaseDDD.Generation.FileTemplateGenerator.html#BaseDDD_Generation_FileTemplateGenerator__ctor_System_String_System_String_System_String_System_String_
+  commentId: M:BaseDDD.Generation.FileTemplateGenerator.#ctor(System.String,System.String,System.String,System.String)
+  name.vb: New(String, String, String, String)
+  fullName: BaseDDD.Generation.FileTemplateGenerator.FileTemplateGenerator(string, string, string, string)
+  fullName.vb: BaseDDD.Generation.FileTemplateGenerator.New(String, String, String, String)
+  nameWithType: FileTemplateGenerator.FileTemplateGenerator(string, string, string, string)
+  nameWithType.vb: FileTemplateGenerator.New(String, String, String, String)
+- uid: BaseDDD.Generation.FileTemplateGenerator.#ctor*
+  name: FileTemplateGenerator
+  href: api/BaseDDD.Generation.FileTemplateGenerator.html#BaseDDD_Generation_FileTemplateGenerator__ctor_
+  commentId: Overload:BaseDDD.Generation.FileTemplateGenerator.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BaseDDD.Generation.FileTemplateGenerator.FileTemplateGenerator
+  fullName.vb: BaseDDD.Generation.FileTemplateGenerator.New
+  nameWithType: FileTemplateGenerator.FileTemplateGenerator
+  nameWithType.vb: FileTemplateGenerator.New
+- uid: BaseDDD.Generation.FileTemplateGenerator.Generate
+  name: Generate()
+  href: api/BaseDDD.Generation.FileTemplateGenerator.html#BaseDDD_Generation_FileTemplateGenerator_Generate
+  commentId: M:BaseDDD.Generation.FileTemplateGenerator.Generate
+  fullName: BaseDDD.Generation.FileTemplateGenerator.Generate()
+  nameWithType: FileTemplateGenerator.Generate()
+- uid: BaseDDD.Generation.FileTemplateGenerator.Generate*
+  name: Generate
+  href: api/BaseDDD.Generation.FileTemplateGenerator.html#BaseDDD_Generation_FileTemplateGenerator_Generate_
+  commentId: Overload:BaseDDD.Generation.FileTemplateGenerator.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Generation.FileTemplateGenerator.Generate
+  nameWithType: FileTemplateGenerator.Generate
+- uid: BaseDDD.Generation.GitGenerator
+  name: GitGenerator
+  href: api/BaseDDD.Generation.GitGenerator.html
+  commentId: T:BaseDDD.Generation.GitGenerator
+  fullName: BaseDDD.Generation.GitGenerator
+  nameWithType: GitGenerator
+- uid: BaseDDD.Generation.GitGenerator.#ctor(System.String)
+  name: GitGenerator(string)
+  href: api/BaseDDD.Generation.GitGenerator.html#BaseDDD_Generation_GitGenerator__ctor_System_String_
+  commentId: M:BaseDDD.Generation.GitGenerator.#ctor(System.String)
+  name.vb: New(String)
+  fullName: BaseDDD.Generation.GitGenerator.GitGenerator(string)
+  fullName.vb: BaseDDD.Generation.GitGenerator.New(String)
+  nameWithType: GitGenerator.GitGenerator(string)
+  nameWithType.vb: GitGenerator.New(String)
+- uid: BaseDDD.Generation.GitGenerator.#ctor*
+  name: GitGenerator
+  href: api/BaseDDD.Generation.GitGenerator.html#BaseDDD_Generation_GitGenerator__ctor_
+  commentId: Overload:BaseDDD.Generation.GitGenerator.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BaseDDD.Generation.GitGenerator.GitGenerator
+  fullName.vb: BaseDDD.Generation.GitGenerator.New
+  nameWithType: GitGenerator.GitGenerator
+  nameWithType.vb: GitGenerator.New
+- uid: BaseDDD.Generation.GitGenerator.Generate
+  name: Generate()
+  href: api/BaseDDD.Generation.GitGenerator.html#BaseDDD_Generation_GitGenerator_Generate
+  commentId: M:BaseDDD.Generation.GitGenerator.Generate
+  fullName: BaseDDD.Generation.GitGenerator.Generate()
+  nameWithType: GitGenerator.Generate()
+- uid: BaseDDD.Generation.GitGenerator.Generate*
+  name: Generate
+  href: api/BaseDDD.Generation.GitGenerator.html#BaseDDD_Generation_GitGenerator_Generate_
+  commentId: Overload:BaseDDD.Generation.GitGenerator.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Generation.GitGenerator.Generate
+  nameWithType: GitGenerator.Generate
+- uid: BaseDDD.Generation.ObservabilityGenerator
+  name: ObservabilityGenerator
+  href: api/BaseDDD.Generation.ObservabilityGenerator.html
+  commentId: T:BaseDDD.Generation.ObservabilityGenerator
+  fullName: BaseDDD.Generation.ObservabilityGenerator
+  nameWithType: ObservabilityGenerator
+- uid: BaseDDD.Generation.ObservabilityGenerator.#ctor(System.String,System.String,System.String,System.String)
+  name: ObservabilityGenerator(string, string, string, string)
+  href: api/BaseDDD.Generation.ObservabilityGenerator.html#BaseDDD_Generation_ObservabilityGenerator__ctor_System_String_System_String_System_String_System_String_
+  commentId: M:BaseDDD.Generation.ObservabilityGenerator.#ctor(System.String,System.String,System.String,System.String)
+  name.vb: New(String, String, String, String)
+  fullName: BaseDDD.Generation.ObservabilityGenerator.ObservabilityGenerator(string, string, string, string)
+  fullName.vb: BaseDDD.Generation.ObservabilityGenerator.New(String, String, String, String)
+  nameWithType: ObservabilityGenerator.ObservabilityGenerator(string, string, string, string)
+  nameWithType.vb: ObservabilityGenerator.New(String, String, String, String)
+- uid: BaseDDD.Generation.ObservabilityGenerator.#ctor*
+  name: ObservabilityGenerator
+  href: api/BaseDDD.Generation.ObservabilityGenerator.html#BaseDDD_Generation_ObservabilityGenerator__ctor_
+  commentId: Overload:BaseDDD.Generation.ObservabilityGenerator.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BaseDDD.Generation.ObservabilityGenerator.ObservabilityGenerator
+  fullName.vb: BaseDDD.Generation.ObservabilityGenerator.New
+  nameWithType: ObservabilityGenerator.ObservabilityGenerator
+  nameWithType.vb: ObservabilityGenerator.New
+- uid: BaseDDD.Generation.ObservabilityGenerator.Generate
+  name: Generate()
+  href: api/BaseDDD.Generation.ObservabilityGenerator.html#BaseDDD_Generation_ObservabilityGenerator_Generate
+  commentId: M:BaseDDD.Generation.ObservabilityGenerator.Generate
+  fullName: BaseDDD.Generation.ObservabilityGenerator.Generate()
+  nameWithType: ObservabilityGenerator.Generate()
+- uid: BaseDDD.Generation.ObservabilityGenerator.Generate*
+  name: Generate
+  href: api/BaseDDD.Generation.ObservabilityGenerator.html#BaseDDD_Generation_ObservabilityGenerator_Generate_
+  commentId: Overload:BaseDDD.Generation.ObservabilityGenerator.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Generation.ObservabilityGenerator.Generate
+  nameWithType: ObservabilityGenerator.Generate
+- uid: BaseDDD.Generation.ProjectGenerator
+  name: ProjectGenerator
+  href: api/BaseDDD.Generation.ProjectGenerator.html
+  commentId: T:BaseDDD.Generation.ProjectGenerator
+  fullName: BaseDDD.Generation.ProjectGenerator
+  nameWithType: ProjectGenerator
+- uid: BaseDDD.Generation.ProjectGenerator.#ctor(System.String,System.String)
+  name: ProjectGenerator(string, string)
+  href: api/BaseDDD.Generation.ProjectGenerator.html#BaseDDD_Generation_ProjectGenerator__ctor_System_String_System_String_
+  commentId: M:BaseDDD.Generation.ProjectGenerator.#ctor(System.String,System.String)
+  name.vb: New(String, String)
+  fullName: BaseDDD.Generation.ProjectGenerator.ProjectGenerator(string, string)
+  fullName.vb: BaseDDD.Generation.ProjectGenerator.New(String, String)
+  nameWithType: ProjectGenerator.ProjectGenerator(string, string)
+  nameWithType.vb: ProjectGenerator.New(String, String)
+- uid: BaseDDD.Generation.ProjectGenerator.#ctor*
+  name: ProjectGenerator
+  href: api/BaseDDD.Generation.ProjectGenerator.html#BaseDDD_Generation_ProjectGenerator__ctor_
+  commentId: Overload:BaseDDD.Generation.ProjectGenerator.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BaseDDD.Generation.ProjectGenerator.ProjectGenerator
+  fullName.vb: BaseDDD.Generation.ProjectGenerator.New
+  nameWithType: ProjectGenerator.ProjectGenerator
+  nameWithType.vb: ProjectGenerator.New
+- uid: BaseDDD.Generation.ProjectGenerator.Generate
+  name: Generate()
+  href: api/BaseDDD.Generation.ProjectGenerator.html#BaseDDD_Generation_ProjectGenerator_Generate
+  commentId: M:BaseDDD.Generation.ProjectGenerator.Generate
+  fullName: BaseDDD.Generation.ProjectGenerator.Generate()
+  nameWithType: ProjectGenerator.Generate()
+- uid: BaseDDD.Generation.ProjectGenerator.Generate*
+  name: Generate
+  href: api/BaseDDD.Generation.ProjectGenerator.html#BaseDDD_Generation_ProjectGenerator_Generate_
+  commentId: Overload:BaseDDD.Generation.ProjectGenerator.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Generation.ProjectGenerator.Generate
+  nameWithType: ProjectGenerator.Generate
+- uid: BaseDDD.Generation.SolutionGenerator
+  name: SolutionGenerator
+  href: api/BaseDDD.Generation.SolutionGenerator.html
+  commentId: T:BaseDDD.Generation.SolutionGenerator
+  fullName: BaseDDD.Generation.SolutionGenerator
+  nameWithType: SolutionGenerator
+- uid: BaseDDD.Generation.SolutionGenerator.#ctor(System.String,System.String)
+  name: SolutionGenerator(string, string)
+  href: api/BaseDDD.Generation.SolutionGenerator.html#BaseDDD_Generation_SolutionGenerator__ctor_System_String_System_String_
+  commentId: M:BaseDDD.Generation.SolutionGenerator.#ctor(System.String,System.String)
+  name.vb: New(String, String)
+  fullName: BaseDDD.Generation.SolutionGenerator.SolutionGenerator(string, string)
+  fullName.vb: BaseDDD.Generation.SolutionGenerator.New(String, String)
+  nameWithType: SolutionGenerator.SolutionGenerator(string, string)
+  nameWithType.vb: SolutionGenerator.New(String, String)
+- uid: BaseDDD.Generation.SolutionGenerator.#ctor*
+  name: SolutionGenerator
+  href: api/BaseDDD.Generation.SolutionGenerator.html#BaseDDD_Generation_SolutionGenerator__ctor_
+  commentId: Overload:BaseDDD.Generation.SolutionGenerator.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BaseDDD.Generation.SolutionGenerator.SolutionGenerator
+  fullName.vb: BaseDDD.Generation.SolutionGenerator.New
+  nameWithType: SolutionGenerator.SolutionGenerator
+  nameWithType.vb: SolutionGenerator.New
+- uid: BaseDDD.Generation.SolutionGenerator.Generate
+  name: Generate()
+  href: api/BaseDDD.Generation.SolutionGenerator.html#BaseDDD_Generation_SolutionGenerator_Generate
+  commentId: M:BaseDDD.Generation.SolutionGenerator.Generate
+  fullName: BaseDDD.Generation.SolutionGenerator.Generate()
+  nameWithType: SolutionGenerator.Generate()
+- uid: BaseDDD.Generation.SolutionGenerator.Generate*
+  name: Generate
+  href: api/BaseDDD.Generation.SolutionGenerator.html#BaseDDD_Generation_SolutionGenerator_Generate_
+  commentId: Overload:BaseDDD.Generation.SolutionGenerator.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Generation.SolutionGenerator.Generate
+  nameWithType: SolutionGenerator.Generate
+- uid: BaseDDD.Generation.TestGenerator
+  name: TestGenerator
+  href: api/BaseDDD.Generation.TestGenerator.html
+  commentId: T:BaseDDD.Generation.TestGenerator
+  fullName: BaseDDD.Generation.TestGenerator
+  nameWithType: TestGenerator
+- uid: BaseDDD.Generation.TestGenerator.#ctor(System.String,System.String)
+  name: TestGenerator(string, string)
+  href: api/BaseDDD.Generation.TestGenerator.html#BaseDDD_Generation_TestGenerator__ctor_System_String_System_String_
+  commentId: M:BaseDDD.Generation.TestGenerator.#ctor(System.String,System.String)
+  name.vb: New(String, String)
+  fullName: BaseDDD.Generation.TestGenerator.TestGenerator(string, string)
+  fullName.vb: BaseDDD.Generation.TestGenerator.New(String, String)
+  nameWithType: TestGenerator.TestGenerator(string, string)
+  nameWithType.vb: TestGenerator.New(String, String)
+- uid: BaseDDD.Generation.TestGenerator.#ctor*
+  name: TestGenerator
+  href: api/BaseDDD.Generation.TestGenerator.html#BaseDDD_Generation_TestGenerator__ctor_
+  commentId: Overload:BaseDDD.Generation.TestGenerator.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BaseDDD.Generation.TestGenerator.TestGenerator
+  fullName.vb: BaseDDD.Generation.TestGenerator.New
+  nameWithType: TestGenerator.TestGenerator
+  nameWithType.vb: TestGenerator.New
+- uid: BaseDDD.Generation.TestGenerator.Generate
+  name: Generate()
+  href: api/BaseDDD.Generation.TestGenerator.html#BaseDDD_Generation_TestGenerator_Generate
+  commentId: M:BaseDDD.Generation.TestGenerator.Generate
+  fullName: BaseDDD.Generation.TestGenerator.Generate()
+  nameWithType: TestGenerator.Generate()
+- uid: BaseDDD.Generation.TestGenerator.Generate*
+  name: Generate
+  href: api/BaseDDD.Generation.TestGenerator.html#BaseDDD_Generation_TestGenerator_Generate_
+  commentId: Overload:BaseDDD.Generation.TestGenerator.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Generation.TestGenerator.Generate
+  nameWithType: TestGenerator.Generate
+- uid: BaseDDD.Helpers
+  name: BaseDDD.Helpers
+  href: api/BaseDDD.Helpers.html
+  commentId: N:BaseDDD.Helpers
+  fullName: BaseDDD.Helpers
+  nameWithType: BaseDDD.Helpers
+- uid: BaseDDD.Helpers.ProjectRootHelper
+  name: ProjectRootHelper
+  href: api/BaseDDD.Helpers.ProjectRootHelper.html
+  commentId: T:BaseDDD.Helpers.ProjectRootHelper
+  fullName: BaseDDD.Helpers.ProjectRootHelper
+  nameWithType: ProjectRootHelper
+- uid: BaseDDD.Helpers.ProjectRootHelper.FindProjectRoot(System.String)
+  name: FindProjectRoot(string)
+  href: api/BaseDDD.Helpers.ProjectRootHelper.html#BaseDDD_Helpers_ProjectRootHelper_FindProjectRoot_System_String_
+  commentId: M:BaseDDD.Helpers.ProjectRootHelper.FindProjectRoot(System.String)
+  name.vb: FindProjectRoot(String)
+  fullName: BaseDDD.Helpers.ProjectRootHelper.FindProjectRoot(string)
+  fullName.vb: BaseDDD.Helpers.ProjectRootHelper.FindProjectRoot(String)
+  nameWithType: ProjectRootHelper.FindProjectRoot(string)
+  nameWithType.vb: ProjectRootHelper.FindProjectRoot(String)
+- uid: BaseDDD.Helpers.ProjectRootHelper.FindProjectRoot*
+  name: FindProjectRoot
+  href: api/BaseDDD.Helpers.ProjectRootHelper.html#BaseDDD_Helpers_ProjectRootHelper_FindProjectRoot_
+  commentId: Overload:BaseDDD.Helpers.ProjectRootHelper.FindProjectRoot
+  isSpec: "True"
+  fullName: BaseDDD.Helpers.ProjectRootHelper.FindProjectRoot
+  nameWithType: ProjectRootHelper.FindProjectRoot
+- uid: BaseDDD.Infrastructure
+  name: BaseDDD.Infrastructure
+  href: api/BaseDDD.Infrastructure.html
+  commentId: N:BaseDDD.Infrastructure
+  fullName: BaseDDD.Infrastructure
+  nameWithType: BaseDDD.Infrastructure
+- uid: BaseDDD.Infrastructure.DotnetRunner
+  name: DotnetRunner
+  href: api/BaseDDD.Infrastructure.DotnetRunner.html
+  commentId: T:BaseDDD.Infrastructure.DotnetRunner
+  fullName: BaseDDD.Infrastructure.DotnetRunner
+  nameWithType: DotnetRunner
+- uid: BaseDDD.Infrastructure.DotnetRunner.Run(System.String,System.String)
+  name: Run(string, string)
+  href: api/BaseDDD.Infrastructure.DotnetRunner.html#BaseDDD_Infrastructure_DotnetRunner_Run_System_String_System_String_
+  commentId: M:BaseDDD.Infrastructure.DotnetRunner.Run(System.String,System.String)
+  name.vb: Run(String, String)
+  fullName: BaseDDD.Infrastructure.DotnetRunner.Run(string, string)
+  fullName.vb: BaseDDD.Infrastructure.DotnetRunner.Run(String, String)
+  nameWithType: DotnetRunner.Run(string, string)
+  nameWithType.vb: DotnetRunner.Run(String, String)
+- uid: BaseDDD.Infrastructure.DotnetRunner.Run*
+  name: Run
+  href: api/BaseDDD.Infrastructure.DotnetRunner.html#BaseDDD_Infrastructure_DotnetRunner_Run_
+  commentId: Overload:BaseDDD.Infrastructure.DotnetRunner.Run
+  isSpec: "True"
+  fullName: BaseDDD.Infrastructure.DotnetRunner.Run
+  nameWithType: DotnetRunner.Run
+- uid: BaseDDD.Infrastructure.FileSystem
+  name: FileSystem
+  href: api/BaseDDD.Infrastructure.FileSystem.html
+  commentId: T:BaseDDD.Infrastructure.FileSystem
+  fullName: BaseDDD.Infrastructure.FileSystem
+  nameWithType: FileSystem
+- uid: BaseDDD.Infrastructure.FileSystem.CreateDirectory(System.String)
+  name: CreateDirectory(string)
+  href: api/BaseDDD.Infrastructure.FileSystem.html#BaseDDD_Infrastructure_FileSystem_CreateDirectory_System_String_
+  commentId: M:BaseDDD.Infrastructure.FileSystem.CreateDirectory(System.String)
+  name.vb: CreateDirectory(String)
+  fullName: BaseDDD.Infrastructure.FileSystem.CreateDirectory(string)
+  fullName.vb: BaseDDD.Infrastructure.FileSystem.CreateDirectory(String)
+  nameWithType: FileSystem.CreateDirectory(string)
+  nameWithType.vb: FileSystem.CreateDirectory(String)
+- uid: BaseDDD.Infrastructure.FileSystem.CreateDirectory*
+  name: CreateDirectory
+  href: api/BaseDDD.Infrastructure.FileSystem.html#BaseDDD_Infrastructure_FileSystem_CreateDirectory_
+  commentId: Overload:BaseDDD.Infrastructure.FileSystem.CreateDirectory
+  isSpec: "True"
+  fullName: BaseDDD.Infrastructure.FileSystem.CreateDirectory
+  nameWithType: FileSystem.CreateDirectory
+- uid: BaseDDD.Infrastructure.FileSystem.DeleteIfExists(System.String)
+  name: DeleteIfExists(string)
+  href: api/BaseDDD.Infrastructure.FileSystem.html#BaseDDD_Infrastructure_FileSystem_DeleteIfExists_System_String_
+  commentId: M:BaseDDD.Infrastructure.FileSystem.DeleteIfExists(System.String)
+  name.vb: DeleteIfExists(String)
+  fullName: BaseDDD.Infrastructure.FileSystem.DeleteIfExists(string)
+  fullName.vb: BaseDDD.Infrastructure.FileSystem.DeleteIfExists(String)
+  nameWithType: FileSystem.DeleteIfExists(string)
+  nameWithType.vb: FileSystem.DeleteIfExists(String)
+- uid: BaseDDD.Infrastructure.FileSystem.DeleteIfExists*
+  name: DeleteIfExists
+  href: api/BaseDDD.Infrastructure.FileSystem.html#BaseDDD_Infrastructure_FileSystem_DeleteIfExists_
+  commentId: Overload:BaseDDD.Infrastructure.FileSystem.DeleteIfExists
+  isSpec: "True"
+  fullName: BaseDDD.Infrastructure.FileSystem.DeleteIfExists
+  nameWithType: FileSystem.DeleteIfExists
+- uid: BaseDDD.Infrastructure.FileSystem.ValidateDirectory(System.String,System.String)
+  name: ValidateDirectory(string, string)
+  href: api/BaseDDD.Infrastructure.FileSystem.html#BaseDDD_Infrastructure_FileSystem_ValidateDirectory_System_String_System_String_
+  commentId: M:BaseDDD.Infrastructure.FileSystem.ValidateDirectory(System.String,System.String)
+  name.vb: ValidateDirectory(String, String)
+  fullName: BaseDDD.Infrastructure.FileSystem.ValidateDirectory(string, string)
+  fullName.vb: BaseDDD.Infrastructure.FileSystem.ValidateDirectory(String, String)
+  nameWithType: FileSystem.ValidateDirectory(string, string)
+  nameWithType.vb: FileSystem.ValidateDirectory(String, String)
+- uid: BaseDDD.Infrastructure.FileSystem.ValidateDirectory*
+  name: ValidateDirectory
+  href: api/BaseDDD.Infrastructure.FileSystem.html#BaseDDD_Infrastructure_FileSystem_ValidateDirectory_
+  commentId: Overload:BaseDDD.Infrastructure.FileSystem.ValidateDirectory
+  isSpec: "True"
+  fullName: BaseDDD.Infrastructure.FileSystem.ValidateDirectory
+  nameWithType: FileSystem.ValidateDirectory
+- uid: BaseDDD.Infrastructure.FileSystem.ValidateFile(System.String,System.String)
+  name: ValidateFile(string, string)
+  href: api/BaseDDD.Infrastructure.FileSystem.html#BaseDDD_Infrastructure_FileSystem_ValidateFile_System_String_System_String_
+  commentId: M:BaseDDD.Infrastructure.FileSystem.ValidateFile(System.String,System.String)
+  name.vb: ValidateFile(String, String)
+  fullName: BaseDDD.Infrastructure.FileSystem.ValidateFile(string, string)
+  fullName.vb: BaseDDD.Infrastructure.FileSystem.ValidateFile(String, String)
+  nameWithType: FileSystem.ValidateFile(string, string)
+  nameWithType.vb: FileSystem.ValidateFile(String, String)
+- uid: BaseDDD.Infrastructure.FileSystem.ValidateFile*
+  name: ValidateFile
+  href: api/BaseDDD.Infrastructure.FileSystem.html#BaseDDD_Infrastructure_FileSystem_ValidateFile_
+  commentId: Overload:BaseDDD.Infrastructure.FileSystem.ValidateFile
+  isSpec: "True"
+  fullName: BaseDDD.Infrastructure.FileSystem.ValidateFile
+  nameWithType: FileSystem.ValidateFile
+- uid: BaseDDD.Infrastructure.FileSystem.WriteFile(System.String,System.String)
+  name: WriteFile(string, string)
+  href: api/BaseDDD.Infrastructure.FileSystem.html#BaseDDD_Infrastructure_FileSystem_WriteFile_System_String_System_String_
+  commentId: M:BaseDDD.Infrastructure.FileSystem.WriteFile(System.String,System.String)
+  name.vb: WriteFile(String, String)
+  fullName: BaseDDD.Infrastructure.FileSystem.WriteFile(string, string)
+  fullName.vb: BaseDDD.Infrastructure.FileSystem.WriteFile(String, String)
+  nameWithType: FileSystem.WriteFile(string, string)
+  nameWithType.vb: FileSystem.WriteFile(String, String)
+- uid: BaseDDD.Infrastructure.FileSystem.WriteFile*
+  name: WriteFile
+  href: api/BaseDDD.Infrastructure.FileSystem.html#BaseDDD_Infrastructure_FileSystem_WriteFile_
+  commentId: Overload:BaseDDD.Infrastructure.FileSystem.WriteFile
+  isSpec: "True"
+  fullName: BaseDDD.Infrastructure.FileSystem.WriteFile
+  nameWithType: FileSystem.WriteFile
+- uid: BaseDDD.Infrastructure.GitRunner
+  name: GitRunner
+  href: api/BaseDDD.Infrastructure.GitRunner.html
+  commentId: T:BaseDDD.Infrastructure.GitRunner
+  fullName: BaseDDD.Infrastructure.GitRunner
+  nameWithType: GitRunner
+- uid: BaseDDD.Infrastructure.GitRunner.Run(System.String,System.String)
+  name: Run(string, string)
+  href: api/BaseDDD.Infrastructure.GitRunner.html#BaseDDD_Infrastructure_GitRunner_Run_System_String_System_String_
+  commentId: M:BaseDDD.Infrastructure.GitRunner.Run(System.String,System.String)
+  name.vb: Run(String, String)
+  fullName: BaseDDD.Infrastructure.GitRunner.Run(string, string)
+  fullName.vb: BaseDDD.Infrastructure.GitRunner.Run(String, String)
+  nameWithType: GitRunner.Run(string, string)
+  nameWithType.vb: GitRunner.Run(String, String)
+- uid: BaseDDD.Infrastructure.GitRunner.Run*
+  name: Run
+  href: api/BaseDDD.Infrastructure.GitRunner.html#BaseDDD_Infrastructure_GitRunner_Run_
+  commentId: Overload:BaseDDD.Infrastructure.GitRunner.Run
+  isSpec: "True"
+  fullName: BaseDDD.Infrastructure.GitRunner.Run
+  nameWithType: GitRunner.Run
+- uid: BaseDDD.Infrastructure.ProcessRunner
+  name: ProcessRunner
+  href: api/BaseDDD.Infrastructure.ProcessRunner.html
+  commentId: T:BaseDDD.Infrastructure.ProcessRunner
+  fullName: BaseDDD.Infrastructure.ProcessRunner
+  nameWithType: ProcessRunner
+- uid: BaseDDD.Infrastructure.ProcessRunner.Run(System.String,System.String,System.String)
+  name: Run(string, string, string)
+  href: api/BaseDDD.Infrastructure.ProcessRunner.html#BaseDDD_Infrastructure_ProcessRunner_Run_System_String_System_String_System_String_
+  commentId: M:BaseDDD.Infrastructure.ProcessRunner.Run(System.String,System.String,System.String)
+  name.vb: Run(String, String, String)
+  fullName: BaseDDD.Infrastructure.ProcessRunner.Run(string, string, string)
+  fullName.vb: BaseDDD.Infrastructure.ProcessRunner.Run(String, String, String)
+  nameWithType: ProcessRunner.Run(string, string, string)
+  nameWithType.vb: ProcessRunner.Run(String, String, String)
+- uid: BaseDDD.Infrastructure.ProcessRunner.Run*
+  name: Run
+  href: api/BaseDDD.Infrastructure.ProcessRunner.html#BaseDDD_Infrastructure_ProcessRunner_Run_
+  commentId: Overload:BaseDDD.Infrastructure.ProcessRunner.Run
+  isSpec: "True"
+  fullName: BaseDDD.Infrastructure.ProcessRunner.Run
+  nameWithType: ProcessRunner.Run
+- uid: BaseDDD.Templates
+  name: BaseDDD.Templates
+  href: api/BaseDDD.Templates.html
+  commentId: N:BaseDDD.Templates
+  fullName: BaseDDD.Templates
+  nameWithType: BaseDDD.Templates
+- uid: BaseDDD.Templates.CheckMissingToolTemplate
+  name: CheckMissingToolTemplate
+  href: api/BaseDDD.Templates.CheckMissingToolTemplate.html
+  commentId: T:BaseDDD.Templates.CheckMissingToolTemplate
+  fullName: BaseDDD.Templates.CheckMissingToolTemplate
+  nameWithType: CheckMissingToolTemplate
+- uid: BaseDDD.Templates.CheckMissingToolTemplate.Generate
+  name: Generate()
+  href: api/BaseDDD.Templates.CheckMissingToolTemplate.html#BaseDDD_Templates_CheckMissingToolTemplate_Generate
+  commentId: M:BaseDDD.Templates.CheckMissingToolTemplate.Generate
+  fullName: BaseDDD.Templates.CheckMissingToolTemplate.Generate()
+  nameWithType: CheckMissingToolTemplate.Generate()
+- uid: BaseDDD.Templates.CheckMissingToolTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.CheckMissingToolTemplate.html#BaseDDD_Templates_CheckMissingToolTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.CheckMissingToolTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.CheckMissingToolTemplate.Generate
+  nameWithType: CheckMissingToolTemplate.Generate
+- uid: BaseDDD.Templates.CiYmlTemplate
+  name: CiYmlTemplate
+  href: api/BaseDDD.Templates.CiYmlTemplate.html
+  commentId: T:BaseDDD.Templates.CiYmlTemplate
+  fullName: BaseDDD.Templates.CiYmlTemplate
+  nameWithType: CiYmlTemplate
+- uid: BaseDDD.Templates.CiYmlTemplate.Generate
+  name: Generate()
+  href: api/BaseDDD.Templates.CiYmlTemplate.html#BaseDDD_Templates_CiYmlTemplate_Generate
+  commentId: M:BaseDDD.Templates.CiYmlTemplate.Generate
+  fullName: BaseDDD.Templates.CiYmlTemplate.Generate()
+  nameWithType: CiYmlTemplate.Generate()
+- uid: BaseDDD.Templates.CiYmlTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.CiYmlTemplate.html#BaseDDD_Templates_CiYmlTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.CiYmlTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.CiYmlTemplate.Generate
+  nameWithType: CiYmlTemplate.Generate
+- uid: BaseDDD.Templates.CorrelationMiddlewareTemplate
+  name: CorrelationMiddlewareTemplate
+  href: api/BaseDDD.Templates.CorrelationMiddlewareTemplate.html
+  commentId: T:BaseDDD.Templates.CorrelationMiddlewareTemplate
+  fullName: BaseDDD.Templates.CorrelationMiddlewareTemplate
+  nameWithType: CorrelationMiddlewareTemplate
+- uid: BaseDDD.Templates.CorrelationMiddlewareTemplate.Generate(System.String,System.String,System.String)
+  name: Generate(string, string, string)
+  href: api/BaseDDD.Templates.CorrelationMiddlewareTemplate.html#BaseDDD_Templates_CorrelationMiddlewareTemplate_Generate_System_String_System_String_System_String_
+  commentId: M:BaseDDD.Templates.CorrelationMiddlewareTemplate.Generate(System.String,System.String,System.String)
+  name.vb: Generate(String, String, String)
+  fullName: BaseDDD.Templates.CorrelationMiddlewareTemplate.Generate(string, string, string)
+  fullName.vb: BaseDDD.Templates.CorrelationMiddlewareTemplate.Generate(String, String, String)
+  nameWithType: CorrelationMiddlewareTemplate.Generate(string, string, string)
+  nameWithType.vb: CorrelationMiddlewareTemplate.Generate(String, String, String)
+- uid: BaseDDD.Templates.CorrelationMiddlewareTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.CorrelationMiddlewareTemplate.html#BaseDDD_Templates_CorrelationMiddlewareTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.CorrelationMiddlewareTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.CorrelationMiddlewareTemplate.Generate
+  nameWithType: CorrelationMiddlewareTemplate.Generate
+- uid: BaseDDD.Templates.DependencyRulesTestsTemplate
+  name: DependencyRulesTestsTemplate
+  href: api/BaseDDD.Templates.DependencyRulesTestsTemplate.html
+  commentId: T:BaseDDD.Templates.DependencyRulesTestsTemplate
+  fullName: BaseDDD.Templates.DependencyRulesTestsTemplate
+  nameWithType: DependencyRulesTestsTemplate
+- uid: BaseDDD.Templates.DependencyRulesTestsTemplate.Generate(System.String,System.String,System.String)
+  name: Generate(string, string, string)
+  href: api/BaseDDD.Templates.DependencyRulesTestsTemplate.html#BaseDDD_Templates_DependencyRulesTestsTemplate_Generate_System_String_System_String_System_String_
+  commentId: M:BaseDDD.Templates.DependencyRulesTestsTemplate.Generate(System.String,System.String,System.String)
+  name.vb: Generate(String, String, String)
+  fullName: BaseDDD.Templates.DependencyRulesTestsTemplate.Generate(string, string, string)
+  fullName.vb: BaseDDD.Templates.DependencyRulesTestsTemplate.Generate(String, String, String)
+  nameWithType: DependencyRulesTestsTemplate.Generate(string, string, string)
+  nameWithType.vb: DependencyRulesTestsTemplate.Generate(String, String, String)
+- uid: BaseDDD.Templates.DependencyRulesTestsTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.DependencyRulesTestsTemplate.html#BaseDDD_Templates_DependencyRulesTestsTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.DependencyRulesTestsTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.DependencyRulesTestsTemplate.Generate
+  nameWithType: DependencyRulesTestsTemplate.Generate
+- uid: BaseDDD.Templates.DirectoryBuildPropsTemplate
+  name: DirectoryBuildPropsTemplate
+  href: api/BaseDDD.Templates.DirectoryBuildPropsTemplate.html
+  commentId: T:BaseDDD.Templates.DirectoryBuildPropsTemplate
+  fullName: BaseDDD.Templates.DirectoryBuildPropsTemplate
+  nameWithType: DirectoryBuildPropsTemplate
+- uid: BaseDDD.Templates.DirectoryBuildPropsTemplate.Generate
+  name: Generate()
+  href: api/BaseDDD.Templates.DirectoryBuildPropsTemplate.html#BaseDDD_Templates_DirectoryBuildPropsTemplate_Generate
+  commentId: M:BaseDDD.Templates.DirectoryBuildPropsTemplate.Generate
+  fullName: BaseDDD.Templates.DirectoryBuildPropsTemplate.Generate()
+  nameWithType: DirectoryBuildPropsTemplate.Generate()
+- uid: BaseDDD.Templates.DirectoryBuildPropsTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.DirectoryBuildPropsTemplate.html#BaseDDD_Templates_DirectoryBuildPropsTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.DirectoryBuildPropsTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.DirectoryBuildPropsTemplate.Generate
+  nameWithType: DirectoryBuildPropsTemplate.Generate
+- uid: BaseDDD.Templates.DirectoryPackagePropsTemplate
+  name: DirectoryPackagePropsTemplate
+  href: api/BaseDDD.Templates.DirectoryPackagePropsTemplate.html
+  commentId: T:BaseDDD.Templates.DirectoryPackagePropsTemplate
+  fullName: BaseDDD.Templates.DirectoryPackagePropsTemplate
+  nameWithType: DirectoryPackagePropsTemplate
+- uid: BaseDDD.Templates.DirectoryPackagePropsTemplate.Generate
+  name: Generate()
+  href: api/BaseDDD.Templates.DirectoryPackagePropsTemplate.html#BaseDDD_Templates_DirectoryPackagePropsTemplate_Generate
+  commentId: M:BaseDDD.Templates.DirectoryPackagePropsTemplate.Generate
+  fullName: BaseDDD.Templates.DirectoryPackagePropsTemplate.Generate()
+  nameWithType: DirectoryPackagePropsTemplate.Generate()
+- uid: BaseDDD.Templates.DirectoryPackagePropsTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.DirectoryPackagePropsTemplate.html#BaseDDD_Templates_DirectoryPackagePropsTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.DirectoryPackagePropsTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.DirectoryPackagePropsTemplate.Generate
+  nameWithType: DirectoryPackagePropsTemplate.Generate
+- uid: BaseDDD.Templates.DockerComposeTemplate
+  name: DockerComposeTemplate
+  href: api/BaseDDD.Templates.DockerComposeTemplate.html
+  commentId: T:BaseDDD.Templates.DockerComposeTemplate
+  fullName: BaseDDD.Templates.DockerComposeTemplate
+  nameWithType: DockerComposeTemplate
+- uid: BaseDDD.Templates.DockerComposeTemplate.GenerateDev(System.String)
+  name: GenerateDev(string)
+  href: api/BaseDDD.Templates.DockerComposeTemplate.html#BaseDDD_Templates_DockerComposeTemplate_GenerateDev_System_String_
+  commentId: M:BaseDDD.Templates.DockerComposeTemplate.GenerateDev(System.String)
+  name.vb: GenerateDev(String)
+  fullName: BaseDDD.Templates.DockerComposeTemplate.GenerateDev(string)
+  fullName.vb: BaseDDD.Templates.DockerComposeTemplate.GenerateDev(String)
+  nameWithType: DockerComposeTemplate.GenerateDev(string)
+  nameWithType.vb: DockerComposeTemplate.GenerateDev(String)
+- uid: BaseDDD.Templates.DockerComposeTemplate.GenerateDev*
+  name: GenerateDev
+  href: api/BaseDDD.Templates.DockerComposeTemplate.html#BaseDDD_Templates_DockerComposeTemplate_GenerateDev_
+  commentId: Overload:BaseDDD.Templates.DockerComposeTemplate.GenerateDev
+  isSpec: "True"
+  fullName: BaseDDD.Templates.DockerComposeTemplate.GenerateDev
+  nameWithType: DockerComposeTemplate.GenerateDev
+- uid: BaseDDD.Templates.DockerComposeTemplate.GenerateLocal(System.String)
+  name: GenerateLocal(string)
+  href: api/BaseDDD.Templates.DockerComposeTemplate.html#BaseDDD_Templates_DockerComposeTemplate_GenerateLocal_System_String_
+  commentId: M:BaseDDD.Templates.DockerComposeTemplate.GenerateLocal(System.String)
+  name.vb: GenerateLocal(String)
+  fullName: BaseDDD.Templates.DockerComposeTemplate.GenerateLocal(string)
+  fullName.vb: BaseDDD.Templates.DockerComposeTemplate.GenerateLocal(String)
+  nameWithType: DockerComposeTemplate.GenerateLocal(string)
+  nameWithType.vb: DockerComposeTemplate.GenerateLocal(String)
+- uid: BaseDDD.Templates.DockerComposeTemplate.GenerateLocal*
+  name: GenerateLocal
+  href: api/BaseDDD.Templates.DockerComposeTemplate.html#BaseDDD_Templates_DockerComposeTemplate_GenerateLocal_
+  commentId: Overload:BaseDDD.Templates.DockerComposeTemplate.GenerateLocal
+  isSpec: "True"
+  fullName: BaseDDD.Templates.DockerComposeTemplate.GenerateLocal
+  nameWithType: DockerComposeTemplate.GenerateLocal
+- uid: BaseDDD.Templates.DockerComposeTemplate.GeneratePrd(System.String)
+  name: GeneratePrd(string)
+  href: api/BaseDDD.Templates.DockerComposeTemplate.html#BaseDDD_Templates_DockerComposeTemplate_GeneratePrd_System_String_
+  commentId: M:BaseDDD.Templates.DockerComposeTemplate.GeneratePrd(System.String)
+  name.vb: GeneratePrd(String)
+  fullName: BaseDDD.Templates.DockerComposeTemplate.GeneratePrd(string)
+  fullName.vb: BaseDDD.Templates.DockerComposeTemplate.GeneratePrd(String)
+  nameWithType: DockerComposeTemplate.GeneratePrd(string)
+  nameWithType.vb: DockerComposeTemplate.GeneratePrd(String)
+- uid: BaseDDD.Templates.DockerComposeTemplate.GeneratePrd*
+  name: GeneratePrd
+  href: api/BaseDDD.Templates.DockerComposeTemplate.html#BaseDDD_Templates_DockerComposeTemplate_GeneratePrd_
+  commentId: Overload:BaseDDD.Templates.DockerComposeTemplate.GeneratePrd
+  isSpec: "True"
+  fullName: BaseDDD.Templates.DockerComposeTemplate.GeneratePrd
+  nameWithType: DockerComposeTemplate.GeneratePrd
+- uid: BaseDDD.Templates.DockerComposeTemplate.GenerateStaging(System.String)
+  name: GenerateStaging(string)
+  href: api/BaseDDD.Templates.DockerComposeTemplate.html#BaseDDD_Templates_DockerComposeTemplate_GenerateStaging_System_String_
+  commentId: M:BaseDDD.Templates.DockerComposeTemplate.GenerateStaging(System.String)
+  name.vb: GenerateStaging(String)
+  fullName: BaseDDD.Templates.DockerComposeTemplate.GenerateStaging(string)
+  fullName.vb: BaseDDD.Templates.DockerComposeTemplate.GenerateStaging(String)
+  nameWithType: DockerComposeTemplate.GenerateStaging(string)
+  nameWithType.vb: DockerComposeTemplate.GenerateStaging(String)
+- uid: BaseDDD.Templates.DockerComposeTemplate.GenerateStaging*
+  name: GenerateStaging
+  href: api/BaseDDD.Templates.DockerComposeTemplate.html#BaseDDD_Templates_DockerComposeTemplate_GenerateStaging_
+  commentId: Overload:BaseDDD.Templates.DockerComposeTemplate.GenerateStaging
+  isSpec: "True"
+  fullName: BaseDDD.Templates.DockerComposeTemplate.GenerateStaging
+  nameWithType: DockerComposeTemplate.GenerateStaging
+- uid: BaseDDD.Templates.DockerfileTemplate
+  name: DockerfileTemplate
+  href: api/BaseDDD.Templates.DockerfileTemplate.html
+  commentId: T:BaseDDD.Templates.DockerfileTemplate
+  fullName: BaseDDD.Templates.DockerfileTemplate
+  nameWithType: DockerfileTemplate
+- uid: BaseDDD.Templates.DockerfileTemplate.Generate(System.String)
+  name: Generate(string)
+  href: api/BaseDDD.Templates.DockerfileTemplate.html#BaseDDD_Templates_DockerfileTemplate_Generate_System_String_
+  commentId: M:BaseDDD.Templates.DockerfileTemplate.Generate(System.String)
+  name.vb: Generate(String)
+  fullName: BaseDDD.Templates.DockerfileTemplate.Generate(string)
+  fullName.vb: BaseDDD.Templates.DockerfileTemplate.Generate(String)
+  nameWithType: DockerfileTemplate.Generate(string)
+  nameWithType.vb: DockerfileTemplate.Generate(String)
+- uid: BaseDDD.Templates.DockerfileTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.DockerfileTemplate.html#BaseDDD_Templates_DockerfileTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.DockerfileTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.DockerfileTemplate.Generate
+  nameWithType: DockerfileTemplate.Generate
+- uid: BaseDDD.Templates.DockerignoreTemplate
+  name: DockerignoreTemplate
+  href: api/BaseDDD.Templates.DockerignoreTemplate.html
+  commentId: T:BaseDDD.Templates.DockerignoreTemplate
+  fullName: BaseDDD.Templates.DockerignoreTemplate
+  nameWithType: DockerignoreTemplate
+- uid: BaseDDD.Templates.DockerignoreTemplate.Generate
+  name: Generate()
+  href: api/BaseDDD.Templates.DockerignoreTemplate.html#BaseDDD_Templates_DockerignoreTemplate_Generate
+  commentId: M:BaseDDD.Templates.DockerignoreTemplate.Generate
+  fullName: BaseDDD.Templates.DockerignoreTemplate.Generate()
+  nameWithType: DockerignoreTemplate.Generate()
+- uid: BaseDDD.Templates.DockerignoreTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.DockerignoreTemplate.html#BaseDDD_Templates_DockerignoreTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.DockerignoreTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.DockerignoreTemplate.Generate
+  nameWithType: DockerignoreTemplate.Generate
+- uid: BaseDDD.Templates.EditorConfigTemplate
+  name: EditorConfigTemplate
+  href: api/BaseDDD.Templates.EditorConfigTemplate.html
+  commentId: T:BaseDDD.Templates.EditorConfigTemplate
+  fullName: BaseDDD.Templates.EditorConfigTemplate
+  nameWithType: EditorConfigTemplate
+- uid: BaseDDD.Templates.EditorConfigTemplate.Generate
+  name: Generate()
+  href: api/BaseDDD.Templates.EditorConfigTemplate.html#BaseDDD_Templates_EditorConfigTemplate_Generate
+  commentId: M:BaseDDD.Templates.EditorConfigTemplate.Generate
+  fullName: BaseDDD.Templates.EditorConfigTemplate.Generate()
+  nameWithType: EditorConfigTemplate.Generate()
+- uid: BaseDDD.Templates.EditorConfigTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.EditorConfigTemplate.html#BaseDDD_Templates_EditorConfigTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.EditorConfigTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.EditorConfigTemplate.Generate
+  nameWithType: EditorConfigTemplate.Generate
+- uid: BaseDDD.Templates.FileHeaderTemplate
+  name: FileHeaderTemplate
+  href: api/BaseDDD.Templates.FileHeaderTemplate.html
+  commentId: T:BaseDDD.Templates.FileHeaderTemplate
+  fullName: BaseDDD.Templates.FileHeaderTemplate
+  nameWithType: FileHeaderTemplate
+- uid: BaseDDD.Templates.FileHeaderTemplate.Generate(System.String,System.String,System.String)
+  name: Generate(string, string, string)
+  href: api/BaseDDD.Templates.FileHeaderTemplate.html#BaseDDD_Templates_FileHeaderTemplate_Generate_System_String_System_String_System_String_
+  commentId: M:BaseDDD.Templates.FileHeaderTemplate.Generate(System.String,System.String,System.String)
+  name.vb: Generate(String, String, String)
+  fullName: BaseDDD.Templates.FileHeaderTemplate.Generate(string, string, string)
+  fullName.vb: BaseDDD.Templates.FileHeaderTemplate.Generate(String, String, String)
+  nameWithType: FileHeaderTemplate.Generate(string, string, string)
+  nameWithType.vb: FileHeaderTemplate.Generate(String, String, String)
+- uid: BaseDDD.Templates.FileHeaderTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.FileHeaderTemplate.html#BaseDDD_Templates_FileHeaderTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.FileHeaderTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.FileHeaderTemplate.Generate
+  nameWithType: FileHeaderTemplate.Generate
+- uid: BaseDDD.Templates.GitignoreTemplate
+  name: GitignoreTemplate
+  href: api/BaseDDD.Templates.GitignoreTemplate.html
+  commentId: T:BaseDDD.Templates.GitignoreTemplate
+  fullName: BaseDDD.Templates.GitignoreTemplate
+  nameWithType: GitignoreTemplate
+- uid: BaseDDD.Templates.GitignoreTemplate.Generate
+  name: Generate()
+  href: api/BaseDDD.Templates.GitignoreTemplate.html#BaseDDD_Templates_GitignoreTemplate_Generate
+  commentId: M:BaseDDD.Templates.GitignoreTemplate.Generate
+  fullName: BaseDDD.Templates.GitignoreTemplate.Generate()
+  nameWithType: GitignoreTemplate.Generate()
+- uid: BaseDDD.Templates.GitignoreTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.GitignoreTemplate.html#BaseDDD_Templates_GitignoreTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.GitignoreTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.GitignoreTemplate.Generate
+  nameWithType: GitignoreTemplate.Generate
+- uid: BaseDDD.Templates.GlobalJsonTemplate
+  name: GlobalJsonTemplate
+  href: api/BaseDDD.Templates.GlobalJsonTemplate.html
+  commentId: T:BaseDDD.Templates.GlobalJsonTemplate
+  fullName: BaseDDD.Templates.GlobalJsonTemplate
+  nameWithType: GlobalJsonTemplate
+- uid: BaseDDD.Templates.GlobalJsonTemplate.Generate
+  name: Generate()
+  href: api/BaseDDD.Templates.GlobalJsonTemplate.html#BaseDDD_Templates_GlobalJsonTemplate_Generate
+  commentId: M:BaseDDD.Templates.GlobalJsonTemplate.Generate
+  fullName: BaseDDD.Templates.GlobalJsonTemplate.Generate()
+  nameWithType: GlobalJsonTemplate.Generate()
+- uid: BaseDDD.Templates.GlobalJsonTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.GlobalJsonTemplate.html#BaseDDD_Templates_GlobalJsonTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.GlobalJsonTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.GlobalJsonTemplate.Generate
+  nameWithType: GlobalJsonTemplate.Generate
+- uid: BaseDDD.Templates.InitialIntegrationTestTemplate
+  name: InitialIntegrationTestTemplate
+  href: api/BaseDDD.Templates.InitialIntegrationTestTemplate.html
+  commentId: T:BaseDDD.Templates.InitialIntegrationTestTemplate
+  fullName: BaseDDD.Templates.InitialIntegrationTestTemplate
+  nameWithType: InitialIntegrationTestTemplate
+- uid: BaseDDD.Templates.InitialIntegrationTestTemplate.Generate(System.String,System.String,System.String)
+  name: Generate(string, string, string)
+  href: api/BaseDDD.Templates.InitialIntegrationTestTemplate.html#BaseDDD_Templates_InitialIntegrationTestTemplate_Generate_System_String_System_String_System_String_
+  commentId: M:BaseDDD.Templates.InitialIntegrationTestTemplate.Generate(System.String,System.String,System.String)
+  name.vb: Generate(String, String, String)
+  fullName: BaseDDD.Templates.InitialIntegrationTestTemplate.Generate(string, string, string)
+  fullName.vb: BaseDDD.Templates.InitialIntegrationTestTemplate.Generate(String, String, String)
+  nameWithType: InitialIntegrationTestTemplate.Generate(string, string, string)
+  nameWithType.vb: InitialIntegrationTestTemplate.Generate(String, String, String)
+- uid: BaseDDD.Templates.InitialIntegrationTestTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.InitialIntegrationTestTemplate.html#BaseDDD_Templates_InitialIntegrationTestTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.InitialIntegrationTestTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.InitialIntegrationTestTemplate.Generate
+  nameWithType: InitialIntegrationTestTemplate.Generate
+- uid: BaseDDD.Templates.LicenseTemplate
+  name: LicenseTemplate
+  href: api/BaseDDD.Templates.LicenseTemplate.html
+  commentId: T:BaseDDD.Templates.LicenseTemplate
+  fullName: BaseDDD.Templates.LicenseTemplate
+  nameWithType: LicenseTemplate
+- uid: BaseDDD.Templates.LicenseTemplate.Generate(System.String,System.String)
+  name: Generate(string, string)
+  href: api/BaseDDD.Templates.LicenseTemplate.html#BaseDDD_Templates_LicenseTemplate_Generate_System_String_System_String_
+  commentId: M:BaseDDD.Templates.LicenseTemplate.Generate(System.String,System.String)
+  name.vb: Generate(String, String)
+  fullName: BaseDDD.Templates.LicenseTemplate.Generate(string, string)
+  fullName.vb: BaseDDD.Templates.LicenseTemplate.Generate(String, String)
+  nameWithType: LicenseTemplate.Generate(string, string)
+  nameWithType.vb: LicenseTemplate.Generate(String, String)
+- uid: BaseDDD.Templates.LicenseTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.LicenseTemplate.html#BaseDDD_Templates_LicenseTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.LicenseTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.LicenseTemplate.Generate
+  nameWithType: LicenseTemplate.Generate
+- uid: BaseDDD.Templates.ObservabilityExtensionsTemplate
+  name: ObservabilityExtensionsTemplate
+  href: api/BaseDDD.Templates.ObservabilityExtensionsTemplate.html
+  commentId: T:BaseDDD.Templates.ObservabilityExtensionsTemplate
+  fullName: BaseDDD.Templates.ObservabilityExtensionsTemplate
+  nameWithType: ObservabilityExtensionsTemplate
+- uid: BaseDDD.Templates.ObservabilityExtensionsTemplate.Generate(System.String,System.String,System.String)
+  name: Generate(string, string, string)
+  href: api/BaseDDD.Templates.ObservabilityExtensionsTemplate.html#BaseDDD_Templates_ObservabilityExtensionsTemplate_Generate_System_String_System_String_System_String_
+  commentId: M:BaseDDD.Templates.ObservabilityExtensionsTemplate.Generate(System.String,System.String,System.String)
+  name.vb: Generate(String, String, String)
+  fullName: BaseDDD.Templates.ObservabilityExtensionsTemplate.Generate(string, string, string)
+  fullName.vb: BaseDDD.Templates.ObservabilityExtensionsTemplate.Generate(String, String, String)
+  nameWithType: ObservabilityExtensionsTemplate.Generate(string, string, string)
+  nameWithType.vb: ObservabilityExtensionsTemplate.Generate(String, String, String)
+- uid: BaseDDD.Templates.ObservabilityExtensionsTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.ObservabilityExtensionsTemplate.html#BaseDDD_Templates_ObservabilityExtensionsTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.ObservabilityExtensionsTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.ObservabilityExtensionsTemplate.Generate
+  nameWithType: ObservabilityExtensionsTemplate.Generate
+- uid: BaseDDD.Templates.ObservabilityRulesTestsTemplate
+  name: ObservabilityRulesTestsTemplate
+  href: api/BaseDDD.Templates.ObservabilityRulesTestsTemplate.html
+  commentId: T:BaseDDD.Templates.ObservabilityRulesTestsTemplate
+  fullName: BaseDDD.Templates.ObservabilityRulesTestsTemplate
+  nameWithType: ObservabilityRulesTestsTemplate
+- uid: BaseDDD.Templates.ObservabilityRulesTestsTemplate.Generate(System.String,System.String,System.String)
+  name: Generate(string, string, string)
+  href: api/BaseDDD.Templates.ObservabilityRulesTestsTemplate.html#BaseDDD_Templates_ObservabilityRulesTestsTemplate_Generate_System_String_System_String_System_String_
+  commentId: M:BaseDDD.Templates.ObservabilityRulesTestsTemplate.Generate(System.String,System.String,System.String)
+  name.vb: Generate(String, String, String)
+  fullName: BaseDDD.Templates.ObservabilityRulesTestsTemplate.Generate(string, string, string)
+  fullName.vb: BaseDDD.Templates.ObservabilityRulesTestsTemplate.Generate(String, String, String)
+  nameWithType: ObservabilityRulesTestsTemplate.Generate(string, string, string)
+  nameWithType.vb: ObservabilityRulesTestsTemplate.Generate(String, String, String)
+- uid: BaseDDD.Templates.ObservabilityRulesTestsTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.ObservabilityRulesTestsTemplate.html#BaseDDD_Templates_ObservabilityRulesTestsTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.ObservabilityRulesTestsTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.ObservabilityRulesTestsTemplate.Generate
+  nameWithType: ObservabilityRulesTestsTemplate.Generate
+- uid: BaseDDD.Templates.PreCommitTemplate
+  name: PreCommitTemplate
+  href: api/BaseDDD.Templates.PreCommitTemplate.html
+  commentId: T:BaseDDD.Templates.PreCommitTemplate
+  fullName: BaseDDD.Templates.PreCommitTemplate
+  nameWithType: PreCommitTemplate
+- uid: BaseDDD.Templates.PreCommitTemplate.Generate
+  name: Generate()
+  href: api/BaseDDD.Templates.PreCommitTemplate.html#BaseDDD_Templates_PreCommitTemplate_Generate
+  commentId: M:BaseDDD.Templates.PreCommitTemplate.Generate
+  fullName: BaseDDD.Templates.PreCommitTemplate.Generate()
+  nameWithType: PreCommitTemplate.Generate()
+- uid: BaseDDD.Templates.PreCommitTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.PreCommitTemplate.html#BaseDDD_Templates_PreCommitTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.PreCommitTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.PreCommitTemplate.Generate
+  nameWithType: PreCommitTemplate.Generate
+- uid: BaseDDD.Templates.PrePushTemplate
+  name: PrePushTemplate
+  href: api/BaseDDD.Templates.PrePushTemplate.html
+  commentId: T:BaseDDD.Templates.PrePushTemplate
+  fullName: BaseDDD.Templates.PrePushTemplate
+  nameWithType: PrePushTemplate
+- uid: BaseDDD.Templates.PrePushTemplate.Generate
+  name: Generate()
+  href: api/BaseDDD.Templates.PrePushTemplate.html#BaseDDD_Templates_PrePushTemplate_Generate
+  commentId: M:BaseDDD.Templates.PrePushTemplate.Generate
+  fullName: BaseDDD.Templates.PrePushTemplate.Generate()
+  nameWithType: PrePushTemplate.Generate()
+- uid: BaseDDD.Templates.PrePushTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.PrePushTemplate.html#BaseDDD_Templates_PrePushTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.PrePushTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.PrePushTemplate.Generate
+  nameWithType: PrePushTemplate.Generate
+- uid: BaseDDD.Templates.ProgramFileTemplate
+  name: ProgramFileTemplate
+  href: api/BaseDDD.Templates.ProgramFileTemplate.html
+  commentId: T:BaseDDD.Templates.ProgramFileTemplate
+  fullName: BaseDDD.Templates.ProgramFileTemplate
+  nameWithType: ProgramFileTemplate
+- uid: BaseDDD.Templates.ProgramFileTemplate.Generate(System.String,System.String,System.String)
+  name: Generate(string, string, string)
+  href: api/BaseDDD.Templates.ProgramFileTemplate.html#BaseDDD_Templates_ProgramFileTemplate_Generate_System_String_System_String_System_String_
+  commentId: M:BaseDDD.Templates.ProgramFileTemplate.Generate(System.String,System.String,System.String)
+  name.vb: Generate(String, String, String)
+  fullName: BaseDDD.Templates.ProgramFileTemplate.Generate(string, string, string)
+  fullName.vb: BaseDDD.Templates.ProgramFileTemplate.Generate(String, String, String)
+  nameWithType: ProgramFileTemplate.Generate(string, string, string)
+  nameWithType.vb: ProgramFileTemplate.Generate(String, String, String)
+- uid: BaseDDD.Templates.ProgramFileTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.ProgramFileTemplate.html#BaseDDD_Templates_ProgramFileTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.ProgramFileTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.ProgramFileTemplate.Generate
+  nameWithType: ProgramFileTemplate.Generate
+- uid: BaseDDD.Templates.StyleCopJsonTemplate
+  name: StyleCopJsonTemplate
+  href: api/BaseDDD.Templates.StyleCopJsonTemplate.html
+  commentId: T:BaseDDD.Templates.StyleCopJsonTemplate
+  fullName: BaseDDD.Templates.StyleCopJsonTemplate
+  nameWithType: StyleCopJsonTemplate
+- uid: BaseDDD.Templates.StyleCopJsonTemplate.Generate(System.String,System.String)
+  name: Generate(string, string)
+  href: api/BaseDDD.Templates.StyleCopJsonTemplate.html#BaseDDD_Templates_StyleCopJsonTemplate_Generate_System_String_System_String_
+  commentId: M:BaseDDD.Templates.StyleCopJsonTemplate.Generate(System.String,System.String)
+  name.vb: Generate(String, String)
+  fullName: BaseDDD.Templates.StyleCopJsonTemplate.Generate(string, string)
+  fullName.vb: BaseDDD.Templates.StyleCopJsonTemplate.Generate(String, String)
+  nameWithType: StyleCopJsonTemplate.Generate(string, string)
+  nameWithType.vb: StyleCopJsonTemplate.Generate(String, String)
+- uid: BaseDDD.Templates.StyleCopJsonTemplate.Generate*
+  name: Generate
+  href: api/BaseDDD.Templates.StyleCopJsonTemplate.html#BaseDDD_Templates_StyleCopJsonTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.StyleCopJsonTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.StyleCopJsonTemplate.Generate
+  nameWithType: StyleCopJsonTemplate.Generate
+- uid: BaseDDD.Verifiers
+  name: BaseDDD.Verifiers
+  href: api/BaseDDD.Verifiers.html
+  commentId: N:BaseDDD.Verifiers
+  fullName: BaseDDD.Verifiers
+  nameWithType: BaseDDD.Verifiers
+- uid: BaseDDD.Verifiers.DotnetVerifier
+  name: DotnetVerifier
+  href: api/BaseDDD.Verifiers.DotnetVerifier.html
+  commentId: T:BaseDDD.Verifiers.DotnetVerifier
+  fullName: BaseDDD.Verifiers.DotnetVerifier
+  nameWithType: DotnetVerifier
+- uid: BaseDDD.Verifiers.DotnetVerifier.VerifyCommand(System.String,System.String)
+  name: VerifyCommand(string, string)
+  href: api/BaseDDD.Verifiers.DotnetVerifier.html#BaseDDD_Verifiers_DotnetVerifier_VerifyCommand_System_String_System_String_
+  commentId: M:BaseDDD.Verifiers.DotnetVerifier.VerifyCommand(System.String,System.String)
+  name.vb: VerifyCommand(String, String)
+  fullName: BaseDDD.Verifiers.DotnetVerifier.VerifyCommand(string, string)
+  fullName.vb: BaseDDD.Verifiers.DotnetVerifier.VerifyCommand(String, String)
+  nameWithType: DotnetVerifier.VerifyCommand(string, string)
+  nameWithType.vb: DotnetVerifier.VerifyCommand(String, String)
+- uid: BaseDDD.Verifiers.DotnetVerifier.VerifyCommand*
+  name: VerifyCommand
+  href: api/BaseDDD.Verifiers.DotnetVerifier.html#BaseDDD_Verifiers_DotnetVerifier_VerifyCommand_
+  commentId: Overload:BaseDDD.Verifiers.DotnetVerifier.VerifyCommand
+  isSpec: "True"
+  fullName: BaseDDD.Verifiers.DotnetVerifier.VerifyCommand
+  nameWithType: DotnetVerifier.VerifyCommand
+- uid: BaseDDD.Verifiers.ProjectVerifier
+  name: ProjectVerifier
+  href: api/BaseDDD.Verifiers.ProjectVerifier.html
+  commentId: T:BaseDDD.Verifiers.ProjectVerifier
+  fullName: BaseDDD.Verifiers.ProjectVerifier
+  nameWithType: ProjectVerifier
+- uid: BaseDDD.Verifiers.ProjectVerifier.VerifyDirectory(System.String,System.String)
+  name: VerifyDirectory(string, string)
+  href: api/BaseDDD.Verifiers.ProjectVerifier.html#BaseDDD_Verifiers_ProjectVerifier_VerifyDirectory_System_String_System_String_
+  commentId: M:BaseDDD.Verifiers.ProjectVerifier.VerifyDirectory(System.String,System.String)
+  name.vb: VerifyDirectory(String, String)
+  fullName: BaseDDD.Verifiers.ProjectVerifier.VerifyDirectory(string, string)
+  fullName.vb: BaseDDD.Verifiers.ProjectVerifier.VerifyDirectory(String, String)
+  nameWithType: ProjectVerifier.VerifyDirectory(string, string)
+  nameWithType.vb: ProjectVerifier.VerifyDirectory(String, String)
+- uid: BaseDDD.Verifiers.ProjectVerifier.VerifyDirectory*
+  name: VerifyDirectory
+  href: api/BaseDDD.Verifiers.ProjectVerifier.html#BaseDDD_Verifiers_ProjectVerifier_VerifyDirectory_
+  commentId: Overload:BaseDDD.Verifiers.ProjectVerifier.VerifyDirectory
+  isSpec: "True"
+  fullName: BaseDDD.Verifiers.ProjectVerifier.VerifyDirectory
+  nameWithType: ProjectVerifier.VerifyDirectory
+- uid: BaseDDD.Verifiers.ProjectVerifier.VerifyFile(System.String,System.String)
+  name: VerifyFile(string, string)
+  href: api/BaseDDD.Verifiers.ProjectVerifier.html#BaseDDD_Verifiers_ProjectVerifier_VerifyFile_System_String_System_String_
+  commentId: M:BaseDDD.Verifiers.ProjectVerifier.VerifyFile(System.String,System.String)
+  name.vb: VerifyFile(String, String)
+  fullName: BaseDDD.Verifiers.ProjectVerifier.VerifyFile(string, string)
+  fullName.vb: BaseDDD.Verifiers.ProjectVerifier.VerifyFile(String, String)
+  nameWithType: ProjectVerifier.VerifyFile(string, string)
+  nameWithType.vb: ProjectVerifier.VerifyFile(String, String)
+- uid: BaseDDD.Verifiers.ProjectVerifier.VerifyFile*
+  name: VerifyFile
+  href: api/BaseDDD.Verifiers.ProjectVerifier.html#BaseDDD_Verifiers_ProjectVerifier_VerifyFile_
+  commentId: Overload:BaseDDD.Verifiers.ProjectVerifier.VerifyFile
+  isSpec: "True"
+  fullName: BaseDDD.Verifiers.ProjectVerifier.VerifyFile
+  nameWithType: ProjectVerifier.VerifyFile
