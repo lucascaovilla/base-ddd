@@ -1,6 +1,11 @@
 name: Documentation
 
 on:
+  push:
+    tags:
+      - "v*-preview.*"
+      - "v*-rc.*"
+      - "v*"
   workflow_dispatch:
 
 jobs:
