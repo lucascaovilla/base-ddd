@@ -4,7 +4,8 @@
     {
       "src": [
         {
-          "files": ["../src/BaseDDD.Cli/BaseDDD.Cli.csproj"]
+          "src": "../",
+          "files": ["src/BaseDDD.Cli/BaseDDD.Cli.csproj"]
         }
       ],
       "dest": "api"
@@ -15,11 +16,6 @@
       {
         "files": ["**/*.{md,yml}"],
         "exclude": ["_site/**"]
-      }
-    ],
-    "resource": [
-      {
-        "files": ["images/**"]
       }
     ],
     "output": "_site",
