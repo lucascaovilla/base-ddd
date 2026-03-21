@@ -1,11 +1,6 @@
 name: Documentation
 
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - "v*"
   workflow_dispatch:
 
 jobs:
@@ -13,13 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: read
-      pages: write
-      id-token: write
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -70,11 +59,63 @@ jobs:
       - name: Build DocFX site
         run: docfx docs/docfx.json
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs/_site
+      - name: Initialize gh-pages if missing
+        run: |
+          if ! git ls-remote --exit-code --heads origin gh-pages > /dev/null 2>&1; then
+            git checkout --orphan gh-pages
+            git rm -rf .
+            git commit --allow-empty -m "chore: initialize gh-pages branch"
+            git push origin gh-pages
+            git checkout -
+          fi
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy to slot
+        run: |
+          SLOT="${{ env.SLOT }}"
+          DEST="gh-pages/$SLOT"
+
+          if [[ "${{ env.IS_RELEASE }}" == "true" && -d "$DEST" ]]; then
+            echo "Release docs for $SLOT already exist — skipping overwrite."
+            exit 0
+          fi
+
+          rm -rf "$DEST"
+          mkdir -p "$DEST"
+          cp -r docs/_site/. "$DEST/"
+
+      - name: Update versions manifest
+        run: |
+          MANIFEST="gh-pages/versions.json"
+
+          if [[ ! -f "$MANIFEST" ]]; then
+            echo "[]" > "$MANIFEST"
+          fi
+
+          if [[ "${{ env.IS_RELEASE }}" == "true" ]]; then
+            SLOT="${{ env.SLOT }}"
+            node -e "
+              const fs = require('fs');
+              const manifest = '$MANIFEST';
+              const versions = JSON.parse(fs.readFileSync(manifest, 'utf8'));
+              if (!versions.includes('$SLOT')) {
+                versions.unshift('$SLOT');
+                fs.writeFileSync(manifest, JSON.stringify(versions, null, 2));
+              }
+            "
+          fi
+
+      - name: Commit and push gh-pages
+        run: |
+          cd gh-pages
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add .
+          git diff --cached --quiet || git commit -m "docs: deploy ${{ env.SLOT }}"
+          git push origin gh-pages
