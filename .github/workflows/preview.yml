@@ -12,7 +12,6 @@ jobs:
     permissions:
       contents: write
       packages: write
-      actions: write
 
     steps:
       - uses: actions/checkout@v4
@@ -25,63 +24,52 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
-      - name: Read current version
+      - name: Read base version
         run: |
-          CURRENT=$(dotnet msbuild src/BaseDDD.Cli/BaseDDD.Cli.csproj -nologo -v:q -getProperty:Version)
-          BASE=$(echo $CURRENT | sed -E 's/([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
+          BASE=$(dotnet msbuild src/BaseDDD.Cli/BaseDDD.Cli.csproj -nologo -v:q -getProperty:Version \
+            | sed -E 's/([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
           echo "BASE=$BASE" >> $GITHUB_ENV
 
       - name: Compute preview version
         run: |
-          COUNT=$(git tag -l "v${BASE}-preview.*" | wc -l)
-          NEXT=$((COUNT+1))
-          VERSION="${BASE}-preview.${NEXT}"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "Preview version: $VERSION"
+          COUNT=$(git tag -l "v${BASE}-preview.*" | wc -l | tr -d ' ')
+          NEXT=$((COUNT + 1))
+          echo "VERSION=${BASE}-preview.${NEXT}" >> $GITHUB_ENV
 
-      - name: Update version in csproj
+      - name: Bump version in csproj
         run: |
-          sed -i -E "s#<Version>.*</Version>#<Version>${{ env.VERSION }}</Version>#g" src/BaseDDD.Cli/BaseDDD.Cli.csproj
+          sed -i -E "s#<Version>[^<]*</Version>#<Version>${{ env.VERSION }}</Version>#g" \
+            src/BaseDDD.Cli/BaseDDD.Cli.csproj
 
-      - name: Commit version bump
+      - run: dotnet restore
+      - run: dotnet build -c Release --no-restore
+
+      - name: Pack
+        run: |
+          dotnet pack -c Release \
+            -p:PackageVersion=${{ env.VERSION }} \
+            --no-build \
+            -o ./nupkg
+
+      - name: Commit and tag
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add src/BaseDDD.Cli/BaseDDD.Cli.csproj
           git commit -m "chore: bump version to ${{ env.VERSION }}"
-          git push origin main --force
-
-      - name: Restore
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build -c Release --no-restore
-
-      - name: Pack
-        run: |
-          dotnet pack \
-            -c Release \
-            -p:PackageVersion=${{ env.VERSION }} \
-            --no-build \
-            -o ./nupkg
-
-      - name: Create preview tag
-        run: |
-          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
-            echo "Tag already exists"
-            exit 1
-          fi
+          git pull --rebase origin main
+          git push origin main
           git tag v${{ env.VERSION }}
           git push origin v${{ env.VERSION }}
 
-      - name: Publish preview
+      - name: Publish
         run: |
           dotnet nuget push ./nupkg/*.nupkg \
             --skip-duplicate \
             --api-key ${{ secrets.GITHUB_TOKEN }} \
             --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
 
-      - name: Trigger documentation
+      - name: Trigger docs
         uses: actions/github-script@v7
         with:
           script: |
@@ -89,5 +77,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: "docfx.yml",
-              ref: "main"
+              ref: "v${{ env.VERSION }}"
             });

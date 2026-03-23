@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       rc_tag:
-        description: "RC tag to promote (ex: v0.0.9-rc.5)"
+        description: "RC tag to promote (e.g. v0.0.9-rc.2)"
         required: true
 
 jobs:
@@ -14,7 +14,6 @@ jobs:
     permissions:
       contents: write
       packages: write
-      actions: write
 
     steps:
       - uses: actions/checkout@v4
@@ -27,54 +26,42 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
-      - name: Store RC tag
+      - name: Validate and parse RC tag
         run: |
           TAG="${{ github.event.inputs.rc_tag }}"
-          if [[ ! $TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+$ ]]; then
-            echo "Invalid RC tag format"
+          if [[ ! "$TAG" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)-rc\.[0-9]+$ ]]; then
+            echo "Invalid RC tag: $TAG"
             exit 1
           fi
-          echo "RC_TAG=$TAG" >> $GITHUB_ENV
-
-      - name: Read current version
-        run: |
-          CURRENT=$(dotnet msbuild src/BaseDDD.Cli/BaseDDD.Cli.csproj -nologo -v:q -getProperty:Version)
-          BASE=$(echo $CURRENT | sed -E 's/([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
-          echo "CURRENT=$CURRENT" >> $GITHUB_ENV
-          echo "BASE=$BASE" >> $GITHUB_ENV
-
-      - name: Validate RC
-        run: |
-          if [[ "${{ env.RC_TAG }}" != v"${{ env.BASE }}"-rc.* ]]; then
-            echo "RC tag does not match current base version ${{ env.BASE }}"
+          BASE="${BASH_REMATCH[1]}"
+          CURRENT=$(dotnet msbuild src/BaseDDD.Cli/BaseDDD.Cli.csproj -nologo -v:q -getProperty:Version \
+            | sed -E 's/([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
+          if [[ "$BASE" != "$CURRENT" ]]; then
+            echo "RC tag base $BASE does not match csproj version $CURRENT"
             exit 1
           fi
+          IFS='.' read -r MAJ MIN PAT <<< "$BASE"
+          echo "VERSION=$MAJ.$MIN.$((PAT + 1))" >> $GITHUB_ENV
 
-      - name: Compute next version
+      - run: dotnet restore
+      - run: dotnet build -c Release --no-restore
+
+      - name: Pack
         run: |
-          IFS='.' read -r MAJOR MINOR PATCH <<< "${{ env.BASE }}"
-          NEXT="$MAJOR.$MINOR.$((PATCH+1))"
-          echo "VERSION=$NEXT" >> $GITHUB_ENV
-          echo "Next version: $NEXT"
+          dotnet pack -c Release \
+            -p:PackageVersion=${{ env.VERSION }} \
+            --no-build \
+            -o ./nupkg
 
-      - name: Update version in csproj
-        run: |
-          sed -i -E "s#<Version>.*</Version>#<Version>${{ env.VERSION }}</Version>#g" src/BaseDDD.Cli/BaseDDD.Cli.csproj
-
-      - name: Commit version bump
+      - name: Bump version in csproj and tag
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
+          sed -i -E "s#<Version>[^<]*</Version>#<Version>${{ env.VERSION }}</Version>#g" \
+            src/BaseDDD.Cli/BaseDDD.Cli.csproj
           git add src/BaseDDD.Cli/BaseDDD.Cli.csproj
           git commit -m "chore: bump version to ${{ env.VERSION }}"
-          git push origin main --force
-
-      - name: Create tag
-        run: |
-          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
-            echo "Tag already exists!"
-            exit 1
-          fi
+          git push origin main
           git tag v${{ env.VERSION }}
           git push origin v${{ env.VERSION }}
 
@@ -83,38 +70,26 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const response = await github.rest.repos.generateReleaseNotes({
+            const { data } = await github.rest.repos.generateReleaseNotes({
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag_name: "v${{ env.VERSION }}"
             });
-            core.setOutput("notes", response.data.body);
+            core.setOutput("notes", data.body);
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env.VERSION }}
           name: v${{ env.VERSION }}
           body: ${{ steps.notes.outputs.notes }}
 
-      - run: dotnet restore
-      - run: dotnet build -c Release --no-restore
-
-      - name: Pack
-        run: |
-          dotnet pack \
-            -c Release \
-            -p:PackageVersion=${{ env.VERSION }} \
-            --no-build \
-            -o ./nupkg
-
-      - name: Publish
+      - name: Publish to nuget.org
         run: |
           dotnet nuget push ./nupkg/*.nupkg \
             --api-key ${{ secrets.NUGET_API_KEY }} \
             --source https://api.nuget.org/v3/index.json
 
-      - name: Trigger documentation
+      - name: Trigger docs
         uses: actions/github-script@v7
         with:
           script: |
