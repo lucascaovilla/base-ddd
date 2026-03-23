@@ -12,6 +12,7 @@ jobs:
     permissions:
       contents: write
       packages: write
+      actions: write
 
     steps:
       - uses: actions/checkout@v4
@@ -68,3 +69,14 @@ jobs:
             --skip-duplicate \
             --api-key ${{ secrets.GITHUB_TOKEN }} \
             --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+
+      - name: Trigger docs
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: "docfx.yml",
+              ref: "v${{ env.VERSION }}"
+            });
