@@ -62,7 +62,8 @@ jobs:
         run: dotnet build src/BaseDDD.Cli/BaseDDD.Cli.csproj -c Release /p:GenerateDocumentationFile=true
 
       - name: Build DocFX site
-        run: docfx docs/docfx.json
+        run: |
+          docfx docs/docfx.json --property baseUrl=https://lucascaovilla.github.io/base-ddd/${{ env.SLOT }}/
 
       - name: Initialize gh-pages if missing
         run: |
@@ -94,6 +95,7 @@ jobs:
           rm -rf "$DEST"
           mkdir -p "$DEST"
           cp -r docs/_site/. "$DEST/"
+          touch gh-pages/.nojekyll
 
       - name: Update versions manifest
         run: |
