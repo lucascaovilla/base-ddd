@@ -17,11 +17,6 @@ jobs:
 
       - run: git fetch --tags
 
-      - name: Configure git identity
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "10.0.x"
@@ -32,90 +27,71 @@ jobs:
       - name: Resolve slot
         run: |
           REF="${GITHUB_REF}"
-
-          if [[ "$REF" == refs/tags/* ]]; then
-            TAG="${REF#refs/tags/}"
-
-            if [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-              echo "SLOT=$TAG" >> $GITHUB_ENV
-              echo "IS_RELEASE=true" >> $GITHUB_ENV
-
-            elif [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+$ ]]; then
-              echo "SLOT=rc" >> $GITHUB_ENV
-              echo "IS_RELEASE=false" >> $GITHUB_ENV
-
-            elif [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-preview\.[0-9]+$ ]]; then
-              echo "SLOT=preview" >> $GITHUB_ENV
-              echo "IS_RELEASE=false" >> $GITHUB_ENV
-
-            else
-              echo "Unknown tag format, skipping docs"
-              exit 0
-            fi
-
+          if [[ "$REF" =~ ^refs/tags/v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            echo "SLOT=v${BASH_REMATCH[1]}" >> $GITHUB_ENV
+            echo "IS_RELEASE=true" >> $GITHUB_ENV
+          elif [[ "$REF" =~ ^refs/tags/.*-rc\. ]]; then
+            echo "SLOT=rc" >> $GITHUB_ENV
+            echo "IS_RELEASE=false" >> $GITHUB_ENV
           else
             echo "SLOT=preview" >> $GITHUB_ENV
             echo "IS_RELEASE=false" >> $GITHUB_ENV
           fi
 
       - name: Build XML docs
-        run: dotnet build src/BaseDDD.Cli/BaseDDD.Cli.csproj -c Release /p:GenerateDocumentationFile=true
+        run: |
+          dotnet build src/BaseDDD.Cli/BaseDDD.Cli.csproj \
+            -c Release /p:GenerateDocumentationFile=true
 
       - name: Build DocFX site
         run: docfx docs/docfx.json
 
-      - name: Initialize gh-pages if missing
+      - name: Ensure gh-pages branch exists
         run: |
-          if ! git ls-remote --exit-code --heads origin gh-pages > /dev/null 2>&1; then
+          if ! git ls-remote --exit-code --heads origin gh-pages; then
             git checkout --orphan gh-pages
-            git rm -rf .
-            git commit --allow-empty -m "chore: initialize gh-pages branch"
+            git rm -rf . --quiet
+            touch .nojekyll
+            git add .nojekyll
+            git commit -m "chore: init gh-pages"
             git push origin gh-pages
-            git checkout main
+            git checkout -
           fi
 
-      - name: Checkout gh-pages
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: gh-pages
           path: gh-pages
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Deploy to slot
+      - name: Deploy slot
         run: |
           SLOT="${{ env.SLOT }}"
           DEST="gh-pages/$SLOT"
 
+          # Always ensure .nojekyll exists (fixes Jekyll build errors)
+          touch gh-pages/.nojekyll
+
           if [[ "${{ env.IS_RELEASE }}" == "true" && -d "$DEST" ]]; then
-            echo "Release docs for $SLOT already exist — skipping overwrite."
+            echo "Release docs for $SLOT already exist — skipping."
             exit 0
           fi
 
           rm -rf "$DEST"
           mkdir -p "$DEST"
           cp -r docs/_site/. "$DEST/"
-          touch gh-pages/.nojekyll
 
       - name: Update versions manifest
+        if: env.IS_RELEASE == 'true'
         run: |
           MANIFEST="gh-pages/versions.json"
-
-          if [[ ! -f "$MANIFEST" ]]; then
-            echo "[]" > "$MANIFEST"
-          fi
-
-          if [[ "${{ env.IS_RELEASE }}" == "true" ]]; then
-            SLOT="${{ env.SLOT }}"
-            node -e "
-              const fs = require('fs');
-              const manifest = '$MANIFEST';
-              const versions = JSON.parse(fs.readFileSync(manifest, 'utf8'));
-              if (!versions.includes('$SLOT')) {
-                versions.unshift('$SLOT');
-                fs.writeFileSync(manifest, JSON.stringify(versions, null, 2));
-              }
-            "
-          fi
+          SLOT="${{ env.SLOT }}"
+          node -e "
+            const fs = require('fs');
+            let versions = [];
+            try { versions = JSON.parse(fs.readFileSync('$MANIFEST', 'utf8')); } catch {}
+            if (!versions.includes('$SLOT')) versions.unshift('$SLOT');
+            fs.writeFileSync('$MANIFEST', JSON.stringify(versions, null, 2));
+          "
 
       - name: Commit and push gh-pages
         run: |
@@ -123,5 +99,6 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add .
-          git diff --cached --quiet || git commit -m "docs: deploy ${{ env.SLOT }}"
+          git diff --cached --quiet && echo "Nothing to commit" && exit 0
+          git commit -m "docs: deploy ${{ env.SLOT }}"
           git push origin gh-pages
