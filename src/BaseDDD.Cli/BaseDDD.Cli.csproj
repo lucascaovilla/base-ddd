@@ -13,7 +13,7 @@
 
   <PropertyGroup>
     <PackageId>BaseDDD.Cli</PackageId>
-    <Version>0.0.11-preview.21</Version>
+    <Version>0.0.11-preview.22</Version>
     <Description>Strict Clean Architecture generator with enforced observability</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
