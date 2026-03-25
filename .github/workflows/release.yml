@@ -8,13 +8,11 @@ on:
         required: true
 
 jobs:
-  release:
+  version:
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write
-      packages: write
-      actions: write
+    outputs:
+      version: ${{ steps.compute.outputs.version }}
 
     steps:
       - uses: actions/checkout@v4
@@ -27,7 +25,8 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
-      - name: Validate and parse RC tag
+      - name: Validate and compute release version
+        id: compute
         run: |
           TAG="${{ github.event.inputs.rc_tag }}"
           if [[ ! "$TAG" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)-rc\.[0-9]+$ ]]; then
@@ -42,29 +41,29 @@ jobs:
             exit 1
           fi
           IFS='.' read -r MAJ MIN PAT <<< "$BASE"
-          echo "VERSION=$MAJ.$MIN.$((PAT + 1))" >> $GITHUB_ENV
+          echo "version=$MAJ.$MIN.$((PAT + 1))" >> $GITHUB_OUTPUT
 
-      - run: dotnet restore
-      - run: dotnet build -c Release --no-restore
+  build:
+    needs: version
+    uses: ./.github/workflows/build.yml
+    with:
+      version: ${{ needs.version.outputs.version }}
+      publish_to_nuget_org: true
+    secrets: inherit
 
-      - name: Pack
-        run: |
-          dotnet pack -c Release \
-            -p:PackageVersion=${{ env.VERSION }} \
-            --no-build \
-            -o ./nupkg
+  github-release:
+    needs: [version, build]
+    runs-on: ubuntu-latest
 
-      - name: Bump version in csproj and tag
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          sed -i -E "s#<Version>[^<]*</Version>#<Version>${{ env.VERSION }}</Version>#g" \
-            src/BaseDDD.Cli/BaseDDD.Cli.csproj
-          git add src/BaseDDD.Cli/BaseDDD.Cli.csproj
-          git commit -m "chore: bump version to ${{ env.VERSION }}"
-          git push origin main
-          git tag v${{ env.VERSION }}
-          git push origin v${{ env.VERSION }}
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - run: git fetch --tags
 
       - name: Generate release notes
         id: notes
@@ -74,29 +73,17 @@ jobs:
             const { data } = await github.rest.repos.generateReleaseNotes({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag_name: "v${{ env.VERSION }}"
+              tag_name: "v${{ needs.version.outputs.version }}"
             });
             core.setOutput("notes", data.body);
 
       - uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ env.VERSION }}
-          name: v${{ env.VERSION }}
+          tag_name: v${{ needs.version.outputs.version }}
+          name: v${{ needs.version.outputs.version }}
           body: ${{ steps.notes.outputs.notes }}
 
-      - name: Publish to nuget.org
-        run: |
-          dotnet nuget push ./nupkg/*.nupkg \
-            --api-key ${{ secrets.NUGET_API_KEY }} \
-            --source https://api.nuget.org/v3/index.json
-
-      - name: Trigger docs
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: "docfx.yml",
-              ref: "v${{ env.VERSION }}"
-            });
+  docs:
+    needs: build
+    uses: ./.github/workflows/docfx.yml
+    secrets: inherit

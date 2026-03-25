@@ -1,10 +1,10 @@
 name: Documentation
 
 on:
-  workflow_dispatch:
+  workflow_call:
 
 jobs:
-  build-docs:
+  docs:
     runs-on: ubuntu-latest
 
     permissions:
@@ -28,10 +28,10 @@ jobs:
         run: |
           REF="${GITHUB_REF}"
           if [[ "$REF" =~ ^refs/tags/v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
-            echo "SLOT=v${BASH_REMATCH[1]}" >> $GITHUB_ENV
+            echo "SLOT=releases/v${BASH_REMATCH[1]}" >> $GITHUB_ENV
             echo "IS_RELEASE=true" >> $GITHUB_ENV
           elif [[ "$REF" =~ ^refs/tags/.*-rc\. ]]; then
-            echo "SLOT=rc" >> $GITHUB_ENV
+            echo "SLOT=release-candidate" >> $GITHUB_ENV
             echo "IS_RELEASE=false" >> $GITHUB_ENV
           else
             echo "SLOT=preview" >> $GITHUB_ENV
@@ -49,6 +49,8 @@ jobs:
       - name: Ensure gh-pages branch exists
         run: |
           if ! git ls-remote --exit-code --heads origin gh-pages; then
+            git config user.name "github-actions"
+            git config user.email "actions@github.com"
             git checkout --orphan gh-pages
             git rm -rf . --quiet
             touch .nojekyll
@@ -68,7 +70,6 @@ jobs:
           SLOT="${{ env.SLOT }}"
           DEST="gh-pages/$SLOT"
 
-          # Always ensure .nojekyll exists (fixes Jekyll build errors)
           touch gh-pages/.nojekyll
 
           if [[ "${{ env.IS_RELEASE }}" == "true" && -d "$DEST" ]]; then
@@ -92,6 +93,86 @@ jobs:
             if (!versions.includes('$SLOT')) versions.unshift('$SLOT');
             fs.writeFileSync('$MANIFEST', JSON.stringify(versions, null, 2));
           "
+
+      - name: Generate index pages
+        run: |
+          VERSIONS_JSON="gh-pages/versions.json"
+          RELEASES=$(node -e "
+            const fs = require('fs');
+            let versions = [];
+            try { versions = JSON.parse(fs.readFileSync('$VERSIONS_JSON', 'utf8')); } catch {}
+            console.log(versions.map(v =>
+              '<li><a href=\"' + v + '/\">' + v.replace('releases/', '') + '</a></li>'
+            ).join('\n'));
+          ")
+
+          cat > gh-pages/index.html <<EOF
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>BaseDDD Documentation</title>
+            <style>
+              body { font-family: sans-serif; max-width: 800px; margin: 60px auto; padding: 0 24px; color: #1a1a1a; }
+              h1 { font-size: 2rem; margin-bottom: 8px; }
+              p { color: #555; margin-bottom: 32px; }
+              h2 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-bottom: 12px; }
+              ul { list-style: none; padding: 0; margin: 0 0 40px; }
+              li { margin-bottom: 8px; }
+              a { color: #0969da; text-decoration: none; font-size: 1rem; }
+              a:hover { text-decoration: underline; }
+            </style>
+          </head>
+          <body>
+            <h1>BaseDDD</h1>
+            <p>Documentation for all versions of BaseDDD.</p>
+            <h2>Releases</h2>
+            <ul>
+              ${RELEASES:-<li><em>No releases yet.</em></li>}
+            </ul>
+            <h2>Pre-release</h2>
+            <ul>
+              <li><a href="release-candidate/">Release Candidate</a></li>
+              <li><a href="preview/">Preview</a></li>
+            </ul>
+          </body>
+          </html>
+          EOF
+
+          mkdir -p gh-pages/releases
+          RELEASE_LINKS=$(ls -1d gh-pages/releases/v*/ 2>/dev/null \
+            | sed 's|gh-pages/releases/||;s|/||' \
+            | sort -rV \
+            | sed 's|.*|<li><a href="&/">&</a></li>|')
+
+          cat > gh-pages/releases/index.html <<EOF
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Releases | BaseDDD</title>
+            <style>
+              body { font-family: sans-serif; max-width: 800px; margin: 60px auto; padding: 0 24px; color: #1a1a1a; }
+              h1 { font-size: 2rem; margin-bottom: 8px; }
+              p { color: #555; margin-bottom: 32px; }
+              ul { list-style: none; padding: 0; }
+              li { margin-bottom: 8px; }
+              a { color: #0969da; text-decoration: none; font-size: 1rem; }
+              a:hover { text-decoration: underline; }
+              .back { font-size: 0.9rem; color: #888; margin-bottom: 32px; display: block; }
+            </style>
+          </head>
+          <body>
+            <a class="back" href="../">← Back</a>
+            <h1>Releases</h1>
+            <ul>
+              ${RELEASE_LINKS:-<li><em>No releases yet.</em></li>}
+            </ul>
+          </body>
+          </html>
+          EOF
 
       - name: Commit and push gh-pages
         run: |

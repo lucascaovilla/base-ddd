@@ -1,0 +1,74 @@
+name: Build
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+      publish_to_nuget_org:
+        required: false
+        type: boolean
+        default: false
+    secrets:
+      NUGET_API_KEY:
+        required: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - run: git fetch --tags
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Bump version in csproj
+        run: |
+          sed -i -E "s#<Version>[^<]*</Version>#<Version>${{ inputs.version }}</Version>#g" \
+            src/BaseDDD.Cli/BaseDDD.Cli.csproj
+
+      - run: dotnet restore
+      - run: dotnet build -c Release --no-restore
+
+      - name: Pack
+        run: |
+          dotnet pack -c Release \
+            -p:PackageVersion=${{ inputs.version }} \
+            --no-build \
+            -o ./nupkg
+
+      - name: Commit and tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add src/BaseDDD.Cli/BaseDDD.Cli.csproj
+          git commit -m "chore: bump version to ${{ inputs.version }}"
+          git pull --rebase origin main
+          git push origin main
+          git tag v${{ inputs.version }}
+          git push origin v${{ inputs.version }}
+
+      - name: Publish to GitHub Packages
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg \
+            --skip-duplicate \
+            --api-key ${{ secrets.GITHUB_TOKEN }} \
+            --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+
+      - name: Publish to nuget.org
+        if: inputs.publish_to_nuget_org
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --source https://api.nuget.org/v3/index.json

@@ -8,13 +8,11 @@ on:
         required: true
 
 jobs:
-  rc:
+  version:
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write
-      packages: write
-      actions: write
+    outputs:
+      version: ${{ steps.compute.outputs.version }}
 
     steps:
       - uses: actions/checkout@v4
@@ -35,60 +33,24 @@ jobs:
             echo "Tag $TAG does not exist"
             exit 1
           fi
-          echo "PREVIEW_TAG=$TAG" >> $GITHUB_ENV
 
-      - name: Read base version
+      - name: Compute RC version
+        id: compute
         run: |
           BASE=$(dotnet msbuild src/BaseDDD.Cli/BaseDDD.Cli.csproj -nologo -v:q -getProperty:Version \
             | sed -E 's/([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
-          echo "BASE=$BASE" >> $GITHUB_ENV
-
-      - name: Compute RC version
-        run: |
           COUNT=$(git tag -l "v${BASE}-rc.*" | wc -l | tr -d ' ')
           NEXT=$((COUNT + 1))
-          echo "VERSION=${BASE}-rc.${NEXT}" >> $GITHUB_ENV
+          echo "version=${BASE}-rc.${NEXT}" >> $GITHUB_OUTPUT
 
-      - name: Bump version in csproj
-        run: |
-          sed -i -E "s#<Version>[^<]*</Version>#<Version>${{ env.VERSION }}</Version>#g" \
-            src/BaseDDD.Cli/BaseDDD.Cli.csproj
+  build:
+    needs: version
+    uses: ./.github/workflows/build.yml
+    with:
+      version: ${{ needs.version.outputs.version }}
+    secrets: inherit
 
-      - run: dotnet restore
-      - run: dotnet build -c Release --no-restore
-
-      - name: Pack
-        run: |
-          dotnet pack -c Release \
-            -p:PackageVersion=${{ env.VERSION }} \
-            --no-build \
-            -o ./nupkg
-
-      - name: Commit and tag
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add src/BaseDDD.Cli/BaseDDD.Cli.csproj
-          git commit -m "chore: bump version to ${{ env.VERSION }}"
-          git pull --rebase origin main
-          git push origin main
-          git tag v${{ env.VERSION }}
-          git push origin v${{ env.VERSION }}
-
-      - name: Publish
-        run: |
-          dotnet nuget push ./nupkg/*.nupkg \
-            --skip-duplicate \
-            --api-key ${{ secrets.GITHUB_TOKEN }} \
-            --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
-
-      - name: Trigger docs
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: "docfx.yml",
-              ref: "v${{ env.VERSION }}"
-            });
+  docs:
+    needs: build
+    uses: ./.github/workflows/docfx.yml
+    secrets: inherit
