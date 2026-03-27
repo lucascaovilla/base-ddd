@@ -4,6 +4,7 @@
 // </copyright>
 namespace BaseDDD.Commands;
 
+using BaseDDD.Generation;
 using BaseDDD.Helpers;
 using BaseDDD.Verifiers;
 
@@ -18,6 +19,8 @@ public static class LintCommand
     public static void Execute()
     {
         string root = ProjectRootHelper.FindProjectRoot(Directory.GetCurrentDirectory());
+
+        new VersionEnforcementGenerator(root).Check();
 
         ProjectVerifier.VerifyDirectory(root, "src");
 

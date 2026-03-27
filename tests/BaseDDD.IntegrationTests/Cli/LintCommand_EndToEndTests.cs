@@ -21,4 +21,15 @@ public class LintCommand_EndToEndTests(GeneratedProjectFixture fixture)
 
         Assert.Null(ex);
     }
+
+    [Fact]
+    public void Should_Pass_When_BaseDddJson_Is_Present_And_Current()
+    {
+        Directory.SetCurrentDirectory(this.fixture.ProjectPath);
+
+        Exception exception = Record.Exception(() =>
+            Program.Main(["lint"]));
+
+        Assert.Null(exception);
+    }
 }

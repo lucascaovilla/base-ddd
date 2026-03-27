@@ -38,6 +38,7 @@ public static class NewCommand
         Console.WriteLine($"Creating BaseDDD project: {name}");
 
         new BaseStructureGenerator(root).Generate();
+        new VersionEnforcementGenerator(root).Generate();
         new ProjectGenerator(name, root).Generate();
         new TestGenerator(name, root).Generate();
         new SolutionGenerator(name, root).Generate();

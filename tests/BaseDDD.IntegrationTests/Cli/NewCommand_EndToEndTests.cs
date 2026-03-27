@@ -80,4 +80,10 @@ public class NewCommand_EndToEndTests(GeneratedProjectFixture fixture)
         Assert.Contains("hooksPath", config);
         Assert.Contains(".githooks", config);
     }
+
+    [Fact]
+    public void Should_Create_BaseDddJson_At_Root()
+    {
+        Assert.True(File.Exists(Path.Combine(this.fixture.ProjectPath, "baseddd.json")));
+    }
 }
