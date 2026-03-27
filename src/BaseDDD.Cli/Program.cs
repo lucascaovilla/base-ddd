@@ -9,6 +9,7 @@ using BaseDDD.Commands;
 
 [assembly: InternalsVisibleTo("BaseDDD.IntegrationTests")]
 [assembly: InternalsVisibleTo("BaseDDD.ArchitectureTests")]
+[assembly: InternalsVisibleTo("BaseDDD.UnitTests")]
 
 namespace BaseDDD;
 
@@ -44,7 +45,9 @@ internal static class Program
             case "verify":
                 VerifyCommand.Execute();
                 break;
-
+            case "migrate":
+                MigrateCommand.Execute(args);
+                break;
             default:
                 PrintHelp();
                 break;
