@@ -4,6 +4,11 @@
     "title": "Class LintCommand | BaseDDD",
     "summary": "Class LintCommand Namespace BaseDDD.Commands Assembly BaseDDD.Cli.dll BaseDDD lint project cli command. public static class LintCommand Inheritance object LintCommand Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Execute() Executes lint on project via cli tool. public static void Execute()"
   },
+  "BaseDDD.Commands.MigrateCommand.html": {
+    "href": "BaseDDD.Commands.MigrateCommand.html",
+    "title": "Class MigrateCommand | BaseDDD",
+    "summary": "Class MigrateCommand Namespace BaseDDD.Commands Assembly BaseDDD.Cli.dll BaseDDD migrate generated project's version cli command. public static class MigrateCommand Inheritance object MigrateCommand Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Execute(string[]) Executes migrate on project via cli tool. public static void Execute(string[] args) Parameters args string[] CLI arguments. Pass --apply to write changes."
+  },
   "BaseDDD.Commands.NewCommand.html": {
     "href": "BaseDDD.Commands.NewCommand.html",
     "title": "Class NewCommand | BaseDDD",
@@ -17,7 +22,7 @@
   "BaseDDD.Commands.html": {
     "href": "BaseDDD.Commands.html",
     "title": "Namespace BaseDDD.Commands | BaseDDD",
-    "summary": "Namespace BaseDDD.Commands Classes LintCommand BaseDDD lint project cli command. NewCommand BaseDDD new project cli command. VerifyCommand BaseDDD verify project structure command."
+    "summary": "Namespace BaseDDD.Commands Classes LintCommand BaseDDD lint project cli command. MigrateCommand BaseDDD migrate generated project's version cli command. NewCommand BaseDDD new project cli command. VerifyCommand BaseDDD verify project structure command."
   },
   "BaseDDD.Generation.BaseStructureGenerator.html": {
     "href": "BaseDDD.Generation.BaseStructureGenerator.html",
@@ -54,10 +59,15 @@
     "title": "Class TestGenerator | BaseDDD",
     "summary": "Class TestGenerator Namespace BaseDDD.Generation Assembly BaseDDD.Cli.dll Generates tests files for a BaseDDD project. public class TestGenerator Inheritance object TestGenerator Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Constructors TestGenerator(string, string) Initializes a new instance of the TestGenerator class. Class initializer. public TestGenerator(string name, string root) Parameters name string Project's name. root string Repository's root. Methods Generate() Centralized Generate method to create dotnet tests layers. public void Generate()"
   },
+  "BaseDDD.Generation.VersionEnforcementGenerator.html": {
+    "href": "BaseDDD.Generation.VersionEnforcementGenerator.html",
+    "title": "Class VersionEnforcementGenerator | BaseDDD",
+    "summary": "Class VersionEnforcementGenerator Namespace BaseDDD.Generation Assembly BaseDDD.Cli.dll Generates and migrates the baseddd.json version enforcement file. public class VersionEnforcementGenerator Inheritance object VersionEnforcementGenerator Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Remarks Initializes a new instance of the VersionEnforcementGenerator class. Constructors VersionEnforcementGenerator(string) Generates and migrates the baseddd.json version enforcement file. public VersionEnforcementGenerator(string root) Parameters root string Repository's root. Remarks Initializes a new instance of the VersionEnforcementGenerator class. Methods Check() Reads baseddd.json and checks compatibility against the current tool version. No-ops if baseddd.json does not exist (pre-versioning projects). public void Check() Generate() Generates a fresh baseddd.json at the project root. Fails loudly if one already exists. public void Generate() Migrate(bool) Migrates baseddd.json to the current template version, preserving the original createdAt timestamp. public void Migrate(bool dryRun) Parameters dryRun bool When true, prints the plan without writing anything."
+  },
   "BaseDDD.Generation.html": {
     "href": "BaseDDD.Generation.html",
     "title": "Namespace BaseDDD.Generation | BaseDDD",
-    "summary": "Namespace BaseDDD.Generation Classes BaseStructureGenerator Generates base folder structure for a BaseDDD project. FileTemplateGenerator Generates all template-based files for a BaseDDD project. GitGenerator Generates base .git with initial commit. ObservabilityGenerator Generates observability files for a BaseDDD project. ProjectGenerator Generates BaseDDD project. SolutionGenerator Generates BaseDDD project solution. TestGenerator Generates tests files for a BaseDDD project."
+    "summary": "Namespace BaseDDD.Generation Classes BaseStructureGenerator Generates base folder structure for a BaseDDD project. FileTemplateGenerator Generates all template-based files for a BaseDDD project. GitGenerator Generates base .git with initial commit. ObservabilityGenerator Generates observability files for a BaseDDD project. ProjectGenerator Generates BaseDDD project. SolutionGenerator Generates BaseDDD project solution. TestGenerator Generates tests files for a BaseDDD project. VersionEnforcementGenerator Generates and migrates the baseddd.json version enforcement file."
   },
   "BaseDDD.Helpers.ProjectRootHelper.html": {
     "href": "BaseDDD.Helpers.ProjectRootHelper.html",
@@ -68,6 +78,11 @@
     "href": "BaseDDD.Helpers.html",
     "title": "Namespace BaseDDD.Helpers | BaseDDD",
     "summary": "Namespace BaseDDD.Helpers Classes ProjectRootHelper Helper to find project's root and projects from a solution."
+  },
+  "BaseDDD.Infrastructure.CompatibilityChecker.html": {
+    "href": "BaseDDD.Infrastructure.CompatibilityChecker.html",
+    "title": "Class CompatibilityChecker | BaseDDD",
+    "summary": "Class CompatibilityChecker Namespace BaseDDD.Infrastructure Assembly BaseDDD.Cli.dll Checks a project's template version against the tool's supported range. public static class CompatibilityChecker Inheritance object CompatibilityChecker Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Check(string) Checks compatibility of the given project template version. Warns to stdout for outdated versions, throws for unsupported ones. public static void Check(string projectTemplateVersion) Parameters projectTemplateVersion string The templateVersion value from the project's baseddd.json. Exceptions InvalidOperationException Thrown when the version is below minimum supported or newer than the tool knows."
   },
   "BaseDDD.Infrastructure.DotnetRunner.html": {
     "href": "BaseDDD.Infrastructure.DotnetRunner.html",
@@ -84,6 +99,11 @@
     "title": "Class GitRunner | BaseDDD",
     "summary": "Class GitRunner Namespace BaseDDD.Infrastructure Assembly BaseDDD.Cli.dll Git commands runner. public static class GitRunner Inheritance object GitRunner Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Run(string, string) Runs git commands. public static void Run(string args, string workingDirectory) Parameters args string Arguments to the command. workingDirectory string Reference directory to run."
   },
+  "BaseDDD.Infrastructure.MigrationRunner.html": {
+    "href": "BaseDDD.Infrastructure.MigrationRunner.html",
+    "title": "Class MigrationRunner | BaseDDD",
+    "summary": "Class MigrationRunner Namespace BaseDDD.Infrastructure Assembly BaseDDD.Cli.dll Chains and executes IMigrationStep instances to bring a project from its current template version up to the tool's current template version. public sealed class MigrationRunner Inheritance object MigrationRunner Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.ReferenceEquals(object, object) object.ToString() Methods Apply(string, string, string) Applies all required migration steps in order. baseddd.json is written by the caller (VersionEnforcementGenerator) after this returns. public void Apply(string root, string fromVersion, string toVersion) Parameters root string Project root path. fromVersion string Current template version of the project. toVersion string Target template version. Create() Creates a runner pre-registered with all known migration steps. public static MigrationRunner Create() Returns MigrationRunner List of known migrations. DryRun(string, string, string) Prints what would change without applying anything. public void DryRun(string root, string fromVersion, string toVersion) Parameters root string Project root path. fromVersion string Current template version of the project. toVersion string Target template version."
+  },
   "BaseDDD.Infrastructure.ProcessRunner.html": {
     "href": "BaseDDD.Infrastructure.ProcessRunner.html",
     "title": "Class ProcessRunner | BaseDDD",
@@ -92,7 +112,22 @@
   "BaseDDD.Infrastructure.html": {
     "href": "BaseDDD.Infrastructure.html",
     "title": "Namespace BaseDDD.Infrastructure | BaseDDD",
-    "summary": "Namespace BaseDDD.Infrastructure Classes DotnetRunner Dotnet commands runner. FileSystem Provides filesystem level interaction. GitRunner Git commands runner. ProcessRunner Runner for generic system commands."
+    "summary": "Namespace BaseDDD.Infrastructure Classes CompatibilityChecker Checks a project's template version against the tool's supported range. DotnetRunner Dotnet commands runner. FileSystem Provides filesystem level interaction. GitRunner Git commands runner. MigrationRunner Chains and executes IMigrationStep instances to bring a project from its current template version up to the tool's current template version. ProcessRunner Runner for generic system commands."
+  },
+  "BaseDDD.Migrations.IMigrationStep.html": {
+    "href": "BaseDDD.Migrations.IMigrationStep.html",
+    "title": "Interface IMigrationStep | BaseDDD",
+    "summary": "Interface IMigrationStep Namespace BaseDDD.Migrations Assembly BaseDDD.Cli.dll A single migration step that upgrades a project from one template version to the next. public interface IMigrationStep Properties FromVersion Gets the template version this step migrates from. string FromVersion { get; } Property Value string ToVersion Gets the template version this step migrates to. string ToVersion { get; } Property Value string Methods Apply(string) Applies the migration to the project at the given root. void Apply(string root) Parameters root string Repository's root path. Describe() Returns a human-readable description of every change this step will make. Used for dry-run output. IReadOnlyList<string> Describe() Returns IReadOnlyList<string> List of changes to be applied."
+  },
+  "BaseDDD.Migrations.html": {
+    "href": "BaseDDD.Migrations.html",
+    "title": "Namespace BaseDDD.Migrations | BaseDDD",
+    "summary": "Namespace BaseDDD.Migrations Interfaces IMigrationStep A single migration step that upgrades a project from one template version to the next."
+  },
+  "BaseDDD.Templates.BaseDddJsonTemplate.html": {
+    "href": "BaseDDD.Templates.BaseDddJsonTemplate.html",
+    "title": "Class BaseDddJsonTemplate | BaseDDD",
+    "summary": "Class BaseDddJsonTemplate Namespace BaseDDD.Templates Assembly BaseDDD.Cli.dll Provides baseddd.json template. public static class BaseDddJsonTemplate Inheritance object BaseDddJsonTemplate Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Generate(string, string, DateTime, DateTime) Returns content of generated baseddd.json file. public static string Generate(string toolVersion, string templateVersion, DateTime createdAt, DateTime updatedAt) Parameters toolVersion string BaseDDD tool current version. templateVersion string BaseDDD written template version. createdAt DateTime Datetime of generation of the project. updatedAt DateTime Datetime of last update on the project by BaseDDD tool. Returns string baseddd.json file content."
   },
   "BaseDDD.Templates.CheckMissingToolTemplate.html": {
     "href": "BaseDDD.Templates.CheckMissingToolTemplate.html",
@@ -202,7 +237,7 @@
   "BaseDDD.Templates.html": {
     "href": "BaseDDD.Templates.html",
     "title": "Namespace BaseDDD.Templates | BaseDDD",
-    "summary": "Namespace BaseDDD.Templates Classes CheckMissingToolTemplate Provides CheckMissingTool script template. CiYmlTemplate Provides ci.yml file template. CorrelationMiddlewareTemplate Provides CorrelationMiddleware.cs file template. DependencyRulesTestsTemplate Provides DependencyRulesTests.cs file template. DirectoryBuildPropsTemplate Provides Directory.Build.props file template. DirectoryPackagePropsTemplate Provides Directory.Package.props file template. DockerComposeTemplate Provides docker-compose files templates. DockerfileTemplate Provides Dockerfile file template. DockerignoreTemplate Provides .dockerignore file template. EditorConfigTemplate Provides .editorconfig file template. FileHeaderTemplate Provides common file header generation. GitignoreTemplate Provides .gitignore file template. GlobalJsonTemplate Provides global.json.cs file template. InitialIntegrationTestTemplate Provides InitialIntegrationTest.cs file template. LicenseTemplate Provides License file template. ObservabilityExtensionsTemplate Provides ObservabilityExtensions file template. ObservabilityRulesTestsTemplate Provides ObservabilityRulesTests.cs file template. PreCommitTemplate Provides pre-commit file template. PrePushTemplate Provides pre-push file template. ProgramFileTemplate Provides Program.cs file template. StyleCopJsonTemplate Provides stylecop.json file template."
+    "summary": "Namespace BaseDDD.Templates Classes BaseDddJsonTemplate Provides baseddd.json template. CheckMissingToolTemplate Provides CheckMissingTool script template. CiYmlTemplate Provides ci.yml file template. CorrelationMiddlewareTemplate Provides CorrelationMiddleware.cs file template. DependencyRulesTestsTemplate Provides DependencyRulesTests.cs file template. DirectoryBuildPropsTemplate Provides Directory.Build.props file template. DirectoryPackagePropsTemplate Provides Directory.Package.props file template. DockerComposeTemplate Provides docker-compose files templates. DockerfileTemplate Provides Dockerfile file template. DockerignoreTemplate Provides .dockerignore file template. EditorConfigTemplate Provides .editorconfig file template. FileHeaderTemplate Provides common file header generation. GitignoreTemplate Provides .gitignore file template. GlobalJsonTemplate Provides global.json.cs file template. InitialIntegrationTestTemplate Provides InitialIntegrationTest.cs file template. LicenseTemplate Provides License file template. ObservabilityExtensionsTemplate Provides ObservabilityExtensions file template. ObservabilityRulesTestsTemplate Provides ObservabilityRulesTests.cs file template. PreCommitTemplate Provides pre-commit file template. PrePushTemplate Provides pre-push file template. ProgramFileTemplate Provides Program.cs file template. StyleCopJsonTemplate Provides stylecop.json file template."
   },
   "BaseDDD.Verifiers.DotnetVerifier.html": {
     "href": "BaseDDD.Verifiers.DotnetVerifier.html",

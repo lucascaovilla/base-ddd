@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Class LintCommand | BaseDDD </title>
+      <title>Class MigrateCommand | BaseDDD </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class LintCommand | BaseDDD ">
+      <meta name="title" content="Class MigrateCommand | BaseDDD ">
       
-      <meta name="description" content="BaseDDD lint project cli command.">
+      <meta name="description" content="BaseDDD migrate generated project&#39;s version cli command.">
       <link rel="icon" href="favicon.ico">
       <link rel="stylesheet" href="public/docfx.min.css">
       <link rel="stylesheet" href="public/main.css">
@@ -16,7 +16,7 @@
       <meta name="docfx:rel" content="">
       
       
-      <meta name="docfx:docurl" content="https://github.com/lucascaovilla/base-ddd/new/main/apiSpec/new?filename=BaseDDD_Commands_LintCommand.md&amp;value=---%0Auid%3A%20BaseDDD.Commands.LintCommand%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="docfx:docurl" content="https://github.com/lucascaovilla/base-ddd/new/main/apiSpec/new?filename=BaseDDD_Commands_MigrateCommand.md&amp;value=---%0Auid%3A%20BaseDDD.Commands.MigrateCommand%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
       <meta name="loc:inThisArticle" content="In this article">
       <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
       <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -70,12 +70,12 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="BaseDDD.Commands.LintCommand">
+        <article data-uid="BaseDDD.Commands.MigrateCommand">
 
 
 
-  <h1 id="BaseDDD_Commands_LintCommand" data-uid="BaseDDD.Commands.LintCommand" class="text-break">
-Class LintCommand  <a class="header-action link-secondary" title="View source" href="https://github.com/lucascaovilla/base-ddd/blob/main/src/BaseDDD.Cli/Commands/LintCommand.cs/#L14"><i class="bi bi-code-slash"></i></a>
+  <h1 id="BaseDDD_Commands_MigrateCommand" data-uid="BaseDDD.Commands.MigrateCommand" class="text-break">
+Class MigrateCommand  <a class="header-action link-secondary" title="View source" href="https://github.com/lucascaovilla/base-ddd/blob/main/src/BaseDDD.Cli/Commands/MigrateCommand.cs/#L13"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
@@ -83,12 +83,12 @@ Class LintCommand  <a class="header-action link-secondary" title="View source" h
   <dl><dt>Assembly</dt><dd>BaseDDD.Cli.dll</dd></dl>
   </div>
 
-  <div class="markdown summary"><p>BaseDDD lint project cli command.</p>
+  <div class="markdown summary"><p>BaseDDD migrate generated project's version cli command.</p>
 </div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static class LintCommand</code></pre>
+    <pre><code class="lang-csharp hljs">public static class MigrateCommand</code></pre>
   </div>
 
 
@@ -98,7 +98,7 @@ Class LintCommand  <a class="header-action link-secondary" title="View source" h
     <dt>Inheritance</dt>
     <dd>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
-      <div><span class="xref">LintCommand</span></div>
+      <div><span class="xref">MigrateCommand</span></div>
     </dd>
   </dl>
 
@@ -139,21 +139,27 @@ Class LintCommand  <a class="header-action link-secondary" title="View source" h
 </h2>
 
 
-  <a id="BaseDDD_Commands_LintCommand_Execute_" data-uid="BaseDDD.Commands.LintCommand.Execute*"></a>
+  <a id="BaseDDD_Commands_MigrateCommand_Execute_" data-uid="BaseDDD.Commands.MigrateCommand.Execute*"></a>
 
-  <h3 id="BaseDDD_Commands_LintCommand_Execute" data-uid="BaseDDD.Commands.LintCommand.Execute">
-  Execute()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/lucascaovilla/base-ddd/blob/main/src/BaseDDD.Cli/Commands/LintCommand.cs/#L19"><i class="bi bi-code-slash"></i></a>
+  <h3 id="BaseDDD_Commands_MigrateCommand_Execute_System_String___" data-uid="BaseDDD.Commands.MigrateCommand.Execute(System.String[])">
+  Execute(string[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/lucascaovilla/base-ddd/blob/main/src/BaseDDD.Cli/Commands/MigrateCommand.cs/#L19"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>Executes lint on project via cli tool.</p>
+  <div class="markdown level1 summary"><p>Executes migrate on project via cli tool.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void Execute()</code></pre>
+    <pre><code class="lang-csharp hljs">public static void Execute(string[] args)</code></pre>
   </div>
 
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>args</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>CLI arguments. Pass --apply to write changes.</p>
+</dd>
+  </dl>
 
 
 
@@ -170,7 +176,7 @@ Class LintCommand  <a class="header-action link-secondary" title="View source" h
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/lucascaovilla/base-ddd/blob/main/src/BaseDDD.Cli/Commands/LintCommand.cs/#L14" class="edit-link">Edit this page</a>
+          <a href="https://github.com/lucascaovilla/base-ddd/blob/main/src/BaseDDD.Cli/Commands/MigrateCommand.cs/#L13" class="edit-link">Edit this page</a>
         </div>
 
 

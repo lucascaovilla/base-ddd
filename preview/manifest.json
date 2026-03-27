@@ -26,6 +26,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "BaseDDD.Commands.MigrateCommand.yml",
+      "output": {
+        ".html": {
+          "relative_path": "BaseDDD.Commands.MigrateCommand.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Commands.MigrateCommand",
+      "Summary": "<p sourcefile=\"BaseDDD.Commands.MigrateCommand.yml\" sourcestartlinenumber=\"1\">BaseDDD migrate generated project's version cli command.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "BaseDDD.Commands.NewCommand.yml",
       "output": {
         ".html": {
@@ -166,6 +180,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "BaseDDD.Generation.VersionEnforcementGenerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "BaseDDD.Generation.VersionEnforcementGenerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Generation.VersionEnforcementGenerator",
+      "Summary": "<p sourcefile=\"BaseDDD.Generation.VersionEnforcementGenerator.yml\" sourcestartlinenumber=\"1\">Generates and migrates the baseddd.json version enforcement file.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "BaseDDD.Generation.yml",
       "output": {
         ".html": {
@@ -205,6 +233,20 @@
       "IsMRef": true,
       "Title": "BaseDDD.Helpers",
       "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "BaseDDD.Infrastructure.CompatibilityChecker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "BaseDDD.Infrastructure.CompatibilityChecker.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Infrastructure.CompatibilityChecker",
+      "Summary": "<p sourcefile=\"BaseDDD.Infrastructure.CompatibilityChecker.yml\" sourcestartlinenumber=\"1\">Checks a project's template version against the tool's supported range.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -250,6 +292,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "BaseDDD.Infrastructure.MigrationRunner.yml",
+      "output": {
+        ".html": {
+          "relative_path": "BaseDDD.Infrastructure.MigrationRunner.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Infrastructure.MigrationRunner",
+      "Summary": "<p sourcefile=\"BaseDDD.Infrastructure.MigrationRunner.yml\" sourcestartlinenumber=\"1\">Chains and executes <xref href=\"BaseDDD.Migrations.IMigrationStep\" data-throw-if-not-resolved=\"false\"></xref> instances to bring a project\nfrom its current template version up to the tool's current template version.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "BaseDDD.Infrastructure.ProcessRunner.yml",
       "output": {
         ".html": {
@@ -275,6 +331,48 @@
       "IsMRef": true,
       "Title": "BaseDDD.Infrastructure",
       "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "BaseDDD.Migrations.IMigrationStep.yml",
+      "output": {
+        ".html": {
+          "relative_path": "BaseDDD.Migrations.IMigrationStep.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Migrations.IMigrationStep",
+      "Summary": "<p sourcefile=\"BaseDDD.Migrations.IMigrationStep.yml\" sourcestartlinenumber=\"1\">A single migration step that upgrades a project from one template version to the next.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "BaseDDD.Migrations.yml",
+      "output": {
+        ".html": {
+          "relative_path": "BaseDDD.Migrations.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Migrations",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "BaseDDD.Templates.BaseDddJsonTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "BaseDDD.Templates.BaseDddJsonTemplate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "BaseDDD.Templates.BaseDddJsonTemplate",
+      "Summary": "<p sourcefile=\"BaseDDD.Templates.BaseDddJsonTemplate.yml\" sourcestartlinenumber=\"1\">Provides baseddd.json template.</p>\n"
     },
     {
       "type": "ManagedReference",

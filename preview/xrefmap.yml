@@ -26,6 +26,28 @@ references:
   isSpec: "True"
   fullName: BaseDDD.Commands.LintCommand.Execute
   nameWithType: LintCommand.Execute
+- uid: BaseDDD.Commands.MigrateCommand
+  name: MigrateCommand
+  href: BaseDDD.Commands.MigrateCommand.html
+  commentId: T:BaseDDD.Commands.MigrateCommand
+  fullName: BaseDDD.Commands.MigrateCommand
+  nameWithType: MigrateCommand
+- uid: BaseDDD.Commands.MigrateCommand.Execute(System.String[])
+  name: Execute(string[])
+  href: BaseDDD.Commands.MigrateCommand.html#BaseDDD_Commands_MigrateCommand_Execute_System_String___
+  commentId: M:BaseDDD.Commands.MigrateCommand.Execute(System.String[])
+  name.vb: Execute(String())
+  fullName: BaseDDD.Commands.MigrateCommand.Execute(string[])
+  fullName.vb: BaseDDD.Commands.MigrateCommand.Execute(String())
+  nameWithType: MigrateCommand.Execute(string[])
+  nameWithType.vb: MigrateCommand.Execute(String())
+- uid: BaseDDD.Commands.MigrateCommand.Execute*
+  name: Execute
+  href: BaseDDD.Commands.MigrateCommand.html#BaseDDD_Commands_MigrateCommand_Execute_
+  commentId: Overload:BaseDDD.Commands.MigrateCommand.Execute
+  isSpec: "True"
+  fullName: BaseDDD.Commands.MigrateCommand.Execute
+  nameWithType: MigrateCommand.Execute
 - uid: BaseDDD.Commands.NewCommand
   name: NewCommand
   href: BaseDDD.Commands.NewCommand.html
@@ -339,6 +361,73 @@ references:
   isSpec: "True"
   fullName: BaseDDD.Generation.TestGenerator.Generate
   nameWithType: TestGenerator.Generate
+- uid: BaseDDD.Generation.VersionEnforcementGenerator
+  name: VersionEnforcementGenerator
+  href: BaseDDD.Generation.VersionEnforcementGenerator.html
+  commentId: T:BaseDDD.Generation.VersionEnforcementGenerator
+  fullName: BaseDDD.Generation.VersionEnforcementGenerator
+  nameWithType: VersionEnforcementGenerator
+- uid: BaseDDD.Generation.VersionEnforcementGenerator.#ctor(System.String)
+  name: VersionEnforcementGenerator(string)
+  href: BaseDDD.Generation.VersionEnforcementGenerator.html#BaseDDD_Generation_VersionEnforcementGenerator__ctor_System_String_
+  commentId: M:BaseDDD.Generation.VersionEnforcementGenerator.#ctor(System.String)
+  name.vb: New(String)
+  fullName: BaseDDD.Generation.VersionEnforcementGenerator.VersionEnforcementGenerator(string)
+  fullName.vb: BaseDDD.Generation.VersionEnforcementGenerator.New(String)
+  nameWithType: VersionEnforcementGenerator.VersionEnforcementGenerator(string)
+  nameWithType.vb: VersionEnforcementGenerator.New(String)
+- uid: BaseDDD.Generation.VersionEnforcementGenerator.#ctor*
+  name: VersionEnforcementGenerator
+  href: BaseDDD.Generation.VersionEnforcementGenerator.html#BaseDDD_Generation_VersionEnforcementGenerator__ctor_
+  commentId: Overload:BaseDDD.Generation.VersionEnforcementGenerator.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: BaseDDD.Generation.VersionEnforcementGenerator.VersionEnforcementGenerator
+  fullName.vb: BaseDDD.Generation.VersionEnforcementGenerator.New
+  nameWithType: VersionEnforcementGenerator.VersionEnforcementGenerator
+  nameWithType.vb: VersionEnforcementGenerator.New
+- uid: BaseDDD.Generation.VersionEnforcementGenerator.Check
+  name: Check()
+  href: BaseDDD.Generation.VersionEnforcementGenerator.html#BaseDDD_Generation_VersionEnforcementGenerator_Check
+  commentId: M:BaseDDD.Generation.VersionEnforcementGenerator.Check
+  fullName: BaseDDD.Generation.VersionEnforcementGenerator.Check()
+  nameWithType: VersionEnforcementGenerator.Check()
+- uid: BaseDDD.Generation.VersionEnforcementGenerator.Check*
+  name: Check
+  href: BaseDDD.Generation.VersionEnforcementGenerator.html#BaseDDD_Generation_VersionEnforcementGenerator_Check_
+  commentId: Overload:BaseDDD.Generation.VersionEnforcementGenerator.Check
+  isSpec: "True"
+  fullName: BaseDDD.Generation.VersionEnforcementGenerator.Check
+  nameWithType: VersionEnforcementGenerator.Check
+- uid: BaseDDD.Generation.VersionEnforcementGenerator.Generate
+  name: Generate()
+  href: BaseDDD.Generation.VersionEnforcementGenerator.html#BaseDDD_Generation_VersionEnforcementGenerator_Generate
+  commentId: M:BaseDDD.Generation.VersionEnforcementGenerator.Generate
+  fullName: BaseDDD.Generation.VersionEnforcementGenerator.Generate()
+  nameWithType: VersionEnforcementGenerator.Generate()
+- uid: BaseDDD.Generation.VersionEnforcementGenerator.Generate*
+  name: Generate
+  href: BaseDDD.Generation.VersionEnforcementGenerator.html#BaseDDD_Generation_VersionEnforcementGenerator_Generate_
+  commentId: Overload:BaseDDD.Generation.VersionEnforcementGenerator.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Generation.VersionEnforcementGenerator.Generate
+  nameWithType: VersionEnforcementGenerator.Generate
+- uid: BaseDDD.Generation.VersionEnforcementGenerator.Migrate(System.Boolean)
+  name: Migrate(bool)
+  href: BaseDDD.Generation.VersionEnforcementGenerator.html#BaseDDD_Generation_VersionEnforcementGenerator_Migrate_System_Boolean_
+  commentId: M:BaseDDD.Generation.VersionEnforcementGenerator.Migrate(System.Boolean)
+  name.vb: Migrate(Boolean)
+  fullName: BaseDDD.Generation.VersionEnforcementGenerator.Migrate(bool)
+  fullName.vb: BaseDDD.Generation.VersionEnforcementGenerator.Migrate(Boolean)
+  nameWithType: VersionEnforcementGenerator.Migrate(bool)
+  nameWithType.vb: VersionEnforcementGenerator.Migrate(Boolean)
+- uid: BaseDDD.Generation.VersionEnforcementGenerator.Migrate*
+  name: Migrate
+  href: BaseDDD.Generation.VersionEnforcementGenerator.html#BaseDDD_Generation_VersionEnforcementGenerator_Migrate_
+  commentId: Overload:BaseDDD.Generation.VersionEnforcementGenerator.Migrate
+  isSpec: "True"
+  fullName: BaseDDD.Generation.VersionEnforcementGenerator.Migrate
+  nameWithType: VersionEnforcementGenerator.Migrate
 - uid: BaseDDD.Helpers
   name: BaseDDD.Helpers
   href: BaseDDD.Helpers.html
@@ -373,6 +462,28 @@ references:
   commentId: N:BaseDDD.Infrastructure
   fullName: BaseDDD.Infrastructure
   nameWithType: BaseDDD.Infrastructure
+- uid: BaseDDD.Infrastructure.CompatibilityChecker
+  name: CompatibilityChecker
+  href: BaseDDD.Infrastructure.CompatibilityChecker.html
+  commentId: T:BaseDDD.Infrastructure.CompatibilityChecker
+  fullName: BaseDDD.Infrastructure.CompatibilityChecker
+  nameWithType: CompatibilityChecker
+- uid: BaseDDD.Infrastructure.CompatibilityChecker.Check(System.String)
+  name: Check(string)
+  href: BaseDDD.Infrastructure.CompatibilityChecker.html#BaseDDD_Infrastructure_CompatibilityChecker_Check_System_String_
+  commentId: M:BaseDDD.Infrastructure.CompatibilityChecker.Check(System.String)
+  name.vb: Check(String)
+  fullName: BaseDDD.Infrastructure.CompatibilityChecker.Check(string)
+  fullName.vb: BaseDDD.Infrastructure.CompatibilityChecker.Check(String)
+  nameWithType: CompatibilityChecker.Check(string)
+  nameWithType.vb: CompatibilityChecker.Check(String)
+- uid: BaseDDD.Infrastructure.CompatibilityChecker.Check*
+  name: Check
+  href: BaseDDD.Infrastructure.CompatibilityChecker.html#BaseDDD_Infrastructure_CompatibilityChecker_Check_
+  commentId: Overload:BaseDDD.Infrastructure.CompatibilityChecker.Check
+  isSpec: "True"
+  fullName: BaseDDD.Infrastructure.CompatibilityChecker.Check
+  nameWithType: CompatibilityChecker.Check
 - uid: BaseDDD.Infrastructure.DotnetRunner
   name: DotnetRunner
   href: BaseDDD.Infrastructure.DotnetRunner.html
@@ -503,6 +614,57 @@ references:
   isSpec: "True"
   fullName: BaseDDD.Infrastructure.GitRunner.Run
   nameWithType: GitRunner.Run
+- uid: BaseDDD.Infrastructure.MigrationRunner
+  name: MigrationRunner
+  href: BaseDDD.Infrastructure.MigrationRunner.html
+  commentId: T:BaseDDD.Infrastructure.MigrationRunner
+  fullName: BaseDDD.Infrastructure.MigrationRunner
+  nameWithType: MigrationRunner
+- uid: BaseDDD.Infrastructure.MigrationRunner.Apply(System.String,System.String,System.String)
+  name: Apply(string, string, string)
+  href: BaseDDD.Infrastructure.MigrationRunner.html#BaseDDD_Infrastructure_MigrationRunner_Apply_System_String_System_String_System_String_
+  commentId: M:BaseDDD.Infrastructure.MigrationRunner.Apply(System.String,System.String,System.String)
+  name.vb: Apply(String, String, String)
+  fullName: BaseDDD.Infrastructure.MigrationRunner.Apply(string, string, string)
+  fullName.vb: BaseDDD.Infrastructure.MigrationRunner.Apply(String, String, String)
+  nameWithType: MigrationRunner.Apply(string, string, string)
+  nameWithType.vb: MigrationRunner.Apply(String, String, String)
+- uid: BaseDDD.Infrastructure.MigrationRunner.Apply*
+  name: Apply
+  href: BaseDDD.Infrastructure.MigrationRunner.html#BaseDDD_Infrastructure_MigrationRunner_Apply_
+  commentId: Overload:BaseDDD.Infrastructure.MigrationRunner.Apply
+  isSpec: "True"
+  fullName: BaseDDD.Infrastructure.MigrationRunner.Apply
+  nameWithType: MigrationRunner.Apply
+- uid: BaseDDD.Infrastructure.MigrationRunner.Create
+  name: Create()
+  href: BaseDDD.Infrastructure.MigrationRunner.html#BaseDDD_Infrastructure_MigrationRunner_Create
+  commentId: M:BaseDDD.Infrastructure.MigrationRunner.Create
+  fullName: BaseDDD.Infrastructure.MigrationRunner.Create()
+  nameWithType: MigrationRunner.Create()
+- uid: BaseDDD.Infrastructure.MigrationRunner.Create*
+  name: Create
+  href: BaseDDD.Infrastructure.MigrationRunner.html#BaseDDD_Infrastructure_MigrationRunner_Create_
+  commentId: Overload:BaseDDD.Infrastructure.MigrationRunner.Create
+  isSpec: "True"
+  fullName: BaseDDD.Infrastructure.MigrationRunner.Create
+  nameWithType: MigrationRunner.Create
+- uid: BaseDDD.Infrastructure.MigrationRunner.DryRun(System.String,System.String,System.String)
+  name: DryRun(string, string, string)
+  href: BaseDDD.Infrastructure.MigrationRunner.html#BaseDDD_Infrastructure_MigrationRunner_DryRun_System_String_System_String_System_String_
+  commentId: M:BaseDDD.Infrastructure.MigrationRunner.DryRun(System.String,System.String,System.String)
+  name.vb: DryRun(String, String, String)
+  fullName: BaseDDD.Infrastructure.MigrationRunner.DryRun(string, string, string)
+  fullName.vb: BaseDDD.Infrastructure.MigrationRunner.DryRun(String, String, String)
+  nameWithType: MigrationRunner.DryRun(string, string, string)
+  nameWithType.vb: MigrationRunner.DryRun(String, String, String)
+- uid: BaseDDD.Infrastructure.MigrationRunner.DryRun*
+  name: DryRun
+  href: BaseDDD.Infrastructure.MigrationRunner.html#BaseDDD_Infrastructure_MigrationRunner_DryRun_
+  commentId: Overload:BaseDDD.Infrastructure.MigrationRunner.DryRun
+  isSpec: "True"
+  fullName: BaseDDD.Infrastructure.MigrationRunner.DryRun
+  nameWithType: MigrationRunner.DryRun
 - uid: BaseDDD.Infrastructure.ProcessRunner
   name: ProcessRunner
   href: BaseDDD.Infrastructure.ProcessRunner.html
@@ -525,12 +687,101 @@ references:
   isSpec: "True"
   fullName: BaseDDD.Infrastructure.ProcessRunner.Run
   nameWithType: ProcessRunner.Run
+- uid: BaseDDD.Migrations
+  name: BaseDDD.Migrations
+  href: BaseDDD.Migrations.html
+  commentId: N:BaseDDD.Migrations
+  fullName: BaseDDD.Migrations
+  nameWithType: BaseDDD.Migrations
+- uid: BaseDDD.Migrations.IMigrationStep
+  name: IMigrationStep
+  href: BaseDDD.Migrations.IMigrationStep.html
+  commentId: T:BaseDDD.Migrations.IMigrationStep
+  fullName: BaseDDD.Migrations.IMigrationStep
+  nameWithType: IMigrationStep
+- uid: BaseDDD.Migrations.IMigrationStep.Apply(System.String)
+  name: Apply(string)
+  href: BaseDDD.Migrations.IMigrationStep.html#BaseDDD_Migrations_IMigrationStep_Apply_System_String_
+  commentId: M:BaseDDD.Migrations.IMigrationStep.Apply(System.String)
+  name.vb: Apply(String)
+  fullName: BaseDDD.Migrations.IMigrationStep.Apply(string)
+  fullName.vb: BaseDDD.Migrations.IMigrationStep.Apply(String)
+  nameWithType: IMigrationStep.Apply(string)
+  nameWithType.vb: IMigrationStep.Apply(String)
+- uid: BaseDDD.Migrations.IMigrationStep.Apply*
+  name: Apply
+  href: BaseDDD.Migrations.IMigrationStep.html#BaseDDD_Migrations_IMigrationStep_Apply_
+  commentId: Overload:BaseDDD.Migrations.IMigrationStep.Apply
+  isSpec: "True"
+  fullName: BaseDDD.Migrations.IMigrationStep.Apply
+  nameWithType: IMigrationStep.Apply
+- uid: BaseDDD.Migrations.IMigrationStep.Describe
+  name: Describe()
+  href: BaseDDD.Migrations.IMigrationStep.html#BaseDDD_Migrations_IMigrationStep_Describe
+  commentId: M:BaseDDD.Migrations.IMigrationStep.Describe
+  fullName: BaseDDD.Migrations.IMigrationStep.Describe()
+  nameWithType: IMigrationStep.Describe()
+- uid: BaseDDD.Migrations.IMigrationStep.Describe*
+  name: Describe
+  href: BaseDDD.Migrations.IMigrationStep.html#BaseDDD_Migrations_IMigrationStep_Describe_
+  commentId: Overload:BaseDDD.Migrations.IMigrationStep.Describe
+  isSpec: "True"
+  fullName: BaseDDD.Migrations.IMigrationStep.Describe
+  nameWithType: IMigrationStep.Describe
+- uid: BaseDDD.Migrations.IMigrationStep.FromVersion
+  name: FromVersion
+  href: BaseDDD.Migrations.IMigrationStep.html#BaseDDD_Migrations_IMigrationStep_FromVersion
+  commentId: P:BaseDDD.Migrations.IMigrationStep.FromVersion
+  fullName: BaseDDD.Migrations.IMigrationStep.FromVersion
+  nameWithType: IMigrationStep.FromVersion
+- uid: BaseDDD.Migrations.IMigrationStep.FromVersion*
+  name: FromVersion
+  href: BaseDDD.Migrations.IMigrationStep.html#BaseDDD_Migrations_IMigrationStep_FromVersion_
+  commentId: Overload:BaseDDD.Migrations.IMigrationStep.FromVersion
+  isSpec: "True"
+  fullName: BaseDDD.Migrations.IMigrationStep.FromVersion
+  nameWithType: IMigrationStep.FromVersion
+- uid: BaseDDD.Migrations.IMigrationStep.ToVersion
+  name: ToVersion
+  href: BaseDDD.Migrations.IMigrationStep.html#BaseDDD_Migrations_IMigrationStep_ToVersion
+  commentId: P:BaseDDD.Migrations.IMigrationStep.ToVersion
+  fullName: BaseDDD.Migrations.IMigrationStep.ToVersion
+  nameWithType: IMigrationStep.ToVersion
+- uid: BaseDDD.Migrations.IMigrationStep.ToVersion*
+  name: ToVersion
+  href: BaseDDD.Migrations.IMigrationStep.html#BaseDDD_Migrations_IMigrationStep_ToVersion_
+  commentId: Overload:BaseDDD.Migrations.IMigrationStep.ToVersion
+  isSpec: "True"
+  fullName: BaseDDD.Migrations.IMigrationStep.ToVersion
+  nameWithType: IMigrationStep.ToVersion
 - uid: BaseDDD.Templates
   name: BaseDDD.Templates
   href: BaseDDD.Templates.html
   commentId: N:BaseDDD.Templates
   fullName: BaseDDD.Templates
   nameWithType: BaseDDD.Templates
+- uid: BaseDDD.Templates.BaseDddJsonTemplate
+  name: BaseDddJsonTemplate
+  href: BaseDDD.Templates.BaseDddJsonTemplate.html
+  commentId: T:BaseDDD.Templates.BaseDddJsonTemplate
+  fullName: BaseDDD.Templates.BaseDddJsonTemplate
+  nameWithType: BaseDddJsonTemplate
+- uid: BaseDDD.Templates.BaseDddJsonTemplate.Generate(System.String,System.String,System.DateTime,System.DateTime)
+  name: Generate(string, string, DateTime, DateTime)
+  href: BaseDDD.Templates.BaseDddJsonTemplate.html#BaseDDD_Templates_BaseDddJsonTemplate_Generate_System_String_System_String_System_DateTime_System_DateTime_
+  commentId: M:BaseDDD.Templates.BaseDddJsonTemplate.Generate(System.String,System.String,System.DateTime,System.DateTime)
+  name.vb: Generate(String, String, Date, Date)
+  fullName: BaseDDD.Templates.BaseDddJsonTemplate.Generate(string, string, System.DateTime, System.DateTime)
+  fullName.vb: BaseDDD.Templates.BaseDddJsonTemplate.Generate(String, String, Date, Date)
+  nameWithType: BaseDddJsonTemplate.Generate(string, string, DateTime, DateTime)
+  nameWithType.vb: BaseDddJsonTemplate.Generate(String, String, Date, Date)
+- uid: BaseDDD.Templates.BaseDddJsonTemplate.Generate*
+  name: Generate
+  href: BaseDDD.Templates.BaseDddJsonTemplate.html#BaseDDD_Templates_BaseDddJsonTemplate_Generate_
+  commentId: Overload:BaseDDD.Templates.BaseDddJsonTemplate.Generate
+  isSpec: "True"
+  fullName: BaseDDD.Templates.BaseDddJsonTemplate.Generate
+  nameWithType: BaseDddJsonTemplate.Generate
 - uid: BaseDDD.Templates.CheckMissingToolTemplate
   name: CheckMissingToolTemplate
   href: BaseDDD.Templates.CheckMissingToolTemplate.html
