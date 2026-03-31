@@ -2,8 +2,8 @@
 
   <!-- GLOBAL METADATA -->
   <PropertyGroup>
-    <Authors>BaseDDD</Authors>
-    <RepositoryUrl>https://github.com/lucascaovilla/base-ddd</RepositoryUrl>
+    <Authors>Olav</Authors>
+    <RepositoryUrl>https://github.com/lucascaovilla/olav</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>

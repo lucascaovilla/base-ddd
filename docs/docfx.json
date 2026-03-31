@@ -5,7 +5,7 @@
       "src": [
         {
           "src": "../",
-          "files": ["src/BaseDDD.Cli/BaseDDD.Cli.csproj"]
+          "files": ["src/Olav.Cli/Olav.Cli.csproj"]
         }
       ]
     }
@@ -20,8 +20,8 @@
     "output": "_site",
     "template": ["default", "modern"],
     "globalMetadata": {
-      "_appName": "BaseDDD",
-      "_appTitle": "BaseDDD",
+      "_appName": "Olav",
+      "_appTitle": "Olav",
       "_enableSearch": true,
       "pdf": false
     }

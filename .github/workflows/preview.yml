@@ -26,7 +26,7 @@ jobs:
       - name: Compute preview version
         id: compute
         run: |
-          BASE=$(dotnet msbuild src/BaseDDD.Cli/BaseDDD.Cli.csproj -nologo -v:q -getProperty:Version \
+          BASE=$(dotnet msbuild src/Olav.Cli/Olav.Cli.csproj -nologo -v:q -getProperty:Version \
             | sed -E 's/([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
           COUNT=$(git tag -l "v${BASE}-preview.*" | wc -l | tr -d ' ')
           NEXT=$((COUNT + 1))
