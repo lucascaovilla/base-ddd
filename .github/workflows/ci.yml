@@ -35,7 +35,7 @@ jobs:
       - name: Build solution
         run: dotnet build --configuration Release --no-restore
 
-      - name: Install BaseDDD CLI
+      - name: Install Olav CLI
         run: ./scripts/install-local.sh
 
       - name: Run tests with coverage

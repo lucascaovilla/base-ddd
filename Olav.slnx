@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Olav.Cli/Olav.Cli.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Olav.ArchitectureTests/Olav.ArchitectureTests.csproj" />
+    <Project Path="tests/Olav.IntegrationTests/Olav.IntegrationTests.csproj" />
+    <Project Path="tests/Olav.UnitTests/Olav.UnitTests.csproj" />
+  </Folder>
+</Solution>

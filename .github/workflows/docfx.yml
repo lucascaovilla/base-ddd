@@ -40,7 +40,7 @@ jobs:
 
       - name: Build XML docs
         run: |
-          dotnet build src/BaseDDD.Cli/BaseDDD.Cli.csproj \
+          dotnet build src/Olav.Cli/Olav.Cli.csproj \
             -c Release /p:GenerateDocumentationFile=true
 
       - name: Build DocFX site
@@ -112,7 +112,7 @@ jobs:
           <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>BaseDDD Documentation</title>
+            <title>Olav Documentation</title>
             <style>
               body { font-family: sans-serif; max-width: 800px; margin: 60px auto; padding: 0 24px; color: #1a1a1a; }
               h1 { font-size: 2rem; margin-bottom: 8px; }
@@ -125,8 +125,8 @@ jobs:
             </style>
           </head>
           <body>
-            <h1>BaseDDD</h1>
-            <p>Documentation for all versions of BaseDDD.</p>
+            <h1>Olav</h1>
+            <p>Documentation for all versions of Olav.</p>
             <h2>Releases</h2>
             <ul>
               ${RELEASES:-<li><em>No releases yet.</em></li>}
@@ -152,7 +152,7 @@ jobs:
           <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Releases | BaseDDD</title>
+            <title>Releases | Olav</title>
             <style>
               body { font-family: sans-serif; max-width: 800px; margin: 60px auto; padding: 0 24px; color: #1a1a1a; }
               h1 { font-size: 2rem; margin-bottom: 8px; }

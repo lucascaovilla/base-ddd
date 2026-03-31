@@ -34,7 +34,7 @@ jobs:
             exit 1
           fi
           BASE="${BASH_REMATCH[1]}"
-          CURRENT=$(dotnet msbuild src/BaseDDD.Cli/BaseDDD.Cli.csproj -nologo -v:q -getProperty:Version \
+          CURRENT=$(dotnet msbuild src/Olav.Cli/Olav.Cli.csproj -nologo -v:q -getProperty:Version \
             | sed -E 's/([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
           if [[ "$BASE" != "$CURRENT" ]]; then
             echo "RC tag base $BASE does not match csproj version $CURRENT"

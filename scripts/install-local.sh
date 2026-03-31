@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
-VERSION=$(grep -oP '(?<=<Version>)[^<]+' src/BaseDDD.Cli/BaseDDD.Cli.csproj)
+VERSION=$(grep -oP '(?<=<Version>)[^<]+' src/Olav.Cli/Olav.Cli.csproj)
 
 rm -Rf ./nupkg ./obj
-dotnet pack src/BaseDDD.Cli/BaseDDD.Cli.csproj -c Release -o ./nupkg
-dotnet tool uninstall -g baseddd.cli || true
-dotnet tool install -g --add-source ./nupkg baseddd.cli --version "$VERSION"
+dotnet pack src/Olav.Cli/Olav.Cli.csproj -c Release -o ./nupkg
+dotnet tool uninstall -g olav.cli || true
+dotnet tool install -g --add-source ./nupkg olav.cli --version "$VERSION"
 
-echo "Installed baseddd version $VERSION"
+echo "Installed olav version $VERSION"

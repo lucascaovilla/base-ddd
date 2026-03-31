@@ -36,7 +36,7 @@ jobs:
       - name: Bump version in csproj
         run: |
           sed -i -E "s#<Version>[^<]*</Version>#<Version>${{ inputs.version }}</Version>#g" \
-            src/BaseDDD.Cli/BaseDDD.Cli.csproj
+            src/Olav.Cli/Olav.Cli.csproj
 
       - run: dotnet restore
       - run: dotnet build -c Release --no-restore
@@ -52,7 +52,7 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add src/BaseDDD.Cli/BaseDDD.Cli.csproj
+          git add src/Olav.Cli/Olav.Cli.csproj
           git commit -m "chore: bump version to ${{ inputs.version }}"
           git pull --rebase origin main
           git push origin main

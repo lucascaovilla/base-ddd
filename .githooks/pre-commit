@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "Running BaseDDD pre-commit..."
+echo "Running Olav pre-commit..."
 
 dotnet format --verify-no-changes || exit 1
 dotnet build -c Debug || exit 1
