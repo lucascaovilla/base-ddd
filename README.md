@@ -236,7 +236,7 @@ dotnet tool update --global --add-source ./nupkg Olav.Cli
 
 ## License
 
-MIT © [Your Name](https://github.com/your-org)
+MIT © [Lucas Caovilla](https://github.com/lucascaovilla)
 
 ---
 
