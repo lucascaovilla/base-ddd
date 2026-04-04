@@ -97,13 +97,16 @@ jobs:
                   /\|/ {
                     split($0, a, "|");
                     file = a[1];
-                    bar  = a[2];
+                    detail = a[2];
                     gsub(/^ +| +$/, "", file);
-                    gsub(/ +[0-9].*$/, "", bar);
-                    gsub(/^ +/, "", bar);
+                    gsub(/^ +/, "", detail);
+                    sub(/^[0-9]+ */, "", detail);
 
-                    ins = gsub(/\+/, "+", bar);
-                    del = gsub(/-/, "-", bar);
+                    bar = detail;
+                    gsub(/[^+\-]/, "", bar);
+
+                    ins = split(bar, tmp, "+") - 1;
+                    del = split(bar, tmp, "-") - 1;
 
                     print "<tr><td class=\"file\">" file "</td><td class=\"bar\">" bar "</td><td class=\"ins\">+" ins "</td><td class=\"del\">-" del "</td></tr>"
                   }
