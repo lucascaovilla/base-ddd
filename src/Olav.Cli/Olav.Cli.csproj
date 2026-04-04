@@ -20,7 +20,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.0.11-rc.3</Version>
+    <Version>0.0.11-preview.35</Version>
     <TemplateVersion>1.0</TemplateVersion>
     <MinSupportedTemplateVersion>1.0</MinSupportedTemplateVersion>
   </PropertyGroup>
