@@ -44,6 +44,10 @@ jobs:
 
       # ── FULL MODE ────────────────────────────────────────────────────────────
 
+      - name: Install DocFX
+        if: env.IS_RELEASE == 'true'
+        run: dotnet tool install -g docfx
+
       - name: Build XML docs
         if: env.IS_RELEASE == 'true'
         run: |
@@ -61,7 +65,6 @@ jobs:
         run: |
           CURRENT="${{ env.CURRENT_TAG }}"
 
-          # Find the last stable release tag (vX.Y.Z only, no pre-release)
           LAST_RELEASE=$(git tag -l 'v[0-9]*.[0-9]*.[0-9]*' \
             | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
             | sort -rV \
@@ -75,31 +78,32 @@ jobs:
             SINCE_LABEL="$LAST_RELEASE"
           fi
 
-          # Build HTML commit entries with per-file diffs
           ENTRIES=""
           while IFS= read -r HASH; do
+            # Skip merge commits
+            PARENT_COUNT=$(git cat-file -p "$HASH" | grep -c '^parent ')
+            if [[ "$PARENT_COUNT" -gt 1 ]]; then
+              continue
+            fi
+
             SUBJECT=$(git log -1 --format="%s" "$HASH")
             AUTHOR=$(git log -1 --format="%an" "$HASH")
             DATE=$(git log -1 --format="%ad" --date=format:"%Y-%m-%d" "$HASH")
 
-            # Per-file stat for this commit
             FILE_STATS=$(git show --stat --format="" "$HASH" \
-              | grep -E '^\s' \
+              | grep '|' \
               | sed 's/^ *//' \
               | awk '
                   /\|/ {
                     split($0, a, "|");
                     file = a[1];
-                    detail = a[2];
+                    bar  = a[2];
                     gsub(/^ +| +$/, "", file);
-                    gsub(/^ +/, "", detail);
+                    gsub(/ +[0-9].*$/, "", bar);
+                    gsub(/^ +/, "", bar);
 
-                    ins = 0; del = 0;
-                    match(detail, /([0-9]+) insertion/, arr); if (arr[1] != "") ins = arr[1];
-                    match(detail, /([0-9]+) deletion/, arr);  if (arr[1] != "") del = arr[1];
-
-                    bar = detail;
-                    gsub(/[^+\-]/, "", bar);
+                    ins = gsub(/\+/, "+", bar);
+                    del = gsub(/-/, "-", bar);
 
                     print "<tr><td class=\"file\">" file "</td><td class=\"bar\">" bar "</td><td class=\"ins\">+" ins "</td><td class=\"del\">-" del "</td></tr>"
                   }
@@ -113,7 +117,7 @@ jobs:
                 <span class=\"meta\">${AUTHOR} · ${DATE}</span>
               </div>
               <table class=\"diff-stat\">
-                <thead><tr><th>File</th><th></th><th>+</th><th>-</th></tr></thead>
+                <thead><tr><th>File</th><th>Changes</th><th>+</th><th>-</th></tr></thead>
                 <tbody>${FILE_STATS}</tbody>
               </table>
             </div>"
@@ -144,7 +148,6 @@ jobs:
               .subtitle { color: #666; font-size: 0.95rem; margin: 0; }
               .back { font-size: 0.85rem; color: #888; text-decoration: none; display: inline-block; margin-bottom: 32px; }
               .back:hover { color: #0969da; }
-
               .commit {
                 border: 1px solid #e5e7eb;
                 border-radius: 8px;
@@ -164,7 +167,6 @@ jobs:
               }
               .subject { font-weight: 600; font-size: 0.95rem; flex: 1; }
               .meta { font-size: 0.8rem; color: #888; margin-left: auto; white-space: nowrap; }
-
               table.diff-stat {
                 width: 100%; border-collapse: collapse;
                 font-size: 0.85rem; font-family: monospace;
@@ -181,7 +183,6 @@ jobs:
               td.bar { font-family: monospace; letter-spacing: -1px; color: #555; }
               td.ins { color: #1a7f37; font-weight: 600; white-space: nowrap; }
               td.del { color: #cf222e; font-weight: 600; white-space: nowrap; }
-
               .empty { color: #888; font-style: italic; }
             </style>
           </head>
@@ -293,7 +294,6 @@ jobs:
           </html>
           HTMLEOF
 
-          # Inject releases list
           if [[ -z "$RELEASES" ]]; then
             RELEASES='<li><em>No releases yet.</em></li>'
           fi
