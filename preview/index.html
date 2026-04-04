@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Changelog — v0.0.11-preview.37 | Olav</title>
+  <title>Changelog — v0.0.11-preview.38 | Olav</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     body {
@@ -45,11 +45,11 @@
 <body>
   <a class="back" href="../../">← All versions</a>
   <header>
-    <h1>Changelog · v0.0.11-preview.37</h1>
+    <h1>Changelog · v0.0.11-preview.38</h1>
     <p class="subtitle">Changes since v0.0.11</p>
     <a class="diff-link" href="diff.html">View full diff →</a>
   </header>
-  <p class="summary">114 files changed, 3875 insertions(+), 466 deletions(-)</p>
+  <p class="summary">114 files changed, 3858 insertions(+), 466 deletions(-)</p>
   <table class="diff-stat">
     <thead><tr><th>File</th><th>Changes</th><th>+</th><th>-</th></tr></thead>
     <tbody><tr><td class="file">.githooks/pre-commit</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
@@ -57,9 +57,9 @@
 <tr><td class="file">.github/workflows/build.yml</td><td class="bar">++++</td><td class="ins">+4</td><td class="del">-0</td></tr>
 <tr><td class="file">.github/workflows/ci.yml</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
 <tr><td class="file">.github/workflows/docfx.yml</td><td class="bar">+++++++++++++++++++++</td><td class="ins">+21</td><td class="del">-0</td></tr>
-<tr><td class="file">.github/workflows/preview.yml</td><td class="bar">+---</td><td class="ins">+1</td><td class="del">-3</td></tr>
+<tr><td class="file">.github/workflows/preview.yml</td><td class="bar">++--</td><td class="ins">+2</td><td class="del">-2</td></tr>
 <tr><td class="file">.github/workflows/release-candidate.yml</td><td class="bar">++--</td><td class="ins">+2</td><td class="del">-2</td></tr>
-<tr><td class="file">.github/workflows/release.yml</td><td class="bar">++----</td><td class="ins">+2</td><td class="del">-4</td></tr>
+<tr><td class="file">.github/workflows/release.yml</td><td class="bar">+++---</td><td class="ins">+3</td><td class="del">-3</td></tr>
 <tr><td class="file">.gitignore</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
 <tr><td class="file">BaseDDD.Cli.csproj</td><td class="bar">---</td><td class="ins">+0</td><td class="del">-3</td></tr>
 <tr><td class="file">Commands/LintCommand.cs</td><td class="bar">--</td><td class="ins">+0</td><td class="del">-2</td></tr>
@@ -67,7 +67,7 @@
 <tr><td class="file">Directory.Build.props</td><td class="bar">++-</td><td class="ins">+2</td><td class="del">-1</td></tr>
 <tr><td class="file">LICENSE</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
 <tr><td class="file">Olav.slnx</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
-<tr><td class="file">README.md</td><td class="bar">++++++++++--</td><td class="ins">+10</td><td class="del">-2</td></tr>
+<tr><td class="file">README.md</td><td class="bar">+++++++++++--</td><td class="ins">+11</td><td class="del">-2</td></tr>
 <tr><td class="file">docs/docfx.json</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
 <tr><td class="file">docs/getting-started.md</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
 <tr><td class="file">docs/index.md</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
@@ -85,13 +85,13 @@
 <tr><td class="file">.../Olav.Cli/Generation}/ProjectGenerator.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
 <tr><td class="file">.../Olav.Cli/Generation}/SolutionGenerator.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
 <tr><td class="file">.../Olav.Cli/Generation}/TestGenerator.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
-<tr><td class="file">.../Generation/VersionEnforcementGenerator.cs</td><td class="bar">+++++</td><td class="ins">+5</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Generation/VersionEnforcementGenerator.cs</td><td class="bar">++++++</td><td class="ins">+6</td><td class="del">-0</td></tr>
 <tr><td class="file">src/Olav.Cli/Helpers/ProjectRootHelper.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
-<tr><td class="file">.../Infrastructure/CompatibilityChecker.cs</td><td class="bar">+++</td><td class="ins">+3</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Infrastructure/CompatibilityChecker.cs</td><td class="bar">++++</td><td class="ins">+4</td><td class="del">-0</td></tr>
 <tr><td class="file">.../Olav.Cli/Infrastructure}/DotnetRunner.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
 <tr><td class="file">.../Olav.Cli/Infrastructure}/FileSystem.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
 <tr><td class="file">.../Olav.Cli/Infrastructure}/GitRunner.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
-<tr><td class="file">src/Olav.Cli/Infrastructure/MigrationRunner.cs</td><td class="bar">+++++</td><td class="ins">+5</td><td class="del">-0</td></tr>
+<tr><td class="file">src/Olav.Cli/Infrastructure/MigrationRunner.cs</td><td class="bar">++++++</td><td class="ins">+6</td><td class="del">-0</td></tr>
 <tr><td class="file">src/Olav.Cli/Infrastructure/ProcessRunner.cs</td><td class="bar">+++</td><td class="ins">+3</td><td class="del">-0</td></tr>
 <tr><td class="file">src/Olav.Cli/Migrations/IMigrationStep.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
 <tr><td class="file">.../Migrations/MigrationStep_1_0_To_1_1.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
@@ -103,7 +103,7 @@
 <tr><td class="file">.../Templates}/DependencyRulesTestsTemplate.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
 <tr><td class="file">.../Templates}/DirectoryBuildPropsTemplate.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
 <tr><td class="file">.../Templates}/DirectoryPackagePropsTemplate.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
-<tr><td class="file">src/Olav.Cli/Templates/DockerComposeTemplate.cs</td><td class="bar">+++++</td><td class="ins">+5</td><td class="del">-0</td></tr>
+<tr><td class="file">src/Olav.Cli/Templates/DockerComposeTemplate.cs</td><td class="bar">++++++</td><td class="ins">+6</td><td class="del">-0</td></tr>
 <tr><td class="file">src/Olav.Cli/Templates/DockerfileTemplate.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
 <tr><td class="file">src/Olav.Cli/Templates/DockerignoreTemplate.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
 <tr><td class="file">.../Olav.Cli/Templates}/EditorConfigTemplate.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
@@ -124,13 +124,13 @@
 <tr><td class="file">stylecop.json</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
 <tr><td class="file">tests/Directory.Build.props</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
 <tr><td class="file">.../Architecture/LayerDependencyTests.cs</td><td class="bar">+++</td><td class="ins">+3</td><td class="del">-0</td></tr>
-<tr><td class="file">.../Architecture/NamingConventionTests.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
-<tr><td class="file">.../Architecture/NoForbiddenDependenciesTests.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Architecture/NamingConventionTests.cs</td><td class="bar">+++</td><td class="ins">+3</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Architecture/NoForbiddenDependenciesTests.cs</td><td class="bar">+++</td><td class="ins">+3</td><td class="del">-0</td></tr>
 <tr><td class="file">.../Architecture/TemplatesIsolationTests.cs</td><td class="bar">++++</td><td class="ins">+4</td><td class="del">-0</td></tr>
 <tr><td class="file">.../Olav.ArchitectureTests.csproj</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
 <tr><td class="file">.../Cli/DockerBuild_EndToEndTests.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
 <tr><td class="file">.../Cli/LintCommand_EndToEndTests.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
-<tr><td class="file">.../Cli/MigrateCommand_EndToEndTests.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Cli/MigrateCommand_EndToEndTests.cs</td><td class="bar">+++</td><td class="ins">+3</td><td class="del">-0</td></tr>
 <tr><td class="file">.../Cli/NewCommand_EndToEndTests.cs</td><td class="bar">+++++</td><td class="ins">+5</td><td class="del">-0</td></tr>
 <tr><td class="file">.../Cli/VerifyCommand_EndToEndTests.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
 <tr><td class="file">.../Generation/CiPipelineGenerationTests.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>

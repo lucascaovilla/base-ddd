@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Full Diff — v0.0.11-preview.37 | Olav</title>
+  <title>Full Diff — v0.0.11-preview.38 | Olav</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     body {
@@ -36,7 +36,7 @@
 <body>
   <a class="back" href="index.html">← Back to changelog</a>
   <header>
-    <h1>Full Diff · v0.0.11-preview.37</h1>
+    <h1>Full Diff · v0.0.11-preview.38</h1>
     <p class="subtitle">Changes since v0.0.11</p>
   </header>
   <div class="file-block">
@@ -182,7 +182,7 @@
 <div class="file-header"><span class="file-name">workflows/docfx.yml b/.github/workflows/docfx.yml</span></div>
 <div class="file-body">
 <div class="ctx">new file mode 100644</div>
-<div class="hunk">@@ -0,0 +1,441 @@</div>
+<div class="hunk">@@ -0,0 +1,424 @@</div>
 <div class="add">+name: Documentation</div>
 <div class="add">+</div>
 <div class="add">+on:</div>
@@ -222,31 +222,14 @@
 <div class="add">+            echo "CURRENT_TAG=${BASH_REMATCH[1]}" &gt;&gt; $GITHUB_ENV</div>
 <div class="add">+            echo "IS_RELEASE=false" &gt;&gt; $GITHUB_ENV</div>
 <div class="add">+          else</div>
-<div class="add">+            # workflow_dispatch — GITHUB_REF is a branch. Resolve from git tags directly.</div>
-<div class="add">+            LATEST_RC=$(git tag -l \</div>
-<div class="add">+              | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+$' \</div>
-<div class="add">+              | sort -t. -k4 -rn \</div>
+<div class="add">+            CURRENT_TAG=$(git for-each-ref \</div>
+<div class="add">+              --sort=-creatordate \</div>
+<div class="add">+              --format='%(refname:short)' \</div>
+<div class="add">+              refs/tags \</div>
+<div class="add">+              | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+-(rc|preview)\.[0-9]+$' \</div>
 <div class="add">+              | head -1)</div>
 <div class="add">+</div>
-<div class="add">+            LATEST_PREVIEW=$(git tag -l \</div>
-<div class="add">+              | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+-preview\.[0-9]+$' \</div>
-<div class="add">+              | sort -t. -k4 -rn \</div>
-<div class="add">+              | head -1)</div>
-<div class="add">+</div>
-<div class="add">+            # Pick whichever was tagged more recently</div>
-<div class="add">+            if [[ -n "$LATEST_RC" &amp;&amp; -n "$LATEST_PREVIEW" ]]; then</div>
-<div class="add">+              RC_DATE=$(git log -1 --format="%ct" "$LATEST_RC")</div>
-<div class="add">+              PREVIEW_DATE=$(git log -1 --format="%ct" "$LATEST_PREVIEW")</div>
-<div class="add">+              if [[ "$RC_DATE" -ge "$PREVIEW_DATE" ]]; then</div>
-<div class="add">+                CURRENT_TAG="$LATEST_RC"</div>
-<div class="add">+              else</div>
-<div class="add">+                CURRENT_TAG="$LATEST_PREVIEW"</div>
-<div class="add">+              fi</div>
-<div class="add">+            elif [[ -n "$LATEST_RC" ]]; then</div>
-<div class="add">+              CURRENT_TAG="$LATEST_RC"</div>
-<div class="add">+            elif [[ -n "$LATEST_PREVIEW" ]]; then</div>
-<div class="add">+              CURRENT_TAG="$LATEST_PREVIEW"</div>
-<div class="add">+            else</div>
+<div class="add">+            if [[ -z "$CURRENT_TAG" ]]; then</div>
 <div class="add">+              CURRENT_TAG="HEAD"</div>
 <div class="add">+            fi</div>
 <div class="add">+</div>
