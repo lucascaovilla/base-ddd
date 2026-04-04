@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Changelog — v0.0.11-rc.5 | Olav</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      max-width: 900px; margin: 60px auto; padding: 0 24px;
+      color: #1a1a1a; background: #fff;
+    }
+    header { margin-bottom: 40px; }
+    h1 { font-size: 1.6rem; margin: 0 0 4px; }
+    .subtitle { color: #666; font-size: 0.95rem; margin: 0 0 12px; }
+    .diff-link {
+      display: inline-block; margin-top: 4px;
+      font-size: 0.88rem; color: #0969da; text-decoration: none;
+    }
+    .diff-link:hover { text-decoration: underline; }
+    .back { font-size: 0.85rem; color: #888; text-decoration: none; display: inline-block; margin-bottom: 32px; }
+    .back:hover { color: #0969da; }
+    .summary { font-size: 0.85rem; color: #555; margin-bottom: 24px; font-family: monospace; }
+    table.diff-stat {
+      width: 100%; border-collapse: collapse;
+      font-size: 0.85rem; font-family: monospace;
+      border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;
+    }
+    table.diff-stat thead th {
+      text-align: left; padding: 8px 12px;
+      font-size: 0.75rem; color: #888;
+      border-bottom: 1px solid #e5e7eb;
+      background: #f6f8fa;
+    }
+    table.diff-stat tbody tr:hover { background: #f6f8fa; }
+    table.diff-stat td { padding: 5px 12px; vertical-align: middle; }
+    td.file { color: #1a1a1a; word-break: break-all; }
+    td.bar  { font-family: monospace; letter-spacing: -1px; color: #555; }
+    td.ins  { color: #1a7f37; font-weight: 600; white-space: nowrap; }
+    td.del  { color: #cf222e; font-weight: 600; white-space: nowrap; }
+    .empty  { color: #888; font-style: italic; }
+  </style>
+</head>
+<body>
+  <a class="back" href="../../">← All versions</a>
+  <header>
+    <h1>Changelog · v0.0.11-rc.5</h1>
+    <p class="subtitle">Changes since v0.0.11</p>
+    <a class="diff-link" href="diff.html">View full diff →</a>
+  </header>
+  <p class="summary">114 files changed, 3858 insertions(+), 466 deletions(-)</p>
+  <table class="diff-stat">
+    <thead><tr><th>File</th><th>Changes</th><th>+</th><th>-</th></tr></thead>
+    <tbody><tr><td class="file">.githooks/pre-commit</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">.githooks/pre-push</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">.github/workflows/build.yml</td><td class="bar">++++</td><td class="ins">+4</td><td class="del">-0</td></tr>
+<tr><td class="file">.github/workflows/ci.yml</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">.github/workflows/docfx.yml</td><td class="bar">+++++++++++++++++++++</td><td class="ins">+21</td><td class="del">-0</td></tr>
+<tr><td class="file">.github/workflows/preview.yml</td><td class="bar">++--</td><td class="ins">+2</td><td class="del">-2</td></tr>
+<tr><td class="file">.github/workflows/release-candidate.yml</td><td class="bar">++--</td><td class="ins">+2</td><td class="del">-2</td></tr>
+<tr><td class="file">.github/workflows/release.yml</td><td class="bar">+++---</td><td class="ins">+3</td><td class="del">-3</td></tr>
+<tr><td class="file">.gitignore</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">BaseDDD.Cli.csproj</td><td class="bar">---</td><td class="ins">+0</td><td class="del">-3</td></tr>
+<tr><td class="file">Commands/LintCommand.cs</td><td class="bar">--</td><td class="ins">+0</td><td class="del">-2</td></tr>
+<tr><td class="file">Commands/VerifyCommand.cs</td><td class="bar">--</td><td class="ins">+0</td><td class="del">-2</td></tr>
+<tr><td class="file">Directory.Build.props</td><td class="bar">++-</td><td class="ins">+2</td><td class="del">-1</td></tr>
+<tr><td class="file">LICENSE</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">Olav.slnx</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">README.md</td><td class="bar">+++++++++++--</td><td class="ins">+11</td><td class="del">-2</td></tr>
+<tr><td class="file">docs/docfx.json</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">docs/getting-started.md</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">docs/index.md</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">docs/introduction.md</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">docs/toc.yml</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">scripts/install-local.sh</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">src/Olav.Cli/Commands/LintCommand.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">src/Olav.Cli/Commands/MigrateCommand.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">{Commands => src/Olav.Cli/Commands}/NewCommand.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">src/Olav.Cli/Commands/VerifyCommand.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">src/Olav.Cli/Generation/BaseStructureGenerator.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Olav.Cli/Generation}/FileTemplateGenerator.cs</td><td class="bar">++-</td><td class="ins">+2</td><td class="del">-1</td></tr>
+<tr><td class="file">src/Olav.Cli/Generation/GitGenerator.cs</td><td class="bar">+++</td><td class="ins">+3</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Olav.Cli/Generation}/ObservabilityGenerator.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">.../Olav.Cli/Generation}/ProjectGenerator.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">.../Olav.Cli/Generation}/SolutionGenerator.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">.../Olav.Cli/Generation}/TestGenerator.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">.../Generation/VersionEnforcementGenerator.cs</td><td class="bar">++++++</td><td class="ins">+6</td><td class="del">-0</td></tr>
+<tr><td class="file">src/Olav.Cli/Helpers/ProjectRootHelper.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Infrastructure/CompatibilityChecker.cs</td><td class="bar">++++</td><td class="ins">+4</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Olav.Cli/Infrastructure}/DotnetRunner.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">.../Olav.Cli/Infrastructure}/FileSystem.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">.../Olav.Cli/Infrastructure}/GitRunner.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">src/Olav.Cli/Infrastructure/MigrationRunner.cs</td><td class="bar">++++++</td><td class="ins">+6</td><td class="del">-0</td></tr>
+<tr><td class="file">src/Olav.Cli/Infrastructure/ProcessRunner.cs</td><td class="bar">+++</td><td class="ins">+3</td><td class="del">-0</td></tr>
+<tr><td class="file">src/Olav.Cli/Migrations/IMigrationStep.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Migrations/MigrationStep_1_0_To_1_1.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">src/Olav.Cli/Olav.Cli.csproj</td><td class="bar">++++</td><td class="ins">+4</td><td class="del">-0</td></tr>
+<tr><td class="file">Program.cs => src/Olav.Cli/Program.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">src/Olav.Cli/Templates/CheckMissingToolTemplate.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Olav.Cli/Templates}/CiYmlTemplate.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">.../Templates}/CorrelationMiddlewareTemplate.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">.../Templates}/DependencyRulesTestsTemplate.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">.../Templates}/DirectoryBuildPropsTemplate.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">.../Templates}/DirectoryPackagePropsTemplate.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">src/Olav.Cli/Templates/DockerComposeTemplate.cs</td><td class="bar">++++++</td><td class="ins">+6</td><td class="del">-0</td></tr>
+<tr><td class="file">src/Olav.Cli/Templates/DockerfileTemplate.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">src/Olav.Cli/Templates/DockerignoreTemplate.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Olav.Cli/Templates}/EditorConfigTemplate.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">.../Olav.Cli/Templates}/FileHeaderTemplate.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">src/Olav.Cli/Templates/GitignoreTemplate.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Olav.Cli/Templates}/GlobalJsonTemplate.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">.../Templates}/InitialIntegrationTestTemplate.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">.../Olav.Cli/Templates}/LicenseTemplate.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">.../Templates}/ObservabilityExtensionsTemplate.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">.../Templates}/ObservabilityRulesTestsTemplate.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">src/Olav.Cli/Templates/OlavJsonTemplate.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">src/Olav.Cli/Templates/PreCommitTemplate.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">src/Olav.Cli/Templates/PrePushTemplate.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Olav.Cli/Templates}/ProgramFileTemplate.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">.../Olav.Cli/Templates}/StyleCopJsonTemplate.cs</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">src/Olav.Cli/Verifiers/DotnetVerifier.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">src/Olav.Cli/Verifiers/ProjectVerifier.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">stylecop.json</td><td class="bar">+-</td><td class="ins">+1</td><td class="del">-1</td></tr>
+<tr><td class="file">tests/Directory.Build.props</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Architecture/LayerDependencyTests.cs</td><td class="bar">+++</td><td class="ins">+3</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Architecture/NamingConventionTests.cs</td><td class="bar">+++</td><td class="ins">+3</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Architecture/NoForbiddenDependenciesTests.cs</td><td class="bar">+++</td><td class="ins">+3</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Architecture/TemplatesIsolationTests.cs</td><td class="bar">++++</td><td class="ins">+4</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Olav.ArchitectureTests.csproj</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Cli/DockerBuild_EndToEndTests.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Cli/LintCommand_EndToEndTests.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Cli/MigrateCommand_EndToEndTests.cs</td><td class="bar">+++</td><td class="ins">+3</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Cli/NewCommand_EndToEndTests.cs</td><td class="bar">+++++</td><td class="ins">+5</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Cli/VerifyCommand_EndToEndTests.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Generation/CiPipelineGenerationTests.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Collections/GeneratedProjectCollection.cs</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Generation/DockerFilesGenerationTests.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Generation/Fixtures/GeneratedProjectFixture.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Generation/GeneratedProjectStructureTests.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Generation/GitHooksGenerationTests.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Olav.IntegrationTests.csproj</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">tests/Olav.Testing/Extensions/TestExtensions.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">tests/Olav.Testing/Olav.Testing.csproj</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Generation/BaseStructureGeneratorTests.cs</td><td class="bar">+++</td><td class="ins">+3</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Generation/FileTemplateGeneratorTests.cs</td><td class="bar">+++</td><td class="ins">+3</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Olav.UnitTests/Generation/GitGeneratorTests.cs</td><td class="bar">+++</td><td class="ins">+3</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Generation/ObservabilityGeneratorTests.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Generation/VersionEnforcementGeneratorTests.cs</td><td class="bar">+++++++</td><td class="ins">+7</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Infrastructure/CompatibilityCheckerTests.cs</td><td class="bar">+++</td><td class="ins">+3</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Infrastructure/DotnetRunnerTests.cs</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Infrastructure/FileSystemTests.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Infrastructure/GitRunnerTests.cs</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Infrastructure/MigrationRunnerTests.cs</td><td class="bar">++++</td><td class="ins">+4</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Infrastructure/ProcessRunnerTests.cs</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">tests/Olav.UnitTests/Olav.UnitTests.csproj</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Olav.UnitTests/Templates/CiYmlTemplateTests.cs</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Templates/DirectoryBuildPropsTemplateTests.cs</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">.../DirectoryPackagePropsTemplateTests.cs</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Templates/DockerComposeTemplateTests.cs</td><td class="bar">++</td><td class="ins">+2</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Templates/DockerfileTemplateTests.cs</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Templates/EditorConfigTemplateTests.cs</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Templates/GitignoreTemplateTests.cs</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Templates/GlobalJsonTemplateTests.cs</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Templates/Helpers/TemplateValidationHelper.cs</td><td class="bar">+++++</td><td class="ins">+5</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Templates/OlavJsonTemplateTests.cs</td><td class="bar">+++++</td><td class="ins">+5</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Templates/PreCommitTemplateTests.cs</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr>
+<tr><td class="file">.../Templates/PrePushTemplateTests.cs</td><td class="bar">+</td><td class="ins">+1</td><td class="del">-0</td></tr></tbody>
+  </table>
+</body>
+</html>
