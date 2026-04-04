@@ -2,11 +2,6 @@ name: Documentation
 
 on:
   workflow_call:
-    inputs:
-      tag:
-        required: false
-        type: string
-        default: ""
 
 jobs:
   docs:
@@ -26,21 +21,23 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
-      - name: Install DocFX
-        run: dotnet tool install -g docfx
-
       - name: Resolve slot
         run: |
           REF="${GITHUB_REF}"
-
           if [[ "$REF" =~ ^refs/tags/v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
-            # Stable release tag pushed directly
             echo "SLOT=releases/v${BASH_REMATCH[1]}" >> $GITHUB_ENV
             echo "CURRENT_TAG=v${BASH_REMATCH[1]}" >> $GITHUB_ENV
             echo "IS_RELEASE=true" >> $GITHUB_ENV
+          elif [[ "$REF" =~ ^refs/tags/(.*-rc\..*)$ ]]; then
+            echo "SLOT=release-candidate" >> $GITHUB_ENV
+            echo "CURRENT_TAG=${BASH_REMATCH[1]}" >> $GITHUB_ENV
+            echo "IS_RELEASE=false" >> $GITHUB_ENV
+          elif [[ "$REF" =~ ^refs/tags/(.*-preview\..*)$ ]]; then
+            echo "SLOT=preview" >> $GITHUB_ENV
+            echo "CURRENT_TAG=${BASH_REMATCH[1]}" >> $GITHUB_ENV
+            echo "IS_RELEASE=false" >> $GITHUB_ENV
           else
-            # workflow_dispatch or push to main — GITHUB_REF is a branch, not a tag.
-            # Resolve the current tag by finding the latest RC or preview tag in the repo.
+            # workflow_dispatch — GITHUB_REF is a branch. Resolve from git tags directly.
             LATEST_RC=$(git tag -l \
               | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+$' \
               | sort -t. -k4 -rn \
@@ -51,7 +48,7 @@ jobs:
               | sort -t. -k4 -rn \
               | head -1)
 
-            # Pick whichever was created more recently by comparing commit timestamps
+            # Pick whichever was tagged more recently
             if [[ -n "$LATEST_RC" && -n "$LATEST_PREVIEW" ]]; then
               RC_DATE=$(git log -1 --format="%ct" "$LATEST_RC")
               PREVIEW_DATE=$(git log -1 --format="%ct" "$LATEST_PREVIEW")
@@ -73,18 +70,225 @@ jobs:
             else
               echo "SLOT=preview" >> $GITHUB_ENV
             fi
-
             echo "CURRENT_TAG=${CURRENT_TAG}" >> $GITHUB_ENV
             echo "IS_RELEASE=false" >> $GITHUB_ENV
           fi
 
+      # ── FULL MODE ────────────────────────────────────────────────────────────
+
+      - name: Install DocFX
+        if: env.IS_RELEASE == 'true'
+        run: dotnet tool install -g docfx
+
       - name: Build XML docs
+        if: env.IS_RELEASE == 'true'
         run: |
           dotnet build src/Olav.Cli/Olav.Cli.csproj \
             -c Release /p:GenerateDocumentationFile=true
 
       - name: Build DocFX site
+        if: env.IS_RELEASE == 'true'
         run: docfx docs/docfx.json
+
+      # ── CHANGELOG MODE ───────────────────────────────────────────────────────
+
+      - name: Generate changelog and diff pages
+        if: env.IS_RELEASE == 'false'
+        run: |
+          CURRENT="${{ env.CURRENT_TAG }}"
+
+          LAST_RELEASE=$(git tag -l 'v[0-9]*.[0-9]*.[0-9]*' \
+            | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
+            | sort -rV \
+            | head -1)
+
+          if [[ -z "$LAST_RELEASE" ]]; then
+            RANGE="$CURRENT"
+            SINCE_LABEL="the beginning"
+            DIFF_BASE="$(git rev-list --max-parents=0 HEAD)"
+          else
+            RANGE="${LAST_RELEASE}..${CURRENT}"
+            SINCE_LABEL="$LAST_RELEASE"
+            DIFF_BASE="$LAST_RELEASE"
+          fi
+
+          mkdir -p docs/_site
+
+          # ── Aggregate file stat table ─────────────────────────────────────────
+          FILE_ROWS=$(git diff --stat "$DIFF_BASE" "$CURRENT" \
+            | grep '|' \
+            | sed 's/^ *//' \
+            | awk '
+                /\|/ {
+                  split($0, a, "|");
+                  file = a[1];
+                  detail = a[2];
+                  gsub(/^ +| +$/, "", file);
+                  gsub(/^ +/, "", detail);
+                  sub(/^[0-9]+ */, "", detail);
+
+                  bar = detail;
+                  gsub(/[^+\-]/, "", bar);
+
+                  ins = (length(bar) > 0) ? split(bar, tmp, "+") - 1 : 0;
+                  del = (length(bar) > 0) ? split(bar, tmp, "-") - 1 : 0;
+
+                  print "<tr><td class=\"file\">" file "</td><td class=\"bar\">" bar "</td><td class=\"ins\">+" ins "</td><td class=\"del\">-" del "</td></tr>"
+                }
+              ')
+
+          STAT_SUMMARY=$(git diff --stat "$DIFF_BASE" "$CURRENT" | tail -1 | sed 's/^ *//')
+
+          if [[ -z "$FILE_ROWS" ]]; then
+            FILE_ROWS='<tr><td colspan="4" class="empty">No changes found.</td></tr>'
+          fi
+
+          # ── Full diff → diff.html ─────────────────────────────────────────────
+          DIFF_BODY=$(git diff "$DIFF_BASE" "$CURRENT" \
+            -- \
+            ':(exclude)*.csproj' \
+            ':(exclude)*.slnx' \
+            ':(exclude)*.sln' \
+            | sed \
+                -e 's/&/\&amp;/g' \
+                -e 's/</\&lt;/g' \
+                -e 's/>/\&gt;/g' \
+            | awk '
+                /^diff --git/ {
+                  if (open) print "</div></div>"
+                  # extract filename from "diff --git a/foo b/foo"
+                  match($0, /b\/(.+)$/, arr)
+                  fname = arr[1]
+                  print "<div class=\"file-block\">"
+                  print "<div class=\"file-header\"><span class=\"file-name\">" fname "</span></div>"
+                  print "<div class=\"file-body\">"
+                  open = 1
+                  next
+                }
+                /^index /    { next }
+                /^--- /      { next }
+                /^\+\+\+ /   { next }
+                /^Binary /   { print "<div class=\"binary\">Binary file changed</div>"; next }
+                /^@@/ {
+                  print "<div class=\"hunk\">" $0 "</div>"
+                  next
+                }
+                /^\+/ { print "<div class=\"add\">" $0 "</div>"; next }
+                /^-/  { print "<div class=\"del\">" $0 "</div>"; next }
+                       { print "<div class=\"ctx\">" $0 "</div>" }
+                END { if (open) print "</div></div>" }
+              ')
+
+          cat > docs/_site/diff.html <<DIFFEOF
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Full Diff — ${CURRENT} | Olav</title>
+            <style>
+              *, *::before, *::after { box-sizing: border-box; }
+              body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                max-width: 1100px; margin: 60px auto; padding: 0 24px;
+                color: #1a1a1a; background: #fff;
+              }
+              .back { font-size: 0.85rem; color: #888; text-decoration: none; display: inline-block; margin-bottom: 32px; }
+              .back:hover { color: #0969da; }
+              header { margin-bottom: 40px; }
+              h1 { font-size: 1.6rem; margin: 0 0 4px; }
+              .subtitle { color: #666; font-size: 0.95rem; margin: 0; }
+
+              .file-block { margin-bottom: 32px; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; }
+              .file-header {
+                padding: 10px 16px; background: #f6f8fa;
+                border-bottom: 1px solid #e5e7eb;
+                font-family: monospace; font-size: 0.85rem;
+              }
+              .file-name { font-weight: 600; color: #1a1a1a; }
+              .file-body { overflow-x: auto; }
+              .file-body div { font-family: monospace; font-size: 0.82rem; padding: 1px 16px; white-space: pre; line-height: 1.5; }
+              .hunk    { background: #dbeafe; color: #1e40af; }
+              .add     { background: #dcfce7; color: #14532d; }
+              .del     { background: #fee2e2; color: #7f1d1d; }
+              .ctx     { color: #374151; }
+              .binary  { padding: 8px 16px; color: #888; font-style: italic; font-size: 0.85rem; }
+            </style>
+          </head>
+          <body>
+            <a class="back" href="index.html">← Back to changelog</a>
+            <header>
+              <h1>Full Diff · ${CURRENT}</h1>
+              <p class="subtitle">Changes since ${SINCE_LABEL}</p>
+            </header>
+            ${DIFF_BODY}
+          </body>
+          </html>
+          DIFFEOF
+
+          # ── index.html ────────────────────────────────────────────────────────
+          cat > docs/_site/index.html <<IDXEOF
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Changelog — ${CURRENT} | Olav</title>
+            <style>
+              *, *::before, *::after { box-sizing: border-box; }
+              body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                max-width: 900px; margin: 60px auto; padding: 0 24px;
+                color: #1a1a1a; background: #fff;
+              }
+              header { margin-bottom: 40px; }
+              h1 { font-size: 1.6rem; margin: 0 0 4px; }
+              .subtitle { color: #666; font-size: 0.95rem; margin: 0 0 12px; }
+              .diff-link {
+                display: inline-block; margin-top: 4px;
+                font-size: 0.88rem; color: #0969da; text-decoration: none;
+              }
+              .diff-link:hover { text-decoration: underline; }
+              .back { font-size: 0.85rem; color: #888; text-decoration: none; display: inline-block; margin-bottom: 32px; }
+              .back:hover { color: #0969da; }
+              .summary { font-size: 0.85rem; color: #555; margin-bottom: 24px; font-family: monospace; }
+              table.diff-stat {
+                width: 100%; border-collapse: collapse;
+                font-size: 0.85rem; font-family: monospace;
+                border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;
+              }
+              table.diff-stat thead th {
+                text-align: left; padding: 8px 12px;
+                font-size: 0.75rem; color: #888;
+                border-bottom: 1px solid #e5e7eb;
+                background: #f6f8fa;
+              }
+              table.diff-stat tbody tr:hover { background: #f6f8fa; }
+              table.diff-stat td { padding: 5px 12px; vertical-align: middle; }
+              td.file { color: #1a1a1a; word-break: break-all; }
+              td.bar  { font-family: monospace; letter-spacing: -1px; color: #555; }
+              td.ins  { color: #1a7f37; font-weight: 600; white-space: nowrap; }
+              td.del  { color: #cf222e; font-weight: 600; white-space: nowrap; }
+              .empty  { color: #888; font-style: italic; }
+            </style>
+          </head>
+          <body>
+            <a class="back" href="../../">← All versions</a>
+            <header>
+              <h1>Changelog · ${CURRENT}</h1>
+              <p class="subtitle">Changes since ${SINCE_LABEL}</p>
+              <a class="diff-link" href="diff.html">View full diff →</a>
+            </header>
+            <p class="summary">${STAT_SUMMARY}</p>
+            <table class="diff-stat">
+              <thead><tr><th>File</th><th>Changes</th><th>+</th><th>-</th></tr></thead>
+              <tbody>${FILE_ROWS}</tbody>
+            </table>
+          </body>
+          </html>
+          IDXEOF
+
+      # ── SHARED: deploy to gh-pages ───────────────────────────────────────────
 
       - name: Ensure gh-pages branch exists
         run: |
@@ -104,6 +308,7 @@ jobs:
         with:
           ref: gh-pages
           path: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy slot
         run: |
@@ -146,7 +351,7 @@ jobs:
             ).join('\n'));
           ")
 
-          cat > gh-pages/index.html <<EOF
+          cat > gh-pages/index.html <<'HTMLEOF'
           <!DOCTYPE html>
           <html lang="en">
           <head>
@@ -169,16 +374,21 @@ jobs:
             <p>Documentation for all versions of Olav.</p>
             <h2>Releases</h2>
             <ul>
-              ${RELEASES:-<li><em>No releases yet.</em></li>}
+              RELEASES_PLACEHOLDER
             </ul>
             <h2>Pre-release</h2>
             <ul>
-              <li><a href="release-candidate/">Release Candidate</a></li>
-              <li><a href="preview/">Preview</a></li>
+              <li><a href="release-candidate/">Release Candidate (changelog)</a></li>
+              <li><a href="preview/">Preview (changelog)</a></li>
             </ul>
           </body>
           </html>
-          EOF
+          HTMLEOF
+
+          if [[ -z "$RELEASES" ]]; then
+            RELEASES='<li><em>No releases yet.</em></li>'
+          fi
+          sed -i "s|RELEASES_PLACEHOLDER|$RELEASES|" gh-pages/index.html
 
           mkdir -p gh-pages/releases
           RELEASE_LINKS=$(ls -1d gh-pages/releases/v*/ 2>/dev/null \
@@ -186,7 +396,7 @@ jobs:
             | sort -rV \
             | sed 's|.*|<li><a href="&/">&</a></li>|')
 
-          cat > gh-pages/releases/index.html <<EOF
+          cat > gh-pages/releases/index.html <<'HTMLEOF'
           <!DOCTYPE html>
           <html lang="en">
           <head>
@@ -208,15 +418,21 @@ jobs:
             <a class="back" href="../">← Back</a>
             <h1>Releases</h1>
             <ul>
-              ${RELEASE_LINKS:-<li><em>No releases yet.</em></li>}
+              RELEASE_LINKS_PLACEHOLDER
             </ul>
           </body>
           </html>
-          EOF
+          HTMLEOF
+
+          if [[ -z "$RELEASE_LINKS" ]]; then
+            RELEASE_LINKS='<li><em>No releases yet.</em></li>'
+          fi
+          sed -i "s|RELEASE_LINKS_PLACEHOLDER|$RELEASE_LINKS|" gh-pages/releases/index.html
 
       - name: Commit and push gh-pages
         run: |
           cd gh-pages
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add .
