@@ -84,8 +84,6 @@ jobs:
           body: ${{ steps.notes.outputs.notes }}
 
   docs:
-    needs: [version, build]
+    needs: build
     uses: ./.github/workflows/docfx.yml
-    with:
-      tag: v${{ needs.version.outputs.version }}
     secrets: inherit
