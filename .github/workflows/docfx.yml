@@ -37,31 +37,14 @@ jobs:
             echo "CURRENT_TAG=${BASH_REMATCH[1]}" >> $GITHUB_ENV
             echo "IS_RELEASE=false" >> $GITHUB_ENV
           else
-            # workflow_dispatch — GITHUB_REF is a branch. Resolve from git tags directly.
-            LATEST_RC=$(git tag -l \
-              | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+$' \
-              | sort -t. -k4 -rn \
+            CURRENT_TAG=$(git for-each-ref \
+              --sort=-creatordate \
+              --format='%(refname:short)' \
+              refs/tags \
+              | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+-(rc|preview)\.[0-9]+$' \
               | head -1)
 
-            LATEST_PREVIEW=$(git tag -l \
-              | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+-preview\.[0-9]+$' \
-              | sort -t. -k4 -rn \
-              | head -1)
-
-            # Pick whichever was tagged more recently
-            if [[ -n "$LATEST_RC" && -n "$LATEST_PREVIEW" ]]; then
-              RC_DATE=$(git log -1 --format="%ct" "$LATEST_RC")
-              PREVIEW_DATE=$(git log -1 --format="%ct" "$LATEST_PREVIEW")
-              if [[ "$RC_DATE" -ge "$PREVIEW_DATE" ]]; then
-                CURRENT_TAG="$LATEST_RC"
-              else
-                CURRENT_TAG="$LATEST_PREVIEW"
-              fi
-            elif [[ -n "$LATEST_RC" ]]; then
-              CURRENT_TAG="$LATEST_RC"
-            elif [[ -n "$LATEST_PREVIEW" ]]; then
-              CURRENT_TAG="$LATEST_PREVIEW"
-            else
+            if [[ -z "$CURRENT_TAG" ]]; then
               CURRENT_TAG="HEAD"
             fi
 
