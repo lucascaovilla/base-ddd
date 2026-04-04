@@ -21,33 +21,182 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
-      - name: Install DocFX
-        run: dotnet tool install -g docfx
-
       - name: Resolve slot
         run: |
           REF="${GITHUB_REF}"
           if [[ "$REF" =~ ^refs/tags/v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
             echo "SLOT=releases/v${BASH_REMATCH[1]}" >> $GITHUB_ENV
+            echo "CURRENT_TAG=v${BASH_REMATCH[1]}" >> $GITHUB_ENV
             echo "IS_RELEASE=true" >> $GITHUB_ENV
-          elif [[ "$REF" == refs/tags/*-rc* ]]; then
+          elif [[ "$REF" =~ ^refs/tags/(.*-rc\..*)$ ]]; then
             echo "SLOT=release-candidate" >> $GITHUB_ENV
+            echo "CURRENT_TAG=${BASH_REMATCH[1]}" >> $GITHUB_ENV
             echo "IS_RELEASE=false" >> $GITHUB_ENV
-          elif [[ "$REF" == refs/tags/*-preview* ]]; then
+          elif [[ "$REF" =~ ^refs/tags/(.*-preview\..*)$ ]]; then
             echo "SLOT=preview" >> $GITHUB_ENV
+            echo "CURRENT_TAG=${BASH_REMATCH[1]}" >> $GITHUB_ENV
             echo "IS_RELEASE=false" >> $GITHUB_ENV
           else
             echo "SLOT=preview" >> $GITHUB_ENV
+            echo "CURRENT_TAG=HEAD" >> $GITHUB_ENV
             echo "IS_RELEASE=false" >> $GITHUB_ENV
           fi
 
+      # ── FULL MODE ────────────────────────────────────────────────────────────
+
       - name: Build XML docs
+        if: env.IS_RELEASE == 'true'
         run: |
           dotnet build src/Olav.Cli/Olav.Cli.csproj \
             -c Release /p:GenerateDocumentationFile=true
 
       - name: Build DocFX site
+        if: env.IS_RELEASE == 'true'
         run: docfx docs/docfx.json
+
+      # ── CHANGELOG MODE ───────────────────────────────────────────────────────
+
+      - name: Generate changelog page
+        if: env.IS_RELEASE == 'false'
+        run: |
+          CURRENT="${{ env.CURRENT_TAG }}"
+
+          # Find the last stable release tag (vX.Y.Z only, no pre-release)
+          LAST_RELEASE=$(git tag -l 'v[0-9]*.[0-9]*.[0-9]*' \
+            | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
+            | sort -rV \
+            | head -1)
+
+          if [[ -z "$LAST_RELEASE" ]]; then
+            RANGE="$CURRENT"
+            SINCE_LABEL="the beginning"
+          else
+            RANGE="${LAST_RELEASE}..${CURRENT}"
+            SINCE_LABEL="$LAST_RELEASE"
+          fi
+
+          # Build HTML commit entries with per-file diffs
+          ENTRIES=""
+          while IFS= read -r HASH; do
+            SUBJECT=$(git log -1 --format="%s" "$HASH")
+            AUTHOR=$(git log -1 --format="%an" "$HASH")
+            DATE=$(git log -1 --format="%ad" --date=format:"%Y-%m-%d" "$HASH")
+
+            # Per-file stat for this commit
+            FILE_STATS=$(git show --stat --format="" "$HASH" \
+              | grep -E '^\s' \
+              | sed 's/^ *//' \
+              | awk '
+                  /\|/ {
+                    split($0, a, "|");
+                    file = a[1];
+                    detail = a[2];
+                    gsub(/^ +| +$/, "", file);
+                    gsub(/^ +/, "", detail);
+
+                    ins = 0; del = 0;
+                    match(detail, /([0-9]+) insertion/, arr); if (arr[1] != "") ins = arr[1];
+                    match(detail, /([0-9]+) deletion/, arr);  if (arr[1] != "") del = arr[1];
+
+                    bar = detail;
+                    gsub(/[^+\-]/, "", bar);
+
+                    print "<tr><td class=\"file\">" file "</td><td class=\"bar\">" bar "</td><td class=\"ins\">+" ins "</td><td class=\"del\">-" del "</td></tr>"
+                  }
+                ')
+
+            ENTRIES="${ENTRIES}
+            <div class=\"commit\">
+              <div class=\"commit-header\">
+                <span class=\"hash\">${HASH:0:7}</span>
+                <span class=\"subject\">${SUBJECT}</span>
+                <span class=\"meta\">${AUTHOR} · ${DATE}</span>
+              </div>
+              <table class=\"diff-stat\">
+                <thead><tr><th>File</th><th></th><th>+</th><th>-</th></tr></thead>
+                <tbody>${FILE_STATS}</tbody>
+              </table>
+            </div>"
+          done < <(git log "$RANGE" --format="%H" --reverse)
+
+          if [[ -z "$ENTRIES" ]]; then
+            ENTRIES='<p class="empty">No commits found in this range.</p>'
+          fi
+
+          mkdir -p docs/_site
+
+          cat > docs/_site/index.html <<EOF
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Changelog — ${CURRENT} | Olav</title>
+            <style>
+              *, *::before, *::after { box-sizing: border-box; }
+              body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                max-width: 900px; margin: 60px auto; padding: 0 24px;
+                color: #1a1a1a; background: #fff;
+              }
+              header { margin-bottom: 48px; }
+              h1 { font-size: 1.6rem; margin: 0 0 4px; }
+              .subtitle { color: #666; font-size: 0.95rem; margin: 0; }
+              .back { font-size: 0.85rem; color: #888; text-decoration: none; display: inline-block; margin-bottom: 32px; }
+              .back:hover { color: #0969da; }
+
+              .commit {
+                border: 1px solid #e5e7eb;
+                border-radius: 8px;
+                margin-bottom: 20px;
+                overflow: hidden;
+              }
+              .commit-header {
+                display: flex; align-items: baseline; gap: 10px;
+                padding: 12px 16px; background: #f6f8fa;
+                border-bottom: 1px solid #e5e7eb;
+                flex-wrap: wrap;
+              }
+              .hash {
+                font-family: monospace; font-size: 0.8rem;
+                background: #e5e7eb; padding: 2px 6px; border-radius: 4px;
+                color: #444; flex-shrink: 0;
+              }
+              .subject { font-weight: 600; font-size: 0.95rem; flex: 1; }
+              .meta { font-size: 0.8rem; color: #888; margin-left: auto; white-space: nowrap; }
+
+              table.diff-stat {
+                width: 100%; border-collapse: collapse;
+                font-size: 0.85rem; font-family: monospace;
+              }
+              table.diff-stat thead th {
+                text-align: left; padding: 6px 12px;
+                font-size: 0.75rem; color: #888;
+                border-bottom: 1px solid #e5e7eb;
+                background: #fafafa;
+              }
+              table.diff-stat tbody tr:hover { background: #f6f8fa; }
+              table.diff-stat td { padding: 5px 12px; vertical-align: middle; }
+              td.file { color: #1a1a1a; word-break: break-all; }
+              td.bar { font-family: monospace; letter-spacing: -1px; color: #555; }
+              td.ins { color: #1a7f37; font-weight: 600; white-space: nowrap; }
+              td.del { color: #cf222e; font-weight: 600; white-space: nowrap; }
+
+              .empty { color: #888; font-style: italic; }
+            </style>
+          </head>
+          <body>
+            <a class="back" href="../../">← All versions</a>
+            <header>
+              <h1>Changelog · ${CURRENT}</h1>
+              <p class="subtitle">Changes since ${SINCE_LABEL}</p>
+            </header>
+            ${ENTRIES}
+          </body>
+          </html>
+          EOF
+
+      # ── SHARED: deploy to gh-pages ───────────────────────────────────────────
 
       - name: Ensure gh-pages branch exists
         run: |
@@ -67,6 +216,7 @@ jobs:
         with:
           ref: gh-pages
           path: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy slot
         run: |
@@ -109,7 +259,7 @@ jobs:
             ).join('\n'));
           ")
 
-          cat > gh-pages/index.html <<EOF
+          cat > gh-pages/index.html <<'HTMLEOF'
           <!DOCTYPE html>
           <html lang="en">
           <head>
@@ -132,16 +282,22 @@ jobs:
             <p>Documentation for all versions of Olav.</p>
             <h2>Releases</h2>
             <ul>
-              ${RELEASES:-<li><em>No releases yet.</em></li>}
+              RELEASES_PLACEHOLDER
             </ul>
             <h2>Pre-release</h2>
             <ul>
-              <li><a href="release-candidate/">Release Candidate</a></li>
-              <li><a href="preview/">Preview</a></li>
+              <li><a href="release-candidate/">Release Candidate (changelog)</a></li>
+              <li><a href="preview/">Preview (changelog)</a></li>
             </ul>
           </body>
           </html>
-          EOF
+          HTMLEOF
+
+          # Inject releases list
+          if [[ -z "$RELEASES" ]]; then
+            RELEASES='<li><em>No releases yet.</em></li>'
+          fi
+          sed -i "s|RELEASES_PLACEHOLDER|$RELEASES|" gh-pages/index.html
 
           mkdir -p gh-pages/releases
           RELEASE_LINKS=$(ls -1d gh-pages/releases/v*/ 2>/dev/null \
@@ -149,7 +305,7 @@ jobs:
             | sort -rV \
             | sed 's|.*|<li><a href="&/">&</a></li>|')
 
-          cat > gh-pages/releases/index.html <<EOF
+          cat > gh-pages/releases/index.html <<'HTMLEOF'
           <!DOCTYPE html>
           <html lang="en">
           <head>
@@ -171,15 +327,21 @@ jobs:
             <a class="back" href="../">← Back</a>
             <h1>Releases</h1>
             <ul>
-              ${RELEASE_LINKS:-<li><em>No releases yet.</em></li>}
+              RELEASE_LINKS_PLACEHOLDER
             </ul>
           </body>
           </html>
-          EOF
+          HTMLEOF
+
+          if [[ -z "$RELEASE_LINKS" ]]; then
+            RELEASE_LINKS='<li><em>No releases yet.</em></li>'
+          fi
+          sed -i "s|RELEASE_LINKS_PLACEHOLDER|$RELEASE_LINKS|" gh-pages/releases/index.html
 
       - name: Commit and push gh-pages
         run: |
           cd gh-pages
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add .
