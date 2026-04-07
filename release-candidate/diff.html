@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Full Diff — v0.0.11-rc.5 | Olav</title>
+  <title>Full Diff — v0.0.11-rc.6 | Olav</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     body {
@@ -36,7 +36,7 @@
 <body>
   <a class="back" href="index.html">← Back to changelog</a>
   <header>
-    <h1>Full Diff · v0.0.11-rc.5</h1>
+    <h1>Full Diff · v0.0.11-rc.6</h1>
     <p class="subtitle">Changes since v0.0.11</p>
   </header>
   <div class="file-block">
@@ -807,13 +807,22 @@
 <div class="file-block">
 <div class="file-header"><span class="file-name">workflows/release.yml b/.github/workflows/release.yml</span></div>
 <div class="file-body">
-<div class="hunk">@@ -4,15 +4,15 @@ on:</div>
+<div class="hunk">@@ -4,15 +4,24 @@ on:</div>
 <div class="ctx">   workflow_dispatch:</div>
 <div class="ctx">     inputs:</div>
 <div class="ctx">       rc_tag:</div>
 <div class="del">-        description: "RC tag to promote (ex: v0.0.9-rc.5)"</div>
 <div class="add">+        description: "RC tag to promote (e.g. v0.0.9-rc.2)"</div>
 <div class="ctx">         required: true</div>
+<div class="add">+      bump:</div>
+<div class="add">+        description: "Version component to bump (patch, minor, major). Defaults to patch."</div>
+<div class="add">+        required: false</div>
+<div class="add">+        default: "patch"</div>
+<div class="add">+        type: choice</div>
+<div class="add">+        options:</div>
+<div class="add">+          - patch</div>
+<div class="add">+          - minor</div>
+<div class="add">+          - major</div>
 <div class="ctx"> </div>
 <div class="ctx"> jobs:</div>
 <div class="del">-  release:</div>
@@ -827,7 +836,7 @@
 <div class="ctx"> </div>
 <div class="ctx">     steps:</div>
 <div class="ctx">       - uses: actions/checkout@v4</div>
-<div class="hunk">@@ -25,95 +25,65 @@ jobs:</div>
+<div class="hunk">@@ -25,95 +34,70 @@ jobs:</div>
 <div class="ctx">         with:</div>
 <div class="ctx">           dotnet-version: "10.0.x"</div>
 <div class="ctx"> </div>
@@ -882,7 +891,12 @@
 <div class="del">-          git config user.name "github-actions"</div>
 <div class="del">-          git config user.email "actions@github.com"</div>
 <div class="add">+          IFS='.' read -r MAJ MIN PAT &lt;&lt;&lt; "$BASE"</div>
-<div class="add">+          echo "version=$MAJ.$MIN.$((PAT + 1))" &gt;&gt; $GITHUB_OUTPUT</div>
+<div class="add">+          BUMP="${{ github.event.inputs.bump }}"</div>
+<div class="add">+          case "$BUMP" in</div>
+<div class="add">+            major) echo "version=$((MAJ + 1)).0.0" &gt;&gt; $GITHUB_OUTPUT ;;</div>
+<div class="add">+            minor) echo "version=$MAJ.$((MIN + 1)).0" &gt;&gt; $GITHUB_OUTPUT ;;</div>
+<div class="add">+            *)     echo "version=$MAJ.$MIN.$((PAT + 1))" &gt;&gt; $GITHUB_OUTPUT ;;</div>
+<div class="add">+          esac</div>
 <div class="add">+</div>
 <div class="add">+  build:</div>
 <div class="add">+    needs: version</div>
@@ -1120,7 +1134,7 @@
 <div class="add">+# Olav</div>
 <div class="ctx"> </div>
 <div class="del">-Must run:</div>
-<div class="add">+[![CI](https://github.com/your-org/olav/actions/workflows/ci.yml/badge.svg)](https://github.com/your-org/olav/actions/workflows/ci.yml)</div>
+<div class="add">+[![CI](https://github.com/lucascaovilla/olav/actions/workflows/ci.yml/badge.svg)](https://github.com/lucascaovilla/olav/actions/workflows/ci.yml)</div>
 <div class="add">+[![NuGet](https://img.shields.io/nuget/v/Olav.Cli.svg)](https://www.nuget.org/packages/Olav.Cli)</div>
 <div class="add">+[![NuGet Downloads](https://img.shields.io/nuget/dt/Olav.Cli.svg)](https://www.nuget.org/packages/Olav.Cli)</div>
 <div class="add">+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)</div>
@@ -1303,7 +1317,7 @@
 <div class="add">+</div>
 <div class="add">+## Roadmap</div>
 <div class="add">+</div>
-<div class="add">+Olav is at `v0.1.0`. The foundation is solid. Here's what's coming:</div>
+<div class="add">+Olav is at `v0.0.11`. The foundation is solid. Here's what's coming:</div>
 <div class="add">+</div>
 <div class="add">+| Feature                        | Description                                                             |</div>
 <div class="add">+| ------------------------------ | ----------------------------------------------------------------------- |</div>
@@ -1329,7 +1343,7 @@
 <div class="add">+Olav is open source and welcomes contributions. To get started locally:</div>
 <div class="add">+</div>
 <div class="add">+```bash</div>
-<div class="add">+git clone https://github.com/your-org/olav</div>
+<div class="add">+git clone https://github.com/lucascaovilla/olav</div>
 <div class="add">+cd olav</div>
 <div class="ctx"> git config core.hooksPath .githooks</div>
 <div class="ctx"> chmod +x .githooks/pre-commit</div>
