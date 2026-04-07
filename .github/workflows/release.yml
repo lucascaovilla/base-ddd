@@ -6,6 +6,15 @@ on:
       rc_tag:
         description: "RC tag to promote (e.g. v0.0.9-rc.2)"
         required: true
+      bump:
+        description: "Version component to bump (patch, minor, major). Defaults to patch."
+        required: false
+        default: "patch"
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 
 jobs:
   version:
@@ -41,7 +50,12 @@ jobs:
             exit 1
           fi
           IFS='.' read -r MAJ MIN PAT <<< "$BASE"
-          echo "version=$MAJ.$MIN.$((PAT + 1))" >> $GITHUB_OUTPUT
+          BUMP="${{ github.event.inputs.bump }}"
+          case "$BUMP" in
+            major) echo "version=$((MAJ + 1)).0.0" >> $GITHUB_OUTPUT ;;
+            minor) echo "version=$MAJ.$((MIN + 1)).0" >> $GITHUB_OUTPUT ;;
+            *)     echo "version=$MAJ.$MIN.$((PAT + 1))" >> $GITHUB_OUTPUT ;;
+          esac
 
   build:
     needs: version
