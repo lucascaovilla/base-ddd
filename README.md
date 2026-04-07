@@ -1,6 +1,6 @@
 # Olav
 
-[![CI](https://github.com/your-org/olav/actions/workflows/ci.yml/badge.svg)](https://github.com/your-org/olav/actions/workflows/ci.yml)
+[![CI](https://github.com/lucascaovilla/olav/actions/workflows/ci.yml/badge.svg)](https://github.com/lucascaovilla/olav/actions/workflows/ci.yml)
 [![NuGet](https://img.shields.io/nuget/v/Olav.Cli.svg)](https://www.nuget.org/packages/Olav.Cli)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/Olav.Cli.svg)](https://www.nuget.org/packages/Olav.Cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
@@ -183,7 +183,7 @@ This file is the handshake between your project and the tool. It lets `verify`, 
 
 ## Roadmap
 
-Olav is at `v0.1.0`. The foundation is solid. Here's what's coming:
+Olav is at `v0.0.11`. The foundation is solid. Here's what's coming:
 
 | Feature                        | Description                                                             |
 | ------------------------------ | ----------------------------------------------------------------------- |
@@ -209,7 +209,7 @@ Olav is at `v0.1.0`. The foundation is solid. Here's what's coming:
 Olav is open source and welcomes contributions. To get started locally:
 
 ```bash
-git clone https://github.com/your-org/olav
+git clone https://github.com/lucascaovilla/olav
 cd olav
 git config core.hooksPath .githooks
 chmod +x .githooks/pre-commit
