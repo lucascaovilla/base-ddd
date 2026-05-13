@@ -122,7 +122,10 @@ public static class DockerComposeInjector
 
         foreach (string line in lines)
         {
-            if (line.TrimStart() == "volumes:")
+            int leading = line.Length - line.TrimStart().Length;
+            string trimmed = line.TrimStart();
+
+            if (leading == 0 && trimmed == "volumes:")
             {
                 inVolumes = true;
                 continue;

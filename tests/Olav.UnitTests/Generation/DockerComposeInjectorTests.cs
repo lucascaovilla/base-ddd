@@ -123,8 +123,51 @@ public class DockerComposeInjectorTests : IDisposable
         DockerComposeInjector.InjectService(path, "postgres", blockWithVolume, null);
 
         string result = File.ReadAllText(path);
-        Assert.Contains("postgres_data:", result);
-        Assert.Contains("volumes:", result);
+        int volumesSectionIdx = result.IndexOf("\nvolumes:", StringComparison.Ordinal);
+        Assert.True(volumesSectionIdx >= 0, "top-level volumes: section should exist");
+        string volumesSection = result.Substring(volumesSectionIdx);
+        Assert.Contains("postgres_data:", volumesSection);
+        Assert.DoesNotContain("healthcheck:", volumesSection);
+        Assert.DoesNotContain("interval:", volumesSection);
+    }
+
+    [Fact]
+    public void InjectService_TopLevelVolumesContainsOnlyNamedEntry_WhenServiceHasInlineVolumesAndHealthcheck()
+    {
+        string path = WriteCompose(MinimalLocalCompose());
+        string postgresBlock =
+            """
+              postgres:
+                image: postgres:16
+                restart: always
+                ports:
+                  - "5432:5432"
+                volumes:
+                  - postgres_data:/var/lib/postgresql/data
+                healthcheck:
+                  test: ["CMD-SHELL", "pg_isready -U postgres"]
+                  interval: 5s
+                  timeout: 5s
+                  retries: 10
+
+            volumes:
+              postgres_data:
+            """;
+
+        DockerComposeInjector.InjectService(path, "postgres", postgresBlock, "service_healthy");
+
+        string result = File.ReadAllText(path);
+        int volumesSectionIdx = result.IndexOf("\nvolumes:", StringComparison.Ordinal);
+        Assert.True(volumesSectionIdx >= 0);
+        string volumesSection = result.Substring(volumesSectionIdx);
+
+        Assert.Contains("  postgres_data:", volumesSection);
+        Assert.DoesNotContain("healthcheck:", volumesSection);
+        Assert.DoesNotContain("test:", volumesSection);
+        Assert.DoesNotContain("interval:", volumesSection);
+        Assert.DoesNotContain("timeout:", volumesSection);
+        Assert.DoesNotContain("retries:", volumesSection);
+        Assert.DoesNotContain("- postgres_data", volumesSection);
     }
 
     [Fact]
