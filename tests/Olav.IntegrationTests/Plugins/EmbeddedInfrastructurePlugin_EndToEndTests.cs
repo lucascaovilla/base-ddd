@@ -45,9 +45,9 @@ public class EmbeddedInfrastructurePlugin_EndToEndTests : IClassFixture<PluginTe
         EnsureInstalled(root, "postgres");
 
         string wiringFile = Path.Combine(
-            root, "src", "PluginTestApp.Infrastructure", "PostgresDependencyInjection.cs");
+            root, "src", "PluginTestApp.Infrastructure", "Persistence", "Postgres", "DependencyInjection.cs");
 
-        Assert.True(File.Exists(wiringFile), "Expected PostgresDependencyInjection.cs to be generated.");
+        Assert.True(File.Exists(wiringFile), "Expected Persistence/Postgres/DependencyInjection.cs to be generated.");
         Assert.Contains("AddPostgres", File.ReadAllText(wiringFile));
     }
 
@@ -70,14 +70,16 @@ public class EmbeddedInfrastructurePlugin_EndToEndTests : IClassFixture<PluginTe
         string root = this.fixture.ProjectPath;
         EnsureInstalled(root, "postgres");
 
-        string csprojPath = Directory.GetFiles(
-            Path.Combine(root, "src"), "*.Infrastructure.csproj", SearchOption.AllDirectories)[0];
+        string persistenceCsproj = Path.Combine(
+            root, "src", "PluginTestApp.Infrastructure", "Persistence", "Postgres",
+            "PluginTestApp.Infrastructure.Persistence.Postgres.csproj");
 
-        XDocument doc = XDocument.Load(csprojPath);
+        Assert.True(File.Exists(persistenceCsproj), "Expected persistence project to be created.");
+        XDocument doc = XDocument.Load(persistenceCsproj);
         bool found = doc.Descendants("PackageReference")
             .Any(e => e.Attribute("Include")?.Value == "Olav.Infrastructure.Postgres");
 
-        Assert.True(found, "Expected PackageReference for Olav.Infrastructure.Postgres in .csproj.");
+        Assert.True(found, "Expected PackageReference for Olav.Infrastructure.Postgres in persistence .csproj.");
     }
 
     [Fact]

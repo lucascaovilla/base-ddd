@@ -23,6 +23,13 @@ public class GeneratedProjectFixture : IDisposable
         Olav.Program.Main(["new", ProjectName]);
 
         ProjectPath = Path.Combine(Root, ProjectName.ToDashCase());
+
+        Directory.SetCurrentDirectory(ProjectPath);
+        Olav.Program.Main(["add", "entity", "Product"]);
+        Olav.Program.Main(["add", "entity", "Order"]);
+        Olav.Program.Main(["add", "repository", "Order"]);
+
+        File.WriteAllText(Path.Combine(ProjectPath, ".env"), string.Empty);
     }
 
     public void Dispose()

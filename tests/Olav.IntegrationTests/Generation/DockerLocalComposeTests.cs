@@ -65,13 +65,15 @@ public class DockerLocalComposeTests
     {
         string content = DockerComposeTemplate.GenerateLocal("TestProject");
         string tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-        Directory.CreateDirectory(tempDir);
-        string filePath = Path.Combine(tempDir, "docker-compose.local.yml");
+        string dockerDir = Path.Combine(tempDir, "docker");
+        Directory.CreateDirectory(dockerDir);
+        string filePath = Path.Combine(dockerDir, "docker-compose.local.yml");
 
         try
         {
+            File.WriteAllText(Path.Combine(tempDir, ".env"), string.Empty);
             File.WriteAllText(filePath, content);
-            ProcessRunner.Run("docker", "compose -f " + filePath + " config", tempDir);
+            ProcessRunner.Run("docker", "compose -f " + filePath + " config", dockerDir);
         }
         finally
         {

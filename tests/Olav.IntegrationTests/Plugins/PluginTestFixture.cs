@@ -18,9 +18,22 @@ public class PluginTestFixture : IDisposable
         ProjectPath = Path.Combine(Path.GetTempPath(), "olav-plugin-test-" + Guid.NewGuid().ToString());
 
         string infraDir = Path.Combine(ProjectPath, "src", ProjectName + ".Infrastructure");
+        string appDir = Path.Combine(ProjectPath, "src", ProjectName + ".Application");
+        string domainDir = Path.Combine(ProjectPath, "src", ProjectName + ".Domain");
+        string apiDir = Path.Combine(ProjectPath, "src", ProjectName + ".Api");
         Directory.CreateDirectory(infraDir);
+        Directory.CreateDirectory(appDir);
+        Directory.CreateDirectory(domainDir);
+        Directory.CreateDirectory(apiDir);
         Directory.CreateDirectory(Path.Combine(ProjectPath, ".github", "workflows"));
         Directory.CreateDirectory(Path.Combine(ProjectPath, "docker"));
+
+        const string MinimalCsproj =
+            """
+            <Project Sdk="Microsoft.NET.Sdk">
+              <PropertyGroup><TargetFramework>net10.0</TargetFramework></PropertyGroup>
+            </Project>
+            """;
 
         File.WriteAllText(
             Path.Combine(infraDir, ProjectName + ".Infrastructure.csproj"),
@@ -31,6 +44,21 @@ public class PluginTestFixture : IDisposable
                 <PackageReference Include="SomePackage" Version="1.0.0" />
               </ItemGroup>
             </Project>
+            """);
+
+        File.WriteAllText(Path.Combine(appDir, ProjectName + ".Application.csproj"), MinimalCsproj);
+        File.WriteAllText(Path.Combine(domainDir, ProjectName + ".Domain.csproj"), MinimalCsproj);
+        File.WriteAllText(Path.Combine(apiDir, ProjectName + ".Api.csproj"), MinimalCsproj);
+
+        File.WriteAllText(
+            Path.Combine(ProjectPath, ProjectName + ".slnx"),
+            $"""
+            <Solution>
+              <Project Path="src/{ProjectName}.Infrastructure/{ProjectName}.Infrastructure.csproj" />
+              <Project Path="src/{ProjectName}.Application/{ProjectName}.Application.csproj" />
+              <Project Path="src/{ProjectName}.Domain/{ProjectName}.Domain.csproj" />
+              <Project Path="src/{ProjectName}.Api/{ProjectName}.Api.csproj" />
+            </Solution>
             """);
 
         File.WriteAllText(

@@ -9,10 +9,15 @@
   "compatibility": { "olavMinVersion": "0.1.0" },
   "nugetPackage": { "id": "Olav.Infrastructure.Postgres", "version": "0.1.0" },
   "persistenceProjectSuffix": "Persistence.Postgres",
+  "programDiCall": "builder.Services.AddPostgres(builder.Configuration);",
   "generates": [
     {
       "template": "postgres-di.cs.sbn",
       "output": "src/{{namespace}}.Infrastructure/Persistence/Postgres/DependencyInjection.cs"
+    },
+    {
+      "template": "postgres-dbcontext.cs.sbn",
+      "output": "src/{{namespace}}.Infrastructure/Persistence/Postgres/{{namespace}}DbContext.cs"
     }
   ],
   "injectCompose": [

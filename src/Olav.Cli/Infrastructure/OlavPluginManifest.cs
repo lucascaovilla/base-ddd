@@ -76,6 +76,14 @@ public class OlavPluginManifest
     /// </summary>
     [JsonPropertyName("persistenceProjectSuffix")]
     public string? PersistenceProjectSuffix { get; set; }
+
+    /// <summary>
+    /// Gets or sets a DI call to inject into <c>Program.cs</c> before <c>WebApplication app = builder.Build();</c>
+    /// (e.g. <c>builder.Services.AddPostgres(builder.Configuration);</c>).
+    /// <see langword="null"/> when no injection is needed.
+    /// </summary>
+    [JsonPropertyName("programDiCall")]
+    public string? ProgramDiCall { get; set; }
 }
 
 /// <summary>Compatibility version constraints for a plugin.</summary>

@@ -194,6 +194,12 @@ public class PluginInstallGenerator
             Console.WriteLine("[OK] " + outputRelative);
         }
 
+        if (!string.IsNullOrEmpty(manifest.ProgramDiCall) && !string.IsNullOrEmpty(ns))
+        {
+            string programPath = Path.Combine(this.root, "src", $"{ns}.Api", "Program.cs");
+            ProgramDiInjector.Inject(programPath, manifest.ProgramDiCall);
+        }
+
         // Inject service blocks into local-type compose files for infrastructure plugins
         foreach (PluginInjectCompose injectEntry in manifest.InjectCompose)
         {
@@ -413,22 +419,32 @@ public class PluginInstallGenerator
         {
             Directory.CreateDirectory(persistenceDir);
             DotnetRunner.Run($"new classlib -n {persistenceName} -f net10.0 -o \"{persistenceDir}\"", this.root);
+            string persistenceClass1 = Path.Combine(persistenceDir, "Class1.cs");
+            if (File.Exists(persistenceClass1))
+            {
+                File.Delete(persistenceClass1);
+            }
+
             DotnetRunner.Run($"sln add \"{persistenceCsproj}\"", this.root);
             DotnetRunner.Run($"add \"{persistenceCsproj}\" reference \"src/{ns}.Application/{ns}.Application.csproj\"", this.root);
             DotnetRunner.Run($"add \"src/{ns}.Infrastructure/{ns}.Infrastructure.csproj\" reference \"{persistenceCsproj}\"", this.root);
         }
 
-        // Infrastructure.Persistence.Postgres — concrete implementation
+        // Infrastructure.Persistence.{Plugin} — concrete implementation
         if (!File.Exists(targetCsproj))
         {
             Directory.CreateDirectory(targetDir);
             DotnetRunner.Run($"new classlib -n {targetName} -f net10.0 -o \"{targetDir}\"", this.root);
+            string targetClass1 = Path.Combine(targetDir, "Class1.cs");
+            if (File.Exists(targetClass1))
+            {
+                File.Delete(targetClass1);
+            }
+
             DotnetRunner.Run($"sln add \"{targetCsproj}\"", this.root);
             DotnetRunner.Run($"add \"{targetCsproj}\" reference \"src/{ns}.Domain/{ns}.Domain.csproj\"", this.root);
             DotnetRunner.Run($"add \"{targetCsproj}\" reference \"{persistenceCsproj}\"", this.root);
-
-            // Persistence calls AddPostgres() from the concrete project, so Persistence references it
-            DotnetRunner.Run($"add \"{persistenceCsproj}\" reference \"{targetCsproj}\"", this.root);
+            DotnetRunner.Run($"add \"src/{ns}.Api/{ns}.Api.csproj\" reference \"{targetCsproj}\"", this.root);
         }
     }
 

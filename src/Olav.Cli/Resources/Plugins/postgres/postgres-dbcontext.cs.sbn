@@ -1,0 +1,12 @@
+// <copyright file="{{ namespace }}DbContext.cs" company="{{ namespace }}">
+// Copyright (c) {{ namespace }}.
+// Licensed under the MIT License.
+// </copyright>
+namespace {{ namespace }}.Infrastructure.Persistence.Postgres;
+
+using Microsoft.EntityFrameworkCore;
+
+/// <summary>EF Core database context for {{ namespace }}.</summary>
+public class {{ namespace }}DbContext(DbContextOptions<{{ namespace }}DbContext> options) : DbContext(options)
+{
+}
