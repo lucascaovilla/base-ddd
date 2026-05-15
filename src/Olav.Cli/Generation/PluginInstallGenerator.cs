@@ -198,6 +198,11 @@ public class PluginInstallGenerator
         {
             string programPath = Path.Combine(this.root, "src", $"{ns}.Api", "Program.cs");
             ProgramDiInjector.Inject(programPath, manifest.ProgramDiCall);
+
+            if (!string.IsNullOrEmpty(manifest.PersistenceProjectSuffix))
+            {
+                ProgramDiInjector.InjectUsing(programPath, $"{ns}.Infrastructure.{manifest.PersistenceProjectSuffix}");
+            }
         }
 
         // Inject service blocks into local-type compose files for infrastructure plugins
@@ -404,33 +409,38 @@ public class PluginInstallGenerator
     {
         string srcDir = Path.Combine(this.root, "src");
         string infraDir = Path.Combine(srcDir, $"{ns}.Infrastructure");
-        string persistenceDir = Path.Combine(infraDir, "Persistence");
+        string category = suffix.Split('.')[0]; // "Persistence" or "Caching"
+        string categoryDir = Path.Combine(infraDir, category);
         string pluginShortName = suffix.Split('.')[^1]; // e.g. "Postgres" from "Persistence.Postgres"
-        string targetDir = Path.Combine(persistenceDir, pluginShortName);
+        string targetDir = Path.Combine(categoryDir, pluginShortName);
 
-        string persistenceName = $"{ns}.Infrastructure.Persistence";
+        string categoryName = $"{ns}.Infrastructure.{category}";
         string targetName = $"{ns}.Infrastructure.{suffix}";
 
-        string persistenceCsproj = Path.Combine(persistenceDir, $"{persistenceName}.csproj");
+        string categoryCsproj = Path.Combine(categoryDir, $"{categoryName}.csproj");
         string targetCsproj = Path.Combine(targetDir, $"{targetName}.csproj");
 
-        // Infrastructure.Persistence — shared abstract layer
-        if (!File.Exists(persistenceCsproj))
+        // Infrastructure.{Category} — shared abstract layer per category
+        if (!File.Exists(categoryCsproj))
         {
-            Directory.CreateDirectory(persistenceDir);
-            DotnetRunner.Run($"new classlib -n {persistenceName} -f net10.0 -o \"{persistenceDir}\"", this.root);
-            string persistenceClass1 = Path.Combine(persistenceDir, "Class1.cs");
-            if (File.Exists(persistenceClass1))
+            Directory.CreateDirectory(categoryDir);
+            DotnetRunner.Run($"new classlib -n {categoryName} -f net10.0 -o \"{categoryDir}\"", this.root);
+            string categoryClass1 = Path.Combine(categoryDir, "Class1.cs");
+            if (File.Exists(categoryClass1))
             {
-                File.Delete(persistenceClass1);
+                File.Delete(categoryClass1);
             }
 
-            DotnetRunner.Run($"sln add \"{persistenceCsproj}\"", this.root);
-            DotnetRunner.Run($"add \"{persistenceCsproj}\" reference \"src/{ns}.Application/{ns}.Application.csproj\"", this.root);
-            DotnetRunner.Run($"add \"src/{ns}.Infrastructure/{ns}.Infrastructure.csproj\" reference \"{persistenceCsproj}\"", this.root);
+            DotnetRunner.Run($"sln add \"{categoryCsproj}\"", this.root);
+            DotnetRunner.Run($"add \"{categoryCsproj}\" reference \"src/{ns}.Application/{ns}.Application.csproj\"", this.root);
+            DotnetRunner.Run($"add \"src/{ns}.Infrastructure/{ns}.Infrastructure.csproj\" reference \"{categoryCsproj}\"", this.root);
+
+            string infraCsproj = Path.Combine(infraDir, $"{ns}.Infrastructure.csproj");
+            PluginNugetInjector.AddCompileExclude(infraCsproj, $"{category}/**");
+            PluginNugetInjector.AddPackageReference(categoryCsproj, "Microsoft.Extensions.Configuration.Abstractions", "9.0.0");
         }
 
-        // Infrastructure.Persistence.{Plugin} — concrete implementation
+        // Infrastructure.{Category}.{Plugin} — concrete implementation
         if (!File.Exists(targetCsproj))
         {
             Directory.CreateDirectory(targetDir);
@@ -443,16 +453,18 @@ public class PluginInstallGenerator
 
             DotnetRunner.Run($"sln add \"{targetCsproj}\"", this.root);
             DotnetRunner.Run($"add \"{targetCsproj}\" reference \"src/{ns}.Domain/{ns}.Domain.csproj\"", this.root);
-            DotnetRunner.Run($"add \"{targetCsproj}\" reference \"{persistenceCsproj}\"", this.root);
+            DotnetRunner.Run($"add \"{targetCsproj}\" reference \"{categoryCsproj}\"", this.root);
             DotnetRunner.Run($"add \"src/{ns}.Api/{ns}.Api.csproj\" reference \"{targetCsproj}\"", this.root);
+            PluginNugetInjector.AddCompileExclude(categoryCsproj, $"{pluginShortName}/**");
         }
     }
 
     private string FindPersistenceCsproj(string ns, string suffix)
     {
         string pluginShortName = suffix.Split('.')[^1];
+        string category = suffix.Split('.')[0]; // "Persistence" or "Caching"
         string targetDir = Path.Combine(
-            this.root, "src", $"{ns}.Infrastructure", "Persistence", pluginShortName);
+            this.root, "src", $"{ns}.Infrastructure", category, pluginShortName);
         string targetCsproj = Path.Combine(targetDir, $"{ns}.Infrastructure.{suffix}.csproj");
 
         if (!File.Exists(targetCsproj))

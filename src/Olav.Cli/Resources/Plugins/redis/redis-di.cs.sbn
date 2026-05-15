@@ -2,10 +2,11 @@
 // Copyright (c) {{ namespace }}.
 // Licensed under the MIT License.
 // </copyright>
-namespace {{ namespace }}.Infrastructure.Persistence.Redis;
+namespace {{ namespace }}.Infrastructure.Caching.Redis;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 
 public static class RedisDependencyInjection
 {
@@ -13,9 +14,11 @@ public static class RedisDependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        // Requires package: Olav.Infrastructure.Redis
-        // Connection string key: {{ connectionStringName }}
-        _ = configuration;
+        services.AddSingleton<IConnectionMultiplexer>(_ =>
+            ConnectionMultiplexer.Connect(
+                configuration.GetConnectionString("{{ connectionStringName }}")
+                ?? throw new InvalidOperationException(
+                    "Connection string '{{ connectionStringName }}' is not configured.")));
         return services;
     }
 }

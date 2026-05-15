@@ -77,9 +77,9 @@ public class EmbeddedInfrastructurePlugin_EndToEndTests : IClassFixture<PluginTe
         Assert.True(File.Exists(persistenceCsproj), "Expected persistence project to be created.");
         XDocument doc = XDocument.Load(persistenceCsproj);
         bool found = doc.Descendants("PackageReference")
-            .Any(e => e.Attribute("Include")?.Value == "Olav.Infrastructure.Postgres");
+            .Any(e => e.Attribute("Include")?.Value == "Npgsql.EntityFrameworkCore.PostgreSQL");
 
-        Assert.True(found, "Expected PackageReference for Olav.Infrastructure.Postgres in persistence .csproj.");
+        Assert.True(found, "Expected PackageReference for Npgsql.EntityFrameworkCore.PostgreSQL in persistence .csproj.");
     }
 
     [Fact]

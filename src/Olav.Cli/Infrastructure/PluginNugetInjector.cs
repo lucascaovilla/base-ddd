@@ -105,6 +105,47 @@ public static class PluginNugetInjector
         doc.Save(nugetConfigPath);
     }
 
+    /// <summary>
+    /// Adds a <c>&lt;Compile Remove="…"/&gt;</c> entry to the given <c>.csproj</c>.
+    /// No-ops if the entry is already present.
+    /// Use this to exclude subdirectories from the parent project's default glob.
+    /// </summary>
+    /// <param name="csprojPath">Absolute path to the <c>.csproj</c> file.</param>
+    /// <param name="glob">Glob pattern to exclude (e.g. <c>Postgres/**</c>).</param>
+    public static void AddCompileExclude(string csprojPath, string glob)
+    {
+        if (!File.Exists(csprojPath))
+        {
+            throw new InvalidOperationException(
+                $"✗ Project file not found: '{csprojPath}'.");
+        }
+
+        XDocument doc = XDocument.Load(csprojPath);
+
+        bool exists = doc.Descendants("Compile")
+            .Any(e => string.Equals(
+                e.Attribute("Remove")?.Value,
+                glob,
+                StringComparison.OrdinalIgnoreCase));
+
+        if (exists)
+        {
+            return;
+        }
+
+        XElement? itemGroup = doc.Descendants("ItemGroup")
+            .FirstOrDefault(g => g.Elements("Compile").Any());
+
+        if (itemGroup == null)
+        {
+            itemGroup = new XElement("ItemGroup");
+            doc.Root!.Add(itemGroup);
+        }
+
+        itemGroup.Add(new XElement("Compile", new XAttribute("Remove", glob)));
+        doc.Save(csprojPath);
+    }
+
     private static XDocument BuildDefaultNugetConfig()
     {
         return new XDocument(

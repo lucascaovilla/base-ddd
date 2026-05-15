@@ -7,12 +7,13 @@
   "category": "infrastructure",
   "delivery": "package",
   "compatibility": { "olavMinVersion": "0.1.0" },
-  "nugetPackage": { "id": "Olav.Infrastructure.Redis", "version": "0.1.0" },
-  "persistenceProjectSuffix": "Persistence.Redis",
+  "nugetPackage": { "id": "StackExchange.Redis", "version": "2.8.16" },
+  "persistenceProjectSuffix": "Caching.Redis",
+  "programDiCall": "builder.Services.AddRedis(builder.Configuration);",
   "generates": [
     {
       "template": "redis-di.cs.sbn",
-      "output": "src/{{namespace}}.Infrastructure/Persistence/Redis/DependencyInjection.cs"
+      "output": "src/{{namespace}}.Infrastructure/Caching/Redis/DependencyInjection.cs"
     }
   ],
   "injectCompose": [

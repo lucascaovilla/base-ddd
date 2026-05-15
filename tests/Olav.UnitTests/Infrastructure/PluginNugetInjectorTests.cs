@@ -140,4 +140,44 @@ public class PluginNugetInjectorTests
             .Count(e => e.Attribute("key")?.Value == "my-feed");
         Assert.Equal(1, count);
     }
+
+    [Fact]
+    public void AddCompileExclude_InsertsGlob()
+    {
+        string dir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+        Directory.CreateDirectory(dir);
+        string csproj = CreateCsproj(dir, CsprojNoItemGroup);
+
+        PluginNugetInjector.AddCompileExclude(csproj, "Postgres/**");
+
+        XDocument doc = XDocument.Load(csproj);
+        bool exists = doc.Descendants("Compile")
+            .Any(e => e.Attribute("Remove")?.Value == "Postgres/**");
+        Assert.True(exists);
+    }
+
+    [Fact]
+    public void AddCompileExclude_IsIdempotent()
+    {
+        string dir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+        Directory.CreateDirectory(dir);
+        string csproj = CreateCsproj(dir, CsprojNoItemGroup);
+
+        PluginNugetInjector.AddCompileExclude(csproj, "Postgres/**");
+        PluginNugetInjector.AddCompileExclude(csproj, "Postgres/**");
+
+        XDocument doc = XDocument.Load(csproj);
+        int count = doc.Descendants("Compile")
+            .Count(e => e.Attribute("Remove")?.Value == "Postgres/**");
+        Assert.Equal(1, count);
+    }
+
+    [Fact]
+    public void AddCompileExclude_Throws_WhenFileNotFound()
+    {
+        string nonExistentPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString(), "missing.csproj");
+
+        Assert.Throws<InvalidOperationException>(
+            () => PluginNugetInjector.AddCompileExclude(nonExistentPath, "Foo/**"));
+    }
 }

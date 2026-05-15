@@ -7,7 +7,7 @@
   "category": "infrastructure",
   "delivery": "package",
   "compatibility": { "olavMinVersion": "0.1.0" },
-  "nugetPackage": { "id": "Olav.Infrastructure.Postgres", "version": "0.1.0" },
+  "nugetPackage": { "id": "Npgsql.EntityFrameworkCore.PostgreSQL", "version": "9.0.4" },
   "persistenceProjectSuffix": "Persistence.Postgres",
   "programDiCall": "builder.Services.AddPostgres(builder.Configuration);",
   "generates": [
