@@ -19,12 +19,13 @@ public static class ProgramFileTemplate
     public static string Generate(string name, string owner, string license)
     {
         return FileHeaderTemplate.Generate("Program.cs", owner, license) + $$"""
-        namespace {{name}}.Web;
+        namespace {{name}}.Api;
 
         using Microsoft.AspNetCore.Builder;
         using Microsoft.Extensions.DependencyInjection;
         using Microsoft.Extensions.Hosting;
-        using {{name}}.Web.Observability;
+        using Scalar.AspNetCore;
+        using {{name}}.Api.Observability;
 
         /// <summary>
         /// Entry point.
@@ -40,9 +41,16 @@ public static class ProgramFileTemplate
                 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
                 builder.Services.AddControllers();
+                builder.Services.AddOpenApi();
                 builder.Services.AddOlavObservability();
 
                 WebApplication app = builder.Build();
+
+                if (app.Environment.IsDevelopment())
+                {
+                    app.MapOpenApi();
+                    app.MapScalarApiReference();
+                }
 
                 app.UseOlavObservability();
                 app.UseAuthorization();
