@@ -24,6 +24,7 @@ public static class ProgramFileTemplate
         using Microsoft.AspNetCore.Builder;
         using Microsoft.Extensions.DependencyInjection;
         using Microsoft.Extensions.Hosting;
+        using Scalar.AspNetCore;
         using {{name}}.Api.Observability;
 
         /// <summary>
@@ -40,9 +41,16 @@ public static class ProgramFileTemplate
                 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
                 builder.Services.AddControllers();
+                builder.Services.AddOpenApi();
                 builder.Services.AddOlavObservability();
 
                 WebApplication app = builder.Build();
+
+                if (app.Environment.IsDevelopment())
+                {
+                    app.MapOpenApi();
+                    app.MapScalarApiReference();
+                }
 
                 app.UseOlavObservability();
                 app.UseAuthorization();

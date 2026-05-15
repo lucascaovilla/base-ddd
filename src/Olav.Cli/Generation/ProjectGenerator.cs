@@ -68,5 +68,6 @@ public class ProjectGenerator
         DotnetRunner.Run($"add src/{this.name}.Api/{this.name}.Api.csproj package OpenTelemetry.Extensions.Hosting", this.root);
         DotnetRunner.Run($"add src/{this.name}.Api/{this.name}.Api.csproj package OpenTelemetry.Instrumentation.AspNetCore", this.root);
         DotnetRunner.Run($"add src/{this.name}.Api/{this.name}.Api.csproj package OpenTelemetry.Exporter.Console", this.root);
+        DotnetRunner.Run($"add src/{this.name}.Api/{this.name}.Api.csproj package Scalar.AspNetCore", this.root);
     }
 }
